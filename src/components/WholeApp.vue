@@ -1,0 +1,1040 @@
+<template>
+  <div class="main_container">
+    <div class="content_container">
+      <div class="tab">
+        <button :class="{active:activeId==1}" @click="openTab(1)" id="1"><i class="fa fa-fw fa-home"></i>Print</button>
+        <button :class="{active:activeId==2}" @click="openTab(2)" id="2"><i class="fa fa-fw fa-search"></i>Upload</button>
+        <button :class="{active:activeId==3}" @click="openTab(3)" id="3"><i class="fa fa-fw fa-envelope"></i>Remote</button>
+        <button :class="{active:activeId==4}" @click="openTab(4)" id="4"><i class="fa fa-fw fa-user"></i>Control</button>
+      </div>
+      <div id="Print" class="tabcontent" v-if="activeId==1">
+        <div id="camera_process" class="print_tab">
+        <div class="panel_title">Camera</div>
+        <img id="camera_show" src="../assets/Bulbasaur_0.jpg" alt="">
+        <br>
+        <button id="camera_swtich" class="button_style">On</button>
+        <button id="camera_refresh" class="button_style">Refresh</button>
+        </div>
+        <div id="print_process"  class="print_tab">
+          <!-- <div class="panel_title" style="height: 5%;">Printing</div> -->
+          <span id="printing_filename" style="margin-top: 2%;">Filename</span>
+          <br>
+          <img id="preview_show" src="../assets/Bulbasaur_0.jpg" alt="">
+          <div class="loader" style="margin-top: 10px;"></div>
+          <div class="print_info">
+            <div style="height: 40%;">
+              <div class="print_hint">Z_height:200mm</div><div class="print_hint">Print_Speed:100%</div>
+              <div class="print_hint">Time:24:24:24</div><div class="print_hint">Print_flowrate:100%</div>
+            </div>
+            <div style="height: 30%;">
+              <button id="btn_pause_resume" class="print_btn button_style" @Click="toggle_resume_pause">Pause</button>
+              <button id="btn_stop_print" class="print_btn button_style">Stop</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="Upload" class="tabcontent" v-else-if="activeId==2">
+        <label  class="custum-file-upload" for="file">
+          <div class="upload_icon">
+          <img src="" alt="">
+          </div>
+          <div class="upload_text">
+              <span>Click to upload file</span>
+              </div>
+              <input type="file" id="file" onchange="file_upload()">
+        </label>
+      </div>
+      <div id="Remote" class="tabcontent " v-else-if="activeId==3">
+        <file-list></file-list>
+        <!-- <div id="file_list" class="content_box">
+          <div id="myModal" class="modal">
+            <div class="modal-content">
+              <div class="modal-header">
+                <span class="close" @click="closeSpan" >&times;</span>
+                <h3>Preview</h3>
+              </div>
+              <div class="modal-body">
+                <img id="preview_img" src="../assets/Bulbasaur_0.jpg" alt="">
+                <p id="file_name">Some text in the Modal Body</p>
+                <button id="go2print" class="button_style">Print</button>
+                <button id="downloadfile" class="button_style">Download</button>
+                <button id="deletefile" class="button_style">Delete</button>
+              </div>
+              <div class="modal-footer">
+                <h5>You can print, download, delete gcode from remote.</h5>
+              </div>
+            </div>
+          </div>
+        </div> -->
+      </div>
+      <div id="Ctrl" class="tabcontent"  v-else-if="activeId==4">
+        <div class="content_box temp_tb">
+          <div  class="panel_title">Tempreture</div>
+          <div>
+            <div style="display: flex; justify-content: center; align-items: center;">
+              <img class="icon" src="../assets/ext_in_state.png">
+              <span>Head:</span><span id="tar_head">200</span><span>℃</span>
+            </div>              
+            <div class="input-container">
+              <input placeholder="Enter Target Tempreture" class="input-field" type="number" onkeyup="set_nozzle_temp(event)" id="targetTemp0">
+              <label for="input-field" class="input-label">Enter Tar-Temp.</label>
+              <span class="input-highlight"></span>
+            </div>
+            <br>
+            <div style="display: flex; justify-content: center; align-items: center;">
+              <img class="icon" src="../assets/bed_in_state.png" >
+              <span>Bed:</span><span id="tar_bed">60</span><span>℃</span>
+            </div>  
+            <div class="input-container">
+              <input placeholder="Enter Target Tempreture" class="input-field" type="number"  onkeyup="set_bed_temp(event)" id="targetBedTemp">
+              <label for="input-field" class="input-label">Enter Tar-Temp.</label>
+              <span class="input-highlight"></span>
+            </div>
+            <div class="filament_tb">
+              <!-- <div class="panel_title">Filament</div> -->
+              <button class="button_style"><img class="icon" src="../assets/load.png" alt=""></button>
+              <button class="button_style"><img class="icon" src="../assets/stop_load.png" alt=""></button>
+              <button class="button_style"><img class="icon" src="../assets/unload.png" alt=""></button>
+            </div>
+          </div>
+
+        </div>
+        <div class="content_box" id="movement_tb">
+          <div class="panel_title">Movement</div>
+          <div> 
+            <table style="width: 100%;height: 100%;">
+              <tr>
+                <td><button class="button_style" onclick="move_left()">X+</button></td>
+                <td><button class="button_style" onclick="move_back()">Y+</button></td>
+                <td><button class="button_style" onclick="move_up()">Z+</button></td>
+              </tr>
+              <tr>
+                <td><button class="button_style" onclick="move_right()">X-</button></td> 
+                <td><button class="button_style" onclick="move_front()">Y-</button></td> 
+                <td><button class="button_style" onclick="move_down()">Z-</button></td>
+              </tr>
+              <tr>
+                <td><button class="button_style">HomeXY</button></td>
+                <td><button class="button_style">HomeZ</button></td>
+                <td><button class="button_style">HomeAll</button></td>
+              </tr>
+            </table>
+          </div>
+          <div class="radio-inputs" align="center" style="width: 100%; display:flex;justify-content: center; align-items:center;">
+            <label class="radio">
+              <input type="radio" name="radio" id="radio_1mm" checked="">
+              <span class="name">1mm</span>
+            </label>
+            <label class="radio">
+              <input type="radio" name="radio" id="radio_10mm">
+              <span class="name">10mm</span>
+            </label>                      
+            <label class="radio">
+              <input type="radio" name="radio" id="radio_50mm">
+              <span class="name">50mm</span>
+            </label>
+          </div>
+        </div>
+      </div> 
+    </div>
+  </div>
+</template>
+
+<script>
+import FileList from './FileList.vue';
+
+  export default{
+    components:{
+      FileList,
+    },
+    data(){
+      return{
+        activeId:1,
+        file_list_page_index: 0,
+      };
+    },
+    methods:{
+      openTab(id_NUM) {
+        console.log(id_NUM);
+        if(id_NUM == "1"){
+          this.activeId = 1;
+        }else if(id_NUM == "2"){
+          this.activeId = 2;
+        }else if(id_NUM == "3"){
+          this.activeId = 3;
+        }else{
+          this.activeId = 4;
+        }
+      },
+      
+
+    },
+    mounted(){
+
+    }
+  }
+</script>
+
+<style>
+*{
+  text-align:center;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
+}
+
+/* html,body{
+  width: 100%;
+	height: 100%;
+  min-height: 900px;
+  min-width: 1500px;
+}
+html,body {
+    min-height: 900px;
+    min-width: 1500px;
+} */
+
+
+.main_container{
+  position: absolute;
+  margin: 0 auto;
+  width: 98%; 
+  height: 97%;
+  color: black;
+}
+
+.title_container{
+  position: relative;
+  width: 100%;
+  z-index: 5;  /* 这个是指页面的层级,这里设置成最顶层 */
+  background-color: #fefefe;
+  height: 14%;
+}
+
+.title{
+font-size: 30px;
+font-weight: bold;
+float: left;
+padding: 1%;
+/* height: 6%; */
+}
+
+.content_container{
+  padding-right: 1%;
+  position: relative;
+  border: 1px solid #ccc;
+  width: 97%;
+  height: 70%;
+}
+
+
+
+.title_hint{
+  padding-top: 1%;
+  padding-right: 1%;
+  font-size: 30px;
+  font-weight: bold;
+  float: left;
+  text-align: center;
+  height: 80px;
+  line-height: 80px;
+}
+
+
+/* title area loader style */
+.typing-indicator {
+  width: 60px;
+  height: 30px;
+  position: relative;
+  /* align-items: center; */
+  /* z-index: 4; */
+}
+
+.typing-circle {
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  border-radius: 50%;
+  background-color: #000;
+  left: 15%;
+  transform-origin: 50%;
+  animation: typing-circle7124 0.5s alternate infinite ease;
+}
+
+@keyframes typing-circle7124 {
+  0% {
+    top: 20px;
+    height: 5px;
+    border-radius: 50px 50px 25px 25px;
+    transform: scaleX(1.7);
+  }
+
+  40% {
+    height: 8px;
+    border-radius: 50%;
+    transform: scaleX(1);
+  }
+
+  100% {
+    top: 0%;
+  }
+}
+
+.typing-circle:nth-child(2) {
+  left: 45%;
+  animation-delay: 0.2s;
+}
+
+.typing-circle:nth-child(3) {
+  left: auto;
+  right: 15%;
+  animation-delay: 0.3s;
+}
+
+.typing-shadow {
+  width: 5px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: 30px;
+  transform-origin: 50%;
+  z-index: 3;
+  left: 15%;
+  filter: blur(1px);
+  animation: typing-shadow046 0.5s alternate infinite ease;
+}
+
+@keyframes typing-shadow046 {
+  0% {
+    transform: scaleX(1.5);
+  }
+
+  40% {
+    transform: scaleX(1);
+    opacity: 0.7;
+  }
+
+  100% {
+    transform: scaleX(0.2);
+    opacity: 0.4;
+  }
+}
+
+.typing-shadow:nth-child(4) {
+  left: 45%;
+  animation-delay: 0.2s;
+}
+
+.typing-shadow:nth-child(5) {
+  left: auto;
+  right: 15%;
+  animation-delay: 0.3s;
+}
+
+/* menu toggle style */
+.menu_btn {
+  display:contents;
+  cursor: pointer;
+}
+
+.bar1, .bar2, .bar3 {
+  width: 35px;
+  height: 5px;
+  background-color: #333;
+  margin: 6px 0;
+  transition: 0.4s;
+}
+
+.change .bar1 {
+  transform: translate(0, 11px) rotate(-45deg);
+}
+
+.change .bar2 {opacity: 0;}
+
+.change .bar3 {
+  transform: translate(0, -11px) rotate(45deg);
+}
+
+
+
+/* menu style */
+/* Style the tab */
+.tab {
+  position: absolute;
+  float: left;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+  width: 30%;
+  height: 100%;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  display: block;
+  background-color: inherit;
+  color: black;
+  padding: 22px 16px;
+  width: 100%;
+  border: none;
+  outline: none;
+  text-align: left;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 26px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current "tab button" class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  position: absolute;
+  right: 0%;
+  float: left;
+  padding: 0px 12px;
+  /* border: 1px solid #ccc; */
+  width: 70%;
+  border-left: none;
+  height: 97%;
+}
+.panel_title{
+  font-size: 26px;
+  font-weight: bold;
+}
+
+/* print_tab */
+.print_tab{
+  float: left;
+  width: 50%;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.print_hint{
+  width: 50%;
+  margin-top: 5px;
+  float: left;
+  font-size: large;
+}
+
+#camera_process{
+  margin: 1%;
+  width: 58%;
+  height: 95%;
+  box-shadow: 0 8px 50px #23232333;
+}
+#print_process{
+  margin: 1%;
+  width: 38%;
+  height: 95%;
+  box-shadow: 0 8px 50px #23232333;
+}
+
+.print_info{
+  margin-top: 10px;
+  float: left;
+  width: 100%;
+  height: 35%;
+  font-size: small;
+  font-weight: lighter;
+  position: relative;
+  text-align: center;
+}
+
+#camera_show{
+  max-width: 50rem;
+  max-height: 50rem;
+  width:50rem;
+}
+#preview_show{
+  margin-top: 10px;
+  max-width: 35rem;
+  max-height: 35rem;
+  width:35rem;
+}
+
+.loader {
+  display: block;
+  --height-of-loader: 4px;
+  --loader-color: #0071e2;
+  left: 20%;
+  width: 60%;
+  height: var(--height-of-loader);
+  border-radius: 30px;
+  background-color: rgba(0,0,0,0.2);
+  position: relative;
+  padding-left: 30%;
+}
+
+.loader::before {
+  content: "";
+  position: absolute;
+  background: var(--loader-color);
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  border-radius: 30px;
+  animation: moving 1s ease-in-out infinite;
+}
+
+@keyframes moving {
+  50% {
+    width: 100%;
+  }
+
+  100% {
+    width: 0;
+    right: 0;
+    left: unset;
+  }
+}
+
+/* upload area style */
+.custum-file-upload {
+  padding-left: 1%;
+  height: 150px;
+  /* width: 280px; */
+  display: flex;
+  flex-direction: column;
+  align-items: space-between;
+  gap: 20px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #cacaca;
+  background-color: rgba(255, 255, 255, 1);
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0px 48px 35px -48px rgba(0,0,0,0.1);
+}
+
+.custum-file-upload .upload_icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custum-file-upload .upload_icon svg {
+  height: 80px;
+  fill: rgba(75, 85, 99, 1);
+}
+
+.custum-file-upload .upload_text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custum-file-upload .upload_text span {
+  font-weight: 400;
+  color: rgba(75, 85, 99, 1);
+}
+
+.custum-file-upload input {
+  display: none;
+}
+
+
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 6; /* Sit on top */
+  left: 10%;
+  top: 20%;
+  width: 80%; /* Full width */
+  height: 50%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  -webkit-animation-name: fadeIn; /* Fade in the background */
+  -webkit-animation-duration: 0.4s;
+  animation-name: fadeIn;
+  animation-duration: 0.4s
+}
+
+/* Modal Content */
+.modal-content {
+  position: fixed;
+  top: 20%;
+  background-color: #fefefe;
+  width: 80%;
+  -webkit-animation-name: slideIn;
+  -webkit-animation-duration: 0.4s;
+  animation-name: slideIn;
+  animation-duration: 0.4s
+}
+
+/* The Close Button */
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+
+.modal-body {
+  padding: 2px 16px;
+  width: auto;
+  height: 100%;
+  text-align: center;
+}
+.modal-body>button{
+    max-width: 33.3%;
+}
+
+
+#preview_img{
+  max-width: 80%;
+  max-height: 80%;
+}
+
+.modal-footer {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+
+/* Add Animation */
+@-webkit-keyframes slideIn {
+  from {bottom: -300px; opacity: 0} 
+  to {bottom: 0; opacity: 1}
+}
+
+@keyframes slideIn {
+  from {bottom: -300px; opacity: 0}
+  to {bottom: 0; opacity: 1}
+}
+
+@-webkit-keyframes fadeIn {
+  from {opacity: 0} 
+  to {opacity: 1}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0} 
+  to {opacity: 1}
+}
+
+
+/* tempreture area */
+
+.icon {
+  display: inline-block;
+  width: 35px;
+  height: 35px
+}
+
+/* Input container */
+.input-container {
+  position: relative;
+  margin: 20px;
+}
+
+/* Input field */
+.input-field {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  outline: none;
+  background-color: transparent;
+}
+
+/* Input label */
+.input-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 16px;
+  color: rgba(204, 204, 204, 0);
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+/* Input highlight */
+.input-highlight {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background-color: gray;
+  transition: all 0.3s ease;
+}
+
+/* Input field:focus styles */
+.input-field:focus + .input-label {
+  top: -20px;
+  font-size: 12px;
+  color: gray;
+}
+
+.input-field:focus + .input-label + .input-highlight {
+  width: 100%;
+}
+
+
+.content_box{
+  margin: 1%;
+  padding: 1%;
+  float: left;
+  width: 50%;
+  height: 100%;
+  box-shadow: 0 8px 50px #23232333;
+}
+
+/*  ctrl -> movement area style */
+.temp_tb{
+  float: left;
+  width: 45%;
+}
+#movement_tb{
+  float: left;
+  width: 47%;
+}
+
+ #movement_tb tr{
+  height: 45px;
+}
+
+#movement_tb button{
+
+width: 100%;
+height: 100%;
+text-align: center;
+
+} 
+
+
+
+/* common button style */
+.button_style {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: normal;
+  text-align: center;
+  text-decoration: none;
+  color: #ffffff;
+  background-color: #000000;
+  border: none;
+  border-radius: 10px;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1;
+  width: 10rem;
+}
+
+.button_style:hover {
+  background-color: #111111;
+  /* transform: translateY(-2px); */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+.button_style:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 115, 150, 0.37);
+}
+
+.button_style:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.button_style:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.button_style::before {
+  content: "";
+  position: absolute;
+  /* top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px; */
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  z-index: -1;
+  /* transition: all 0.3s ease-in-out; */
+}
+
+.button_style:hover::before {
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+}
+
+
+.radio-inputs {
+  margin-top: 5px;
+  position: relative;
+  display: flex;text-align: center;
+  flex-wrap: wrap;
+  border-radius: 0.5rem;
+  background-color: #EEE;
+  box-sizing: border-box;
+  box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
+  padding: 0.25rem;
+  width: 300px;
+  font-size: 14px;
+
+}
+
+.radio-inputs .radio {
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+.radio-inputs .radio input {
+  display: none;
+}
+
+.radio-inputs .radio .name {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  border: none;
+  padding: .5rem 0;
+  color: rgba(51, 65, 85, 1);
+  transition: all .15s ease-in-out;
+}
+
+.radio-inputs .radio input:checked + .name {
+  background-color: #fff;
+  font-weight: 600;
+}
+
+#switch_panel{
+  margin-top: 0.5%;
+  background-color: white;
+  height: 14%;
+  text-align: center;
+  border: none;
+}
+.switch_style{
+  width: 10%;
+  height: 85%;
+  margin: 0.5%;
+  border: none;
+  box-shadow: 0 8px 25px #23232333;
+}
+
+/*  state -> temp, position */
+#state_panel {
+  margin-bottom: 2%;
+  margin-right: 2%;
+  float: left;
+  font-size: 24px;
+  font-weight: normal;
+  width: 40%;
+  height: 100%;
+  border: 1px solid red;
+}
+
+
+@media screen and (max-width:600px) {
+  .content_container{
+    position:relative;
+    border: none;
+    width: 100%;
+    float:left;
+  }
+  .tab {
+    position: absolute;
+    float: left;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+    width: 100%;
+    height: 80px;
+  }
+  .tab button {
+    float: left;
+    display: block;
+    background-color: inherit;
+    color: black;
+    padding: 22px 16px;
+    width: 25%;
+    height: 100%;
+    border: none;
+    outline: none;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 20px;
+  }
+  .tabcontent {
+    position: absolute;
+    top: 80px;
+    right: 0%;
+    float: left;
+    padding: 0px 12px;
+    width: 100%;
+    height: 100%;
+    border-left: none;
+    font-size: 20px;
+  }
+  .content_box{
+    float: left;
+    width: 98%;
+    height: 50%;
+  }
+  .print_tab{
+    font-size: large;
+  }
+  #printing_filename{
+    font-size: 16px;
+    height: 5%;
+  }
+  .print_hint{
+    width: 50%;
+    margin-top: 5px;
+    float: left;
+    font-size: small;
+  }
+
+  #camera_process{
+    margin: 1%;
+    width: 98%;
+    height: 45%;
+    box-shadow: 0 8px 50px #23232333;
+    
+  }
+
+
+  #print_process{
+    margin: 1%;
+    width: 98%;
+    height: 60%;
+    box-shadow: 0 8px 50px #23232333;
+  }
+
+  #camera_show{
+    max-width: 65%;
+    max-height: 65%;
+  }
+  #preview_show{
+    max-width: 65%;
+    max-height: 65%;
+  }
+  
+  .print_info{
+    float: left;
+    width: 100%;
+    height: 27%;
+    font-size: small;
+    font-weight: lighter;
+    position: relative;
+    text-align: center;
+  }
+  .print_btn{
+    margin-top: 10px;
+    height: 35px;
+    width: 80px;
+  }
+
+  #file_list{
+    width: 100%;
+    height: 95%;
+  }
+  #file_list>button {
+    width: 100%;
+    height: 35px;
+    color: green;
+    margin-bottom: 10px;
+    border:none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  #file_list>button:hover {
+    transform: translateY(-2px);
+    border: 2px solid #ccc;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  #file_list>button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+
+  #switch_panel{
+    margin-top: 0.5%;
+    background-color: white;
+    height: 14%;
+    text-align: center;
+    border: none;
+  }
+  .switch_style{
+    width: 10%;
+    height: 85%;
+    margin: 0.5%;
+    border: none;
+    box-shadow: 0 8px 25px #23232333;
+  }
+
+
+  .temp_tb{
+    margin: 1%;
+    width: 98%;
+    height: 55%;
+    box-shadow: 0 8px 50px #23232333;
+  }
+  .filament_tb>button{
+    /* margin-top: 15px; */
+  }
+
+  .input-container {
+    position: relative;
+    margin: 0px;
+  }
+
+  #movement_tb{
+    margin: 1%;
+    width: 98%;
+    height: 45%;
+    box-shadow: 0 8px 50px #23232333;
+  }
+
+  #movement_tb>button{
+    /* margin: 1%; */
+    width: 100%;
+    height: 25%;
+    box-shadow: 0 8px 50px #23232333;
+  }
+
+}
+
+
+
+</style>

@@ -22,7 +22,7 @@ ul {
   padding: 0;
 }
 button {
-  border: none;
+  /* border: none;
   margin: 0;
   padding: 0;
   width: auto;
@@ -33,28 +33,28 @@ button {
   line-height: normal;
   -webkit-font-smoothing: inherit;
   -moz-osx-font-smoothing: inherit;
-  appearance: none;
+  appearance: none; */
 }
 button::-moz-focus-inner {
-  border: 0;
+  /* border: 0; */
 }
 button,
 input,
 optgroup,
 select,
 textarea {
-  font-family: inherit;
+  /* font-family: inherit;
   font-size: 100%;
   line-height: 1.15;
-  margin: 0;
+  margin: 0; */
 }
 button,
 input {
   /* 1 */
-  overflow: visible;
+  /* overflow: visible; */
 }
 input[type="text"] {
-  border-radius: 0;
+  /* border-radius: 0; */
 }
 body {
   width: 100%;
