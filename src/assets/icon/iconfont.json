@@ -1,0 +1,72 @@
+{
+  "id": "4216500",
+  "name": "super-3d-icon",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "6308132",
+      "name": "控制台",
+      "font_class": "kongzhitai",
+      "unicode": "e696",
+      "unicode_decimal": 59030
+    },
+    {
+      "icon_id": "20104529",
+      "name": "远端复制",
+      "font_class": "yuanduanfuzhi",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
+      "icon_id": "5387748",
+      "name": "打印机_o",
+      "font_class": "dayinji_o",
+      "unicode": "eb48",
+      "unicode_decimal": 60232
+    },
+    {
+      "icon_id": "2199053",
+      "name": "打印机",
+      "font_class": "dayinji",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "4942656",
+      "name": "上传",
+      "font_class": "shangchuan",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
+    },
+    {
+      "icon_id": "10539858",
+      "name": "系统控制",
+      "font_class": "xitongkongzhi",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "20114139",
+      "name": "远程",
+      "font_class": "50wangluoanquan20_yuancheng",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    },
+    {
+      "icon_id": "35594251",
+      "name": "用户",
+      "font_class": "daohang-yonghu",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    },
+    {
+      "icon_id": "35594258",
+      "name": "资产",
+      "font_class": "daohang-zichan",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    }
+  ]
+}
