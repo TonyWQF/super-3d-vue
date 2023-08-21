@@ -10,11 +10,16 @@
       <div  class="typing-shadow"></div>
       <div  class="typing-shadow"></div>
     </div>
+    <status-tab></status-tab>
   </div>
 </template>
 
 <script>
+import StatusTab from './StatusTab.vue';
   export default {
+    components:{
+      StatusTab,
+    },
     methods:{
 
     },
@@ -29,6 +34,7 @@
 <style>
 
 p{
+  float: left;
   display: inline-block;
   font-size: 3.5rem;
   font-weight: bolder;
@@ -36,12 +42,14 @@ p{
 }
 
 img{
+  float: left;
   width: 8rem;
   vertical-align: middle;
 }
 
 /* title area loader style */
 .typing-indicator {
+  float: left;
   display: inline-block;
   width: 6rem;
   height: 3rem;

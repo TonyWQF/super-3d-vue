@@ -2,138 +2,27 @@
   <div class="main_container">
     <div class="content_container">
       <div class="tab">
-        <button :class="{active:activeId==1}" @click="openTab(1)" id="1"><i class="fa fa-fw fa-home"></i>Print</button>
-        <button :class="{active:activeId==2}" @click="openTab(2)" id="2"><i class="fa fa-fw fa-search"></i>Upload</button>
-        <button :class="{active:activeId==3}" @click="openTab(3)" id="3"><i class="fa fa-fw fa-envelope"></i>Remote</button>
-        <button :class="{active:activeId==4}" @click="openTab(4)" id="4"><i class="fa fa-fw fa-user"></i>Control</button>
+        <button :class="{active:activeId==1}" @click="openTab(1)" id="1"><i class="iconfont icon-dayinji_o"></i>Print</button>
+        <button :class="{active:activeId==2}" @click="openTab(2)" id="2"><i class="iconfont icon-shangchuan"></i>Upload</button>
+        <button :class="{active:activeId==3}" @click="openTab(3)" id="3"><i class="iconfont icon-yuanduanfuzhi"></i>Remote</button>
+        <button :class="{active:activeId==4}" @click="openTab(4)" id="4"><i class="iconfont icon-xitongkongzhi"></i>Control</button>
       </div>
       <div id="Print" class="tabcontent" v-if="activeId==1">
-        <div id="camera_process" class="print_tab">
-        <div class="panel_title">Camera</div>
-        <img id="camera_show" src="../assets/Bulbasaur_0.jpg" alt="">
-        <br>
-        <button id="camera_swtich" class="button_style">On</button>
-        <button id="camera_refresh" class="button_style">Refresh</button>
-        </div>
-        <div id="print_process"  class="print_tab">
-          <!-- <div class="panel_title" style="height: 5%;">Printing</div> -->
-          <span id="printing_filename" style="margin-top: 2%;">Filename</span>
-          <br>
-          <img id="preview_show" src="../assets/Bulbasaur_0.jpg" alt="">
-          <div class="loader" style="margin-top: 10px;"></div>
-          <div class="print_info">
-            <div style="height: 40%;">
-              <div class="print_hint">Z_height:200mm</div><div class="print_hint">Print_Speed:100%</div>
-              <div class="print_hint">Time:24:24:24</div><div class="print_hint">Print_flowrate:100%</div>
-            </div>
-            <div style="height: 30%;">
-              <button id="btn_pause_resume" class="print_btn button_style" @Click="toggle_resume_pause">Pause</button>
-              <button id="btn_stop_print" class="print_btn button_style">Stop</button>
-            </div>
-          </div>
-        </div>
+        <camera-tab></camera-tab>
+        <print-tab></print-tab>
       </div>
       <div id="Upload" class="tabcontent" v-else-if="activeId==2">
-        <label  class="custum-file-upload" for="file">
-          <div class="upload_icon">
-          <img src="" alt="">
-          </div>
-          <div class="upload_text">
-              <span>Click to upload file</span>
-              </div>
-              <input type="file" id="file" onchange="file_upload()">
-        </label>
+        <upload-tab></upload-tab>
       </div>
       <div id="Remote" class="tabcontent " v-else-if="activeId==3">
         <file-list></file-list>
-        <!-- <div id="file_list" class="content_box">
-          <div id="myModal" class="modal">
-            <div class="modal-content">
-              <div class="modal-header">
-                <span class="close" @click="closeSpan" >&times;</span>
-                <h3>Preview</h3>
-              </div>
-              <div class="modal-body">
-                <img id="preview_img" src="../assets/Bulbasaur_0.jpg" alt="">
-                <p id="file_name">Some text in the Modal Body</p>
-                <button id="go2print" class="button_style">Print</button>
-                <button id="downloadfile" class="button_style">Download</button>
-                <button id="deletefile" class="button_style">Delete</button>
-              </div>
-              <div class="modal-footer">
-                <h5>You can print, download, delete gcode from remote.</h5>
-              </div>
-            </div>
-          </div>
-        </div> -->
       </div>
       <div id="Ctrl" class="tabcontent"  v-else-if="activeId==4">
         <div class="content_box temp_tb">
-          <div  class="panel_title">Tempreture</div>
-          <div>
-            <div style="display: flex; justify-content: center; align-items: center;">
-              <img class="icon" src="../assets/ext_in_state.png">
-              <span>Head:</span><span id="tar_head">200</span><span>℃</span>
-            </div>              
-            <div class="input-container">
-              <input placeholder="Enter Target Tempreture" class="input-field" type="number" onkeyup="set_nozzle_temp(event)" id="targetTemp0">
-              <label for="input-field" class="input-label">Enter Tar-Temp.</label>
-              <span class="input-highlight"></span>
-            </div>
-            <br>
-            <div style="display: flex; justify-content: center; align-items: center;">
-              <img class="icon" src="../assets/bed_in_state.png" >
-              <span>Bed:</span><span id="tar_bed">60</span><span>℃</span>
-            </div>  
-            <div class="input-container">
-              <input placeholder="Enter Target Tempreture" class="input-field" type="number"  onkeyup="set_bed_temp(event)" id="targetBedTemp">
-              <label for="input-field" class="input-label">Enter Tar-Temp.</label>
-              <span class="input-highlight"></span>
-            </div>
-            <div class="filament_tb">
-              <!-- <div class="panel_title">Filament</div> -->
-              <button class="button_style"><img class="icon" src="../assets/load.png" alt=""></button>
-              <button class="button_style"><img class="icon" src="../assets/stop_load.png" alt=""></button>
-              <button class="button_style"><img class="icon" src="../assets/unload.png" alt=""></button>
-            </div>
-          </div>
-
+          <tempreture-tab></tempreture-tab>
         </div>
         <div class="content_box" id="movement_tb">
-          <div class="panel_title">Movement</div>
-          <div> 
-            <table style="width: 100%;height: 100%;">
-              <tr>
-                <td><button class="button_style" onclick="move_left()">X+</button></td>
-                <td><button class="button_style" onclick="move_back()">Y+</button></td>
-                <td><button class="button_style" onclick="move_up()">Z+</button></td>
-              </tr>
-              <tr>
-                <td><button class="button_style" onclick="move_right()">X-</button></td> 
-                <td><button class="button_style" onclick="move_front()">Y-</button></td> 
-                <td><button class="button_style" onclick="move_down()">Z-</button></td>
-              </tr>
-              <tr>
-                <td><button class="button_style">HomeXY</button></td>
-                <td><button class="button_style">HomeZ</button></td>
-                <td><button class="button_style">HomeAll</button></td>
-              </tr>
-            </table>
-          </div>
-          <div class="radio-inputs" align="center" style="width: 100%; display:flex;justify-content: center; align-items:center;">
-            <label class="radio">
-              <input type="radio" name="radio" id="radio_1mm" checked="">
-              <span class="name">1mm</span>
-            </label>
-            <label class="radio">
-              <input type="radio" name="radio" id="radio_10mm">
-              <span class="name">10mm</span>
-            </label>                      
-            <label class="radio">
-              <input type="radio" name="radio" id="radio_50mm">
-              <span class="name">50mm</span>
-            </label>
-          </div>
+          <movement-tab></movement-tab>
         </div>
       </div> 
     </div>
@@ -141,11 +30,21 @@
 </template>
 
 <script>
+import CameraTab from './CameraTab.vue'
+import PrintTab from './PrintTab.vue'
+import UploadTab from './UploadTab.vue';
 import FileList from './FileList.vue';
+import TempretureTab from './TempretureTab.vue'
+import MovementTab from './MovementTab.vue'
 
   export default{
     components:{
+      CameraTab,
+      PrintTab,
+      UploadTab,
       FileList,
+      TempretureTab,
+      MovementTab,
     },
     data(){
       return{
@@ -166,8 +65,6 @@ import FileList from './FileList.vue';
           this.activeId = 4;
         }
       },
-      
-
     },
     mounted(){
 
@@ -196,6 +93,8 @@ html,body {
 
 
 .main_container{
+  float: left;
+  top: 15rem;
   position: absolute;
   margin: 0 auto;
   width: 98%; 
@@ -545,78 +444,6 @@ padding: 1%;
 
 
 
-/* The Modal (background) */
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 6; /* Sit on top */
-  left: 10%;
-  top: 20%;
-  width: 80%; /* Full width */
-  height: 50%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-  -webkit-animation-name: fadeIn; /* Fade in the background */
-  -webkit-animation-duration: 0.4s;
-  animation-name: fadeIn;
-  animation-duration: 0.4s
-}
-
-/* Modal Content */
-.modal-content {
-  position: fixed;
-  top: 20%;
-  background-color: #fefefe;
-  width: 80%;
-  -webkit-animation-name: slideIn;
-  -webkit-animation-duration: 0.4s;
-  animation-name: slideIn;
-  animation-duration: 0.4s
-}
-
-/* The Close Button */
-.close {
-  color: white;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.modal-header {
-  padding: 2px 16px;
-  background-color: #5cb85c;
-  color: white;
-}
-
-.modal-body {
-  padding: 2px 16px;
-  width: auto;
-  height: 100%;
-  text-align: center;
-}
-.modal-body>button{
-    max-width: 33.3%;
-}
-
-
-#preview_img{
-  max-width: 80%;
-  max-height: 80%;
-}
-
-.modal-footer {
-  padding: 2px 16px;
-  background-color: #5cb85c;
-  color: white;
-}
 
 /* Add Animation */
 @-webkit-keyframes slideIn {
@@ -648,56 +475,6 @@ padding: 1%;
   height: 35px
 }
 
-/* Input container */
-.input-container {
-  position: relative;
-  margin: 20px;
-}
-
-/* Input field */
-.input-field {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border: none;
-  border-bottom: 2px solid #ccc;
-  outline: none;
-  background-color: transparent;
-}
-
-/* Input label */
-.input-label {
-  position: absolute;
-  top: 0;
-  left: 0;
-  font-size: 16px;
-  color: rgba(204, 204, 204, 0);
-  pointer-events: none;
-  transition: all 0.3s ease;
-}
-
-/* Input highlight */
-.input-highlight {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 2px;
-  width: 0;
-  background-color: gray;
-  transition: all 0.3s ease;
-}
-
-/* Input field:focus styles */
-.input-field:focus + .input-label {
-  top: -20px;
-  font-size: 12px;
-  color: gray;
-}
-
-.input-field:focus + .input-label + .input-highlight {
-  width: 100%;
-}
 
 
 .content_box{
@@ -731,8 +508,6 @@ text-align: center;
 
 } 
 
-
-
 /* common button style */
 .button_style {
   display: inline-block;
@@ -751,6 +526,8 @@ text-align: center;
   position: relative;
   z-index: 1;
   width: 10rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
 
 .button_style:hover {
@@ -964,28 +741,6 @@ text-align: center;
     width: 80px;
   }
 
-  #file_list{
-    width: 100%;
-    height: 95%;
-  }
-  #file_list>button {
-    width: 100%;
-    height: 35px;
-    color: green;
-    margin-bottom: 10px;
-    border:none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  #file_list>button:hover {
-    transform: translateY(-2px);
-    border: 2px solid #ccc;
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
-  }
-  
-  #file_list>button:active {
-    transform: translateY(1px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
   
 
   #switch_panel{

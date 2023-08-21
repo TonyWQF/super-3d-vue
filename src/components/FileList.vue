@@ -2,22 +2,27 @@
   <div id="file_list" class="content_box">
     <file-list-item v-for="item in FileListItems" 
       :key="item.id"
+      :id="item.id"
       :label="item.label" 
+      @click="go_preview(item.label)"
     ></file-list-item>
-    <div>
-      <button id="prev_filelist" class="button_style" align="center" @click="file_prev_page()">Prev.</button>
-      <button id="refresh_filelist" class="button_style" align="center" @click="go_file_first_page()">Refresh</button>
-      <button id="next_filelist" class="button_style" align="center" @click="file_next_page()">Next</button>
+    <preview-tab ref="PreviewTab"></preview-tab>
+    <div class="filelist_op" >
+      <button id="prev_filelist" class="button_style filelist_btn" align="center" @click="file_prev_page()">Prev.</button>
+      <button id="refresh_filelist" class="button_style filelist_btn" align="center" @click="go_file_first_page()">Refresh</button>
+      <button id="next_filelist" class="button_style filelist_btn" align="center" @click="file_next_page()">Next</button>
     </div> 
   </div>
 </template>
 
 <script>
 import FileListItem from "./FileListItem.vue"
+import PreviewTab from "./PreviewTab.vue";
 
 export default{
   components:{
     FileListItem,
+    PreviewTab,
   },
   data(){
     return{
@@ -40,6 +45,10 @@ export default{
     }
   },
   methods: {
+    go_preview(fileitem_name){
+      console.log(fileitem_name);
+      this.$refs.PreviewTab.show_preview(fileitem_name);
+    },
     file_list() {
       var xhr = new XMLHttpRequest();
       xhr.open("GET", 'api/files/list?page=' + this.file_list_page_index + '&page_per_count=10', true);
@@ -104,3 +113,39 @@ export default{
 }
 
 </script>
+
+<style>
+
+#file_list{
+    width: 50%;
+    height: 100%;
+  }
+  #file_list>button {
+    width: 100%;
+    height: 35px;
+    color: green;
+    margin-bottom: 10px;
+    border:none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  .filelist_btn{
+    margin: auto;
+  }
+
+  .filelist_op{
+    width:100%
+  }
+
+
+
+  #file_list>button:hover {
+    transform: translateY(-2px);
+    border: 2px solid #ccc;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  #file_list>button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+</style>
