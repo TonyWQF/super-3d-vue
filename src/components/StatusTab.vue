@@ -1,20 +1,16 @@
 <template>
   <div class="temp-card">
     <div class="show-card">
-      <img class="icon" src="../assets/ext_in_state.png" alt="">
-      <div class="div-temp-style">
-        <p class="cur-temp-style">26º</p>
-        <p class="tar-temp-style">/26º</p>
-      </div>
-      <!-- <p class="label-hint-style">Head</p> -->
+      <img class="tempicon" src="../assets/bed_in_state.png" alt="">
+      <p class="cur-temp-style">110</p>
+      <p class="tar-temp-style">/110℃</p>
+      <!-- <p class="label-hint-style">Bed</p> -->
     </div>
     <div class="show-card">
-      <img class="icon" src="../assets/bed_in_state.png" alt="">
-      <div class="div-temp-style">
-        <p class="cur-temp-style">26º</p><p class="tar-temp-style">/26º</p>
-        <p class="tar-temp-style"></p>
-      </div>
-      <!-- <p class="label-hint-style">Bed</p> -->
+      <img class="tempicon" src="../assets/ext_in_state.png" alt="">
+      <p class="cur-temp-style">300</p>
+      <p class="tar-temp-style">/330℃</p>
+      <!-- <p class="label-hint-style">Head</p> -->
     </div>
   </div>
 </template>
@@ -27,63 +23,133 @@ export default{
 
 <style>
 .temp-card{
-  /* width: 12rem;
-  height: 10rem; */
+  width:34rem;
+  height:8rem;
+  padding-top: 2rem;
+  padding-right: 1.2rem;
+  margin: 0;
   float: right;
-  display: inline-block;
+  display:block;
   /* box-shadow: 0 8px 50px #23232333; */
-  
 }
 .show-card{
-  float: left;
-  width: 12rem;
-  height: 8rem;
-  vertical-align: middle;
-  margin: 1rem;
-  padding: 1rem;
-  /* box-shadow: 0 8px 50px #23232333; */
+  float:right;
+  width: 14rem;
+  height: 10rem;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: 1fr;
+  grid-column-gap: 1.5rem;
+  grid-row-gap: 0px;
+  margin-right: 1.5rem;
+  padding-right: 2rem;
 }
-.div-temp-style{
-  width: 12rem;
-  height: 4rem;
-  float: left;
-  margin: 0;
-}
-
 .cur-temp-style{
-  font-size: larger;
-  font-weight: normal;
-  width: 4rem;
-  height: 4rem;
-  float: left;
+  font-size:28px;
+  font-weight: bold;
   margin: 0;
   bottom: 0;
+  left: 0;
+  grid-area: 1 / 3 / 2 / 5;
+  margin-left: -1.2rem;
+  padding-top: 0.2rem;
+  padding-right: 3rem;
 }
 .tar-temp-style{
-  font-size: larger;
+  font-size: large;
   font-weight: normal;
-  width: 4rem;
-  height: 4rem;
-  /* float: right; */
   margin: 0;
   bottom: 0;
+  right: 0;
+  padding-top: 1.2rem;
+  padding-right: 3rem;
+  grid-area: 1 / 5 / 2 / 7;
 }
 .label-hint-style{
   font-size: larger;
-  font-weight: normal;
-  width: 8rem;
-  height: 2rem;
-  float: left;
+  font-weight: bolder;
   margin: 0;
+  bottom: 0;
+  left: 0;
+  text-align: bottom;
+  grid-area: 1 / 3 / 2 / 5;
 }
-
-.icon {
+.tempicon {
   display: inline-block;
-  width: 40px;
-  height: 40px;
-  float: right;
+  width: 35px;
+  height: 35px;
+  top: 0;
+  right: 0;
+  grid-area: 1 / 1 / 2 / 3;
 }
 
+
+/* Phone */
+@media screen and (max-width:600px){
+
+.temp-card{
+  width:100%;
+  height:4rem;
+  margin-top: -2rem;
+  float: left;
+  display:block;
+  /* box-shadow: 0 8px 50px #23232333; */
+}
+.show-card{
+  float:right;
+  width: 14rem;
+  height: 10rem;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: 1fr;
+  grid-column-gap: 1.5rem;
+  grid-row-gap: 0px;
+  margin-top: -2rem;
+  padding-right: 2rem;
+}
+
+.cur-temp-style{
+  font-size:28px;
+  font-weight: bold;
+  margin: 0;
+  bottom: 0;
+  left: 0;
+  text-align: left;
+  grid-area: 1 / 3 / 2 / 5;
+  margin-left: -1.1rem;
+  padding-top: 0.3rem;
+  padding-right: 3rem;
+}
+.tar-temp-style{
+  font-size: large;
+  font-weight: normal;
+  margin: 0;
+  bottom: 0;
+  right: 0;
+  text-align: center;
+  padding-top: 1.1rem;
+  grid-area: 1 / 5 / 2 / 7;
+  margin-left: -0.7rem;
+}
+.label-hint-style{
+  font-size: larger;
+  font-weight: bolder;
+  margin: 0;
+  bottom: 0;
+  left: 0;
+  text-align: bottom;
+  grid-area: 1 / 3 / 2 / 5;
+}
+.tempicon {
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  top: 0;
+  right: 0;
+  grid-area: 1 / 1 / 2 / 3;
+}
+
+}
 
 
 </style>

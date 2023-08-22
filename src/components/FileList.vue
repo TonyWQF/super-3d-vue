@@ -1,5 +1,5 @@
 <template>
-  <div id="file_list" class="content_box">
+  <div id="file_list">
     <file-list-item v-for="item in FileListItems" 
       :key="item.id"
       :id="item.id"
@@ -8,15 +8,16 @@
     ></file-list-item>
     <preview-tab ref="PreviewTab"></preview-tab>
     <div class="filelist_op" >
-      <button id="prev_filelist" class="button_style filelist_btn" align="center" @click="file_prev_page()">Prev.</button>
-      <button id="refresh_filelist" class="button_style filelist_btn" align="center" @click="go_file_first_page()">Refresh</button>
-      <button id="next_filelist" class="button_style filelist_btn" align="center" @click="file_next_page()">Next</button>
+      <button id="prev_filelist" class=" filelist_btn btn_style" align="center" @click="file_prev_page()">Prev.</button>
+      <button id="refresh_filelist" class=" filelist_btn btn_style" align="center" @click="go_file_first_page()">Refresh</button>
+      <button id="next_filelist" class=" filelist_btn btn_style" align="center" @click="file_next_page()">Next</button>
     </div> 
   </div>
 </template>
 
+
 <script>
-import FileListItem from "./FileListItem.vue"
+import FileListItem from "./FileListItem.vue";
 import PreviewTab from "./PreviewTab.vue";
 
 export default{
@@ -74,9 +75,6 @@ export default{
               this.FileListItems[index].label = this.file_names[index];
             }
           }
-          // else {
-
-          // }
         }
       }
       xhr.send();
@@ -117,19 +115,25 @@ export default{
 <style>
 
 #file_list{
-    width: 50%;
+    margin-top: 0.5rem;
+    margin-left: 12%;
+    width: 80%;
     height: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
+
   #file_list>button {
-    width: 100%;
-    height: 35px;
+    width: 98%;
+    height: 38px;
     color: green;
-    margin-bottom: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
     border:none;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   .filelist_btn{
     margin: auto;
+    margin-top:1rem;
   }
 
   .filelist_op{
@@ -148,4 +152,28 @@ export default{
     transform: translateY(1px);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
+
+
+  
+/* Phone */
+@media screen and (max-width:600px){
+
+  #file_list{
+    margin-top: 1.6rem;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-left: -1.4rem;
+  }
+
+  .filelist_btn{
+    margin: 1.1rem 1rem;
+    width: 7rem;
+    height: 35px;
+  }
+  .filelist_op{
+    width:100%
+  }
+
+}
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="header-style">
     <img src="../assets/logo.png" alt="">
     <p align="center">SUPER-3D</p>
     <div  class="typing-indicator">
@@ -140,6 +140,5 @@ img{
   right: 15%;
   animation-delay: 0.3s;
 }
-
 
 </style>

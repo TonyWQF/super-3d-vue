@@ -2,10 +2,10 @@
   <div class="main_container">
     <div class="content_container">
       <div class="tab">
-        <button :class="{active:activeId==1}" @click="openTab(1)" id="1"><i class="iconfont icon-dayinji_o"></i>Print</button>
-        <button :class="{active:activeId==2}" @click="openTab(2)" id="2"><i class="iconfont icon-shangchuan"></i>Upload</button>
-        <button :class="{active:activeId==3}" @click="openTab(3)" id="3"><i class="iconfont icon-yuanduanfuzhi"></i>Remote</button>
-        <button :class="{active:activeId==4}" @click="openTab(4)" id="4"><i class="iconfont icon-xitongkongzhi"></i>Control</button>
+        <button :class="{active:activeId==1}" @click="openTab(1)" id="1"><i class="iconfont icon-dayinji_o icon-intab"></i>Print</button>
+        <button :class="{active:activeId==2}" @click="openTab(2)" id="2"><i class="iconfont icon-shangchuan icon-intab"></i>Upload</button>
+        <button :class="{active:activeId==3}" @click="openTab(3)" id="3"><i class="iconfont icon-yuanduanfuzhi icon-intab"></i>Remote</button>
+        <button :class="{active:activeId==4}" @click="openTab(4)" id="4"><i class="iconfont icon-xitongkongzhi icon-intab"></i>Control</button>
       </div>
       <div id="Print" class="tabcontent" v-if="activeId==1">
         <camera-tab></camera-tab>
@@ -18,12 +18,8 @@
         <file-list></file-list>
       </div>
       <div id="Ctrl" class="tabcontent"  v-else-if="activeId==4">
-        <div class="content_box temp_tb">
           <tempreture-tab></tempreture-tab>
-        </div>
-        <div class="content_box" id="movement_tb">
           <movement-tab></movement-tab>
-        </div>
       </div> 
     </div>
   </div>
@@ -80,42 +76,15 @@ import MovementTab from './MovementTab.vue'
        box-sizing: border-box;
 }
 
-/* html,body{
-  width: 100%;
-	height: 100%;
-  min-height: 900px;
-  min-width: 1500px;
-}
-html,body {
-    min-height: 900px;
-    min-width: 1500px;
-} */
-
-
 .main_container{
   float: left;
   top: 15rem;
+  left: 2rem;
   position: absolute;
   margin: 0 auto;
-  width: 98%; 
+  width: 100%; 
   height: 97%;
   color: black;
-}
-
-.title_container{
-  position: relative;
-  width: 100%;
-  z-index: 5;  /* 这个是指页面的层级,这里设置成最顶层 */
-  background-color: #fefefe;
-  height: 14%;
-}
-
-.title{
-font-size: 30px;
-font-weight: bold;
-float: left;
-padding: 1%;
-/* height: 6%; */
 }
 
 .content_container{
@@ -127,16 +96,24 @@ padding: 1%;
 }
 
 
-
-.title_hint{
-  padding-top: 1%;
-  padding-right: 1%;
-  font-size: 30px;
-  font-weight: bold;
-  float: left;
-  text-align: center;
-  height: 80px;
-  line-height: 80px;
+/* phone */
+@media screen and (max-width:600px){
+  .content_container{
+    padding-right: 1%;
+    position: relative;
+    border: 1px solid #ccc;
+    width: 97%;
+    height: 70%;
+  }
+  .main_container{
+    float: left;
+    top: 15rem;
+    position: absolute;
+    margin: 0 auto;
+    width: 98%; 
+    height: 97%;
+    color: black;
+  }
 }
 
 
@@ -231,33 +208,6 @@ padding: 1%;
   animation-delay: 0.3s;
 }
 
-/* menu toggle style */
-.menu_btn {
-  display:contents;
-  cursor: pointer;
-}
-
-.bar1, .bar2, .bar3 {
-  width: 35px;
-  height: 5px;
-  background-color: #333;
-  margin: 6px 0;
-  transition: 0.4s;
-}
-
-.change .bar1 {
-  transform: translate(0, 11px) rotate(-45deg);
-}
-
-.change .bar2 {opacity: 0;}
-
-.change .bar3 {
-  transform: translate(0, -11px) rotate(45deg);
-}
-
-
-
-/* menu style */
 /* Style the tab */
 .tab {
   position: absolute;
@@ -304,142 +254,12 @@ padding: 1%;
   border-left: none;
   height: 97%;
 }
-.panel_title{
-  font-size: 26px;
-  font-weight: bold;
-}
-
-/* print_tab */
-.print_tab{
-  float: left;
-  width: 50%;
-  font-size: 26px;
-  font-weight: bold;
-}
 
 .print_hint{
   width: 50%;
   margin-top: 5px;
   float: left;
   font-size: large;
-}
-
-#camera_process{
-  margin: 1%;
-  width: 58%;
-  height: 95%;
-  box-shadow: 0 8px 50px #23232333;
-}
-#print_process{
-  margin: 1%;
-  width: 38%;
-  height: 95%;
-  box-shadow: 0 8px 50px #23232333;
-}
-
-.print_info{
-  margin-top: 10px;
-  float: left;
-  width: 100%;
-  height: 35%;
-  font-size: small;
-  font-weight: lighter;
-  position: relative;
-  text-align: center;
-}
-
-#camera_show{
-  max-width: 50rem;
-  max-height: 50rem;
-  width:50rem;
-}
-#preview_show{
-  margin-top: 10px;
-  max-width: 35rem;
-  max-height: 35rem;
-  width:35rem;
-}
-
-.loader {
-  display: block;
-  --height-of-loader: 4px;
-  --loader-color: #0071e2;
-  left: 20%;
-  width: 60%;
-  height: var(--height-of-loader);
-  border-radius: 30px;
-  background-color: rgba(0,0,0,0.2);
-  position: relative;
-  padding-left: 30%;
-}
-
-.loader::before {
-  content: "";
-  position: absolute;
-  background: var(--loader-color);
-  top: 0;
-  left: 0;
-  width: 0%;
-  height: 100%;
-  border-radius: 30px;
-  animation: moving 1s ease-in-out infinite;
-}
-
-@keyframes moving {
-  50% {
-    width: 100%;
-  }
-
-  100% {
-    width: 0;
-    right: 0;
-    left: unset;
-  }
-}
-
-/* upload area style */
-.custum-file-upload {
-  padding-left: 1%;
-  height: 150px;
-  /* width: 280px; */
-  display: flex;
-  flex-direction: column;
-  align-items: space-between;
-  gap: 20px;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  border: 2px dashed #cacaca;
-  background-color: rgba(255, 255, 255, 1);
-  padding: 1.5rem;
-  border-radius: 10px;
-  box-shadow: 0px 48px 35px -48px rgba(0,0,0,0.1);
-}
-
-.custum-file-upload .upload_icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.custum-file-upload .upload_icon svg {
-  height: 80px;
-  fill: rgba(75, 85, 99, 1);
-}
-
-.custum-file-upload .upload_text {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.custum-file-upload .upload_text span {
-  font-weight: 400;
-  color: rgba(75, 85, 99, 1);
-}
-
-.custum-file-upload input {
-  display: none;
 }
 
 
@@ -475,8 +295,6 @@ padding: 1%;
   height: 35px
 }
 
-
-
 .content_box{
   margin: 1%;
   padding: 1%;
@@ -490,154 +308,6 @@ padding: 1%;
 .temp_tb{
   float: left;
   width: 45%;
-}
-#movement_tb{
-  float: left;
-  width: 47%;
-}
-
- #movement_tb tr{
-  height: 45px;
-}
-
-#movement_tb button{
-
-width: 100%;
-height: 100%;
-text-align: center;
-
-} 
-
-/* common button style */
-.button_style {
-  display: inline-block;
-  padding: 10px 20px;
-  font-size: 16px;
-  font-weight: normal;
-  text-align: center;
-  text-decoration: none;
-  color: #ffffff;
-  background-color: #000000;
-  border: none;
-  border-radius: 10px;
-  transition: all 0.3s ease-in-out;
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  position: relative;
-  z-index: 1;
-  width: 10rem;
-  margin-left: 1rem;
-  margin-right: 1rem;
-}
-
-.button_style:hover {
-  background-color: #111111;
-  /* transform: translateY(-2px); */
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
-}
-
-.button_style:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(0, 115, 150, 0.37);
-}
-
-.button_style:active {
-  transform: translateY(1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.button_style:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.button_style::before {
-  content: "";
-  position: absolute;
-  /* top: -5px;
-  left: -5px;
-  right: -5px;
-  bottom: -5px; */
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 50px;
-  z-index: -1;
-  /* transition: all 0.3s ease-in-out; */
-}
-
-.button_style:hover::before {
-  top: -8px;
-  left: -8px;
-  right: -8px;
-  bottom: -8px;
-}
-
-
-.radio-inputs {
-  margin-top: 5px;
-  position: relative;
-  display: flex;text-align: center;
-  flex-wrap: wrap;
-  border-radius: 0.5rem;
-  background-color: #EEE;
-  box-sizing: border-box;
-  box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
-  padding: 0.25rem;
-  width: 300px;
-  font-size: 14px;
-
-}
-
-.radio-inputs .radio {
-  flex: 1 1 auto;
-  text-align: center;
-}
-
-.radio-inputs .radio input {
-  display: none;
-}
-
-.radio-inputs .radio .name {
-  display: flex;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0.5rem;
-  border: none;
-  padding: .5rem 0;
-  color: rgba(51, 65, 85, 1);
-  transition: all .15s ease-in-out;
-}
-
-.radio-inputs .radio input:checked + .name {
-  background-color: #fff;
-  font-weight: 600;
-}
-
-#switch_panel{
-  margin-top: 0.5%;
-  background-color: white;
-  height: 14%;
-  text-align: center;
-  border: none;
-}
-.switch_style{
-  width: 10%;
-  height: 85%;
-  margin: 0.5%;
-  border: none;
-  box-shadow: 0 8px 25px #23232333;
-}
-
-/*  state -> temp, position */
-#state_panel {
-  margin-bottom: 2%;
-  margin-right: 2%;
-  float: left;
-  font-size: 24px;
-  font-weight: normal;
-  width: 40%;
-  height: 100%;
-  border: 1px solid red;
 }
 
 
@@ -655,6 +325,7 @@ text-align: center;
     background-color: #f1f1f1;
     width: 100%;
     height: 80px;
+    margin-left: -1.7rem;
   }
   .tab button {
     float: left;
@@ -687,108 +358,14 @@ text-align: center;
     width: 98%;
     height: 50%;
   }
-  .print_tab{
-    font-size: large;
-  }
-  #printing_filename{
-    font-size: 16px;
-    height: 5%;
-  }
-  .print_hint{
-    width: 50%;
-    margin-top: 5px;
-    float: left;
-    font-size: small;
-  }
 
-  #camera_process{
-    margin: 1%;
-    width: 98%;
-    height: 45%;
-    box-shadow: 0 8px 50px #23232333;
-    
-  }
-
-
-  #print_process{
-    margin: 1%;
-    width: 98%;
-    height: 60%;
-    box-shadow: 0 8px 50px #23232333;
-  }
-
-  #camera_show{
-    max-width: 65%;
-    max-height: 65%;
-  }
-  #preview_show{
-    max-width: 65%;
-    max-height: 65%;
+  .icon-intab{
+    margin-top:-1rem;
+    display: inline-flex;
   }
   
-  .print_info{
-    float: left;
-    width: 100%;
-    height: 27%;
-    font-size: small;
-    font-weight: lighter;
-    position: relative;
-    text-align: center;
-  }
-  .print_btn{
-    margin-top: 10px;
-    height: 35px;
-    width: 80px;
-  }
-
-  
-
-  #switch_panel{
-    margin-top: 0.5%;
-    background-color: white;
-    height: 14%;
-    text-align: center;
-    border: none;
-  }
-  .switch_style{
-    width: 10%;
-    height: 85%;
-    margin: 0.5%;
-    border: none;
-    box-shadow: 0 8px 25px #23232333;
-  }
-
-
-  .temp_tb{
-    margin: 1%;
-    width: 98%;
-    height: 55%;
-    box-shadow: 0 8px 50px #23232333;
-  }
-  .filament_tb>button{
-    /* margin-top: 15px; */
-  }
-
-  .input-container {
-    position: relative;
-    margin: 0px;
-  }
-
-  #movement_tb{
-    margin: 1%;
-    width: 98%;
-    height: 45%;
-    box-shadow: 0 8px 50px #23232333;
-  }
-
-  #movement_tb>button{
-    /* margin: 1%; */
-    width: 100%;
-    height: 25%;
-    box-shadow: 0 8px 50px #23232333;
-  }
-
 }
+
 
 
 

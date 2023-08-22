@@ -7,10 +7,20 @@
 
 .iconfont {
   font-family: "iconfont" !important;
-  font-size: 34px;
+  font-size: 36px;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+@media screen and (max-width:600px){
+  .iconfont {
+    font-family: "iconfont" !important;
+    font-size: 34px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 }
 
 .icon-kongzhitai:before {

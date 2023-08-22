@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content_box" id="tempreture_tb">
     <div class="panel_title">Tempreture</div>
     <br>
     <div style="display: flex; justify-content: center; align-items: center;">
@@ -23,9 +23,9 @@
     </div>
     <div class="filament_tb">
       <!-- <div class="panel_title">Filament</div> -->
-      <button class="button_style"><img src="../assets/load.png" alt=""></button>
-      <button class="button_style"><img src="../assets/stop_load.png" alt=""></button>
-      <button class="button_style"><img src="../assets/unload.png" alt=""></button>
+      <button class="btn_style">Load</button>
+      <button class="btn_style">Stop</button>
+      <button class="btn_style">Unload</button>
     </div>
   </div>
 </template>
@@ -43,6 +43,16 @@ export default{
 </script>
 
 <style>
+
+.filament_tb{
+
+}
+
+
+
+#tempreture_tb{
+  width: 48%;
+}
 
 /* Input container */
 .input-container {
@@ -93,6 +103,18 @@ export default{
 
 .input-field:focus + .input-label + .input-highlight {
   width: 100%;
+}
+
+@media screen and (max-width:600px){
+.input-container {
+    position: relative;
+    margin: 0px;
+  }
+  #tempreture_tb{
+  height: 60%;
+  width: 98%;
+  margin-left: -1.2rem;
+  }
 }
 
 </style>
