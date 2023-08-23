@@ -15,7 +15,6 @@
       <button class="btn_style move_btn" style="width: 98%;">HomeZ</button>
       <button class="btn_style move_btn" style="width: 98%;">HomeAll</button>
     </div>
-    <br>
     <div class="radio-inputs" align="center" style="width: 100%; display:flex;justify-content: center; align-items:center;">
       <label class="radio">
         <input type="radio" name="radio" id="radio_1mm" checked="">
@@ -36,12 +35,7 @@
 
 <script>
 export default{
-  data(){
 
-  },
-  methods:{
-    
-  },
 }
 
 </script>

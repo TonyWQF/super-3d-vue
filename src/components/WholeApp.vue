@@ -50,7 +50,6 @@ import MovementTab from './MovementTab.vue'
     },
     methods:{
       openTab(id_NUM) {
-        console.log(id_NUM);
         if(id_NUM == "1"){
           this.activeId = 1;
         }else if(id_NUM == "2"){

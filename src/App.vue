@@ -6,18 +6,13 @@
 </template>
 
 <script>
-// import uniqueId from "lodash.uniqueid";
 import TitleHeader from "./components/TitleHeader.vue";
-// import TabSelecter from './components/TabSelecter.vue';
-
-
 import WholeApp from "./components/WholeApp.vue"
 
 export default {
   name: 'App',
   components:{
     TitleHeader,
-    // TabSelecter,
     WholeApp,
   },
   data(){

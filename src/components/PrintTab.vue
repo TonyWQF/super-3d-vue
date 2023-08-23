@@ -7,13 +7,24 @@
   <img id="preview_show" src="../assets/Bulbasaur_0.jpg" alt="">
 
   <div class="print_info">
-    <div style="height: 40%;">
-      <div class="print_hint">Z_height:200mm</div><div class="print_hint">Print_Speed:100%</div>
-      <div class="print_hint">Time:24:24:24</div><div class="print_hint">Print_flowrate:100%</div>
-    </div>
+    <div class="print-info-con">
+        <div class="print_hint">
+          <span>Z-Height:</span><span>{{ z_height }}mm</span>
+        </div>
+        <div class="print_hint">
+          <span>Speed:</span><span>{{ print_speed }}%</span>
+        </div>
+        <div class="print_hint">
+          <span>Time:</span><span>{{ print_time }}</span>
+        </div>
+        <div class="print_hint">
+          <span>flowrate:</span><span>{{ print_flowrate }}%</span>
+        </div>
+      </div>
     <!-- <div class="loader" style="margin-top: 10px;"></div> -->
     <div style="height: 30%;">
-      <button id="btn_pause_resume" class="print_btn btn_style" @Click="toggle_resume_pause">Pause</button>
+      <button v-if="isPaused==true" id="btn_resume" class="print_btn btn_style" @click="resumePrint">Resume</button>
+      <button v-if="isPaused==false" id="btn_pause" class="print_btn btn_style" @click="pausePrint">Pause</button>
       <button id="btn_stop_print" class="print_btn btn_style">Stop</button>
     </div>
   </div>
@@ -23,10 +34,23 @@
 <script>
 
 export default{
-data(){
-
-}
-
+  methods:{
+    resumePrint(){
+      this.isPaused=false;
+    },
+    pausePrint(){
+      this.isPaused=true;
+    },
+  },
+  data(){
+    return{
+      z_height:200,
+      print_speed:100,
+      print_time:"24:24:24",
+      print_flowrate:100,
+      isPaused:false,
+    };
+  },
 }
 </script>
 

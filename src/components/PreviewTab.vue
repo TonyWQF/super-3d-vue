@@ -8,14 +8,29 @@
       <div class="modal-body">
         <img id="preview_img" src="../assets/Bulbasaur_0.jpg" alt="">
         <p id="file_name">{{ preview_filename }}</p>
+        <div class="info_con">
+          <div class="preview_infolabel">
+            <span>Head:</span><span>{{ preview_head }}℃</span>
+          </div>
+          <div class="preview_infolabel">
+            <span>Bed:</span><span>{{ preview_bed }}℃</span>
+          </div>
+          <div class="preview_infolabel">
+            <span>Layer count:</span><span>{{ preview_layercount }}</span>
+          </div>
+          <div class="preview_infolabel">
+            <span>Time:</span><span>{{ preview_time }}</span>
+          </div>
+        </div>
         <div class="preview_op">
-          <button id="go2print" class=" preview_btn">Print</button>
-          <button id="downloadfile" class=" preview_btn">Download</button>
-          <button id="deletefile" class=" preview_btn">Delete</button>
+          <br>
+          <button id="go2print" class="preview_btn btn_style" @click="goPrint">Print</button>
+          <button id="downloadfile" class="preview_btn btn_style">Download</button>
+          <button id="deletefile" class="preview_btn btn_style">Delete</button>
         </div>
       </div>
       <div class="modal-footer">
-        <h5>You can print, download, delete gcode from remote.</h5>
+        <span class="hint_preview" >You can print, download, delete gcode from remote.</span>
       </div>
     </div>
   </div>
@@ -23,10 +38,17 @@
 
 <script>
 export default{
+  components:{
+    
+  },
   data(){
     return{
       isDisplay:false,
       preview_filename:"xxx",
+      preview_head:200,
+      preview_bed:60,
+      preview_layercount:2,
+      preview_time:"24:24:24",
     }
   },
   methods:{
@@ -36,7 +58,12 @@ export default{
     show_preview(fileitem_name){
       this.isDisplay = true;
       this.preview_filename = fileitem_name;
-    }
+    },
+    goPrint(){
+      this.closeSpan();
+      // this.$parent.
+      
+    },
   },
   mounted(){
 
@@ -48,7 +75,6 @@ export default{
 <style>
 /* The Modal (background) */
 .modal {
-  /*display: none;  Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 8; /* Sit on top */
   left: 10%;
@@ -75,7 +101,9 @@ export default{
   -webkit-animation-name: slideIn;
   -webkit-animation-duration: 0.4s;
   animation-name: slideIn;
-  animation-duration: 0.4s
+  animation-duration: 0.4s;
+  box-shadow: 0 8px 50px #23232333;
+  text-align:center;
 }
 
 /* The Close Button */
@@ -95,7 +123,7 @@ export default{
 
 .modal-header {
   padding: 2px 16px;
-  background-color: #5cb85c;
+  background-color: #60a4d1f1;
   color: white;
   height: 10%;
 }
@@ -109,32 +137,65 @@ export default{
 .modal-footer {
   height: 10%;
   padding: 2px 16px;
-  background-color: #5cb85c;
+  background-color: #60a4d1f1;
   color: white;
 }
 
 #file_name{
   font-size: large;
-  width: 70%;
+  width: 100%;
 }
-.preview_op{
-  width:100%;
+.info_con{
+  width: 60%;
+  margin-left:20% ;
+}
+.preview_infolabel{
+  float:left;
+  width:50%;
+}
 
-}
+/* .preview_op{
+  margin-top: 2rem;
+  width:100%;
+} */
 
 .preview_btn{
     max-width: 33.3%;
     margin-left: 1rem;
     margin-right: 1rem;
-    padding-top: 0;
+    padding-top: 1rem;
     padding-bottom: 0;
 }
 
 #preview_img{
   max-width: 80%;
   max-height: 80%;
-  width: 50rem;
-  height: 45rem;
+  width: 50%;
+  /* height: 45%; */
+  display: inline-block;
+  margin-left: 25%;
+}
+
+/* Phone */
+@media screen and (max-width:600px){
+  #preview_img{
+  max-width: 90%;
+  max-height: 50%;
+  width: 90%;
+  /* height: 45%; */
+  display: inline-block;
+  margin-left: 5%;
+}
+
+.info_con{
+  width: 100%;
+  margin-left:0;
+}
+.preview_infolabel{
+  float:left;
+  width:50%;
+}
+
 
 }
 
