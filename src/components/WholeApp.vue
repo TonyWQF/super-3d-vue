@@ -32,6 +32,9 @@ import UploadTab from './UploadTab.vue';
 import FileList from './FileList.vue';
 import TempretureTab from './TempretureTab.vue'
 import MovementTab from './MovementTab.vue'
+import { mapMutations, mapState } from 'vuex';
+
+
 
   export default{
     components:{
@@ -49,21 +52,41 @@ import MovementTab from './MovementTab.vue'
       };
     },
     methods:{
+      ...mapMutations(["change_tab"]),
       openTab(id_NUM) {
-        if(id_NUM == "1"){
-          this.activeId = 1;
-        }else if(id_NUM == "2"){
-          this.activeId = 2;
-        }else if(id_NUM == "3"){
-          this.activeId = 3;
-        }else{
-          this.activeId = 4;
-        }
+        this.change_tab(id_NUM)
+        this.activeId = this.$store.getters.get_now_tab;
       },
     },
     mounted(){
 
-    }
+    },
+    watch:{
+      // get_changed_tab(val){
+      //   console.log(val);
+      //   this.activeId = val;
+      //   // this.$store.commit('change_tab', val);
+      // }
+      get_changed_tab(newVal, oldval){
+        console.log(oldval);
+        this.activeId = newVal;
+        // this.$store.commit('change_tab', val);
+      }
+      // "$store.state.ui_state.now_tab":{
+      //   handler:function (newVal, oldVal) {
+      //     console.log(oldVal);
+      //     this.activeId = newVal;
+      //   }
+      // }
+
+    },
+    // 专门读取 vuex 数据
+    computed:{      
+      get_changed_tab(){
+        return this.$store.state.ui_state.now_tab;
+      },
+      ...mapState(["now_tab"]),
+    },
   }
 </script>
 

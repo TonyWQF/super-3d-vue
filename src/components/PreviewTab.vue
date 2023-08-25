@@ -61,8 +61,9 @@ export default{
     },
     goPrint(){
       this.closeSpan();
-      // this.$parent.
-      
+      console.log(this.$store.state.ui_state.now_tab);
+      this.$store.commit('change_tab', "1");
+      console.log(this.$store.state.ui_state.now_tab);
     },
   },
   mounted(){
