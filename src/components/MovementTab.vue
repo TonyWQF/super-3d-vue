@@ -3,39 +3,87 @@
     <div class="panel_title">Movement</div>
     <br>
     <div class="move_btn_wrapper"> 
-      <button class="btn_style move_btn" style="width: 98%;" onclick="move_left()">X+</button>
-      <button class="btn_style move_btn" style="width: 98%;" onclick="move_back()">Y+</button>
-      <button class="btn_style move_btn" style="width: 98%;" onclick="move_up()">Z+</button>
+      <button class="btn_style move_btn" style="width: 98%;" @click="move_left()">X+</button>
+      <button class="btn_style move_btn" style="width: 98%;" @click="move_back()">Y+</button>
+      <button class="btn_style move_btn" style="width: 98%;" @click="move_up()">Z+</button>
 
-      <button class="btn_style move_btn" style="width: 98%;" onclick="move_right()">X-</button> 
-      <button class="btn_style move_btn" style="width: 98%;" onclick="move_front()">Y-</button> 
-      <button class="btn_style move_btn" style="width: 98%;" onclick="move_down()">Z-</button>
+      <button class="btn_style move_btn" style="width: 98%;" @click="move_right()">X-</button> 
+      <button class="btn_style move_btn" style="width: 98%;" @click="move_front()">Y-</button> 
+      <button class="btn_style move_btn" style="width: 98%;" @click="move_down()">Z-</button>
 
-      <button class="btn_style move_btn" style="width: 98%;">HomeXY</button>
-      <button class="btn_style move_btn" style="width: 98%;">HomeZ</button>
-      <button class="btn_style move_btn" style="width: 98%;">HomeAll</button>
+      <button class="btn_style move_btn" style="width: 98%;" @click="home_xy()">HomeXY</button>
+      <button class="btn_style move_btn" style="width: 98%;" @click="home_z()">HomeZ</button>
+      <button class="btn_style move_btn" style="width: 98%;" @click="home_all()">HomeAll</button>
     </div>
     <div class="radio-inputs" align="center" style="width: 100%; display:flex;justify-content: center; align-items:center;">
       <label class="radio">
-        <input type="radio" name="radio" id="radio_1mm" checked="">
+        <input type="radio" name="radio" id="radio_1mm" value=1 checked="" v-model=Distance>
         <span class="name">1mm</span>
       </label>
       <label class="radio">
-        <input type="radio" name="radio" id="radio_10mm">
+        <input type="radio" name="radio" value=10 id="radio_10mm" v-model=Distance>
         <span class="name">10mm</span>
       </label>                      
       <label class="radio">
-        <input type="radio" name="radio" id="radio_50mm">
+        <input type="radio" name="radio" value=50 id="radio_50mm" v-model=Distance>
         <span class="name">50mm</span>
       </label>
     </div>
   </div> 
+  <RequestImp ref="req" />
 </template>
 
 
 <script>
-export default{
+import RequestImp from "./RequestImplement.vue"
 
+export default{
+  components: {
+    RequestImp
+  },
+  data() {
+    return {
+      Distance: 1
+    }
+  },
+  methods: {
+    move_left() {
+      this.$refs.req.move_axis(0, -this.Distance)
+    },
+
+    move_right() {
+      this.$refs.req.move_axis(0, this.Distance)
+    },
+
+    move_back() {
+      this.$refs.req.move_axis(1, -this.Distance)
+    },
+
+    move_front() {
+      this.$refs.req.move_axis(1, this.Distance)
+    },
+
+    move_up() {
+      this.$refs.req.move_axis(2, this.Distance)
+    },
+
+    move_down() {
+      this.$refs.req.move_axis(2, -this.Distance)
+    },
+
+    home_xy() {
+      this.$refs.req.home_axis((1<<0) | (1<<1))
+    },
+
+    home_z() {
+      this.$refs.req.home_axis(1<<2)
+    },
+
+    home_all() {
+      this.$refs.req.home_all()
+    },
+
+  }
 }
 
 </script>
