@@ -105,8 +105,8 @@ class MachineControler:
     src_datas = self.__commands.req_retract(Nozzle, Distance)
     self.__send_command(src_datas)
 
-  def home_axis(self,Axis):
-    src_datas = self.__commands.req_home(Axis)
+  def home_axis(self, Axis):
+    src_datas = self.__commands.req_home_axis(Axis)
     self.__send_command(src_datas)
 
   def home_all(self):
