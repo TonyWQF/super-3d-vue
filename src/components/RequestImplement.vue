@@ -89,14 +89,16 @@ export default{
       xhr.open("POST", 'api/files/delete', false);
       var form_data = new FormData();
       form_data.append('file_name', filename);
+      console.log("delete_file:"+filename);
       return this.post_method(xhr, form_data)
-    }
+    },
 
     start_print(filename) {
       var xhr = new XMLHttpRequest();
       xhr.open("POST", 'api/files/print', false);
       var form_data = new FormData();
       form_data.append('file_name', filename);
+      console.log("start_print:"+filename);
       return this.post_method(xhr, form_data)
     },
 
