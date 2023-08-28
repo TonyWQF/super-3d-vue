@@ -17,15 +17,15 @@
     </div>
     <div class="radio-inputs" align="center" style="width: 100%; display:flex;justify-content: center; align-items:center;">
       <label class="radio">
-        <input type="radio" name="radio" id="radio_1mm" checked="">
+        <input type="radio" name="radio" id="radio_1mm" checked="" v-model="distance" value="1">
         <span class="name">1mm</span>
       </label>
       <label class="radio">
-        <input type="radio" name="radio" id="radio_10mm">
+        <input type="radio" name="radio" id="radio_10mm" v-model="distance" value="10">
         <span class="name">10mm</span>
       </label>                      
       <label class="radio">
-        <input type="radio" name="radio" id="radio_50mm">
+        <input type="radio" name="radio" id="radio_50mm" v-model="distance" value="50">
         <span class="name">50mm</span>
       </label>
     </div>
@@ -35,7 +35,55 @@
 
 <script>
 export default{
+  data(){
+    return{
+      distance:10,
+    }
+  },
+  methods:{
+     move_axis(axis, distance) {
+      var xhr = new XMLHttpRequest();
+      var form_data = new FormData();
 
+      xhr.open("POST", "api/ctrl/move")
+      form_data.append('axis', axis)
+      form_data.append('this.distance', distance)
+      xhr.onload = function() {
+        if(xhr.status == 200) {
+          console.log("move success")
+        }
+      }
+      xhr.send(form_data)
+    },
+    get_move_distance()
+    {
+      return this.distance;
+    },
+    move_left() {
+      this.distance = this.get_move_distance();
+      this.move_axis('X', this.distance);
+    },
+    move_right() {
+      this.distance = this.get_move_distance();
+      this.move_axis('X', -this.distance);
+    },
+    move_front() {
+      this.distance = this.get_move_distance();
+      this.move_axis('Y', this.distance);
+    },
+    move_back() {
+      this.distance = this.get_move_distance();
+      this.move_axis('Y', -this.distance);
+    },
+    move_up() {
+      this.distance = this.get_move_distance();
+      this.move_axis('Z', this.distance);
+    },
+    move_down() {
+      this.distance = this.get_move_distance();
+      this.move_axis('Z', -this.distance);
+    },
+  }
 }
 
 </script>

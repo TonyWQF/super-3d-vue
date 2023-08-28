@@ -1,5 +1,4 @@
 <template>
-  <p>{{ui_state.now_tab}}</p>
   <div class="main_container">
     <div class="content_container">
       <div class="tab">
@@ -55,9 +54,7 @@ import { mapMutations, mapState } from 'vuex';
     methods:{
       ...mapMutations(["change_tab"]),
       openTab(id_NUM) {
-        // this.change_tab(id_NUM)
-        this.$store.dispatch('update_now_tab', id_NUM)
-
+        this.change_tab(id_NUM)
         this.activeId = this.$store.getters.get_now_tab;
         console.log("openTab:"+this.$store.state.ui_state.now_tab);
       },
@@ -65,34 +62,10 @@ import { mapMutations, mapState } from 'vuex';
     mounted(){
 
     },
-    watch:{
-      get_changed_tab:{
-        deep:true,
-        immediate: true,
-        // flush: 'post',
-        handler(val){
-          console.log("get_changed_tab:"+val);
-          this.activeId = val;
-          this.openTab(val);
-        },
-      },
-      '$root.cur_main_tab':{
-        handler(){
-          this.activeId =  this.$root.cur_main_tab;
-          // console.log("changed");
-        },
-        deep:true,
-        immediate: true,
-      }  
-    },
+
     // 专门读取 vuex 数据
     computed:{      
       ...mapState(['ui_state']),
-      get_changed_tab(){
-        console.log("computed");
-        // return this.$store.getters.get_now_tab;
-        return this.$store.state.ui_state.now_tab;
-      },
     },
   }
 </script>

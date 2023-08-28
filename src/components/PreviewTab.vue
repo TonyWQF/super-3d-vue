@@ -61,13 +61,7 @@ export default{
     },
     goPrint(){
       this.closeSpan();
-
-      var now_tab = 1;
-      this.$root.cur_main_tab = now_tab;
-      console.log(this.$store.state.ui_state.now_tab);
-      // this.$store.commit('change_tab', now_tab);
-      this.$store.dispatch('update_now_tab', now_tab)
-      console.log(this.$store.state.ui_state.now_tab);
+      this.$store.dispatch('update_now_tab', 1)
     },
   },
   mounted(){

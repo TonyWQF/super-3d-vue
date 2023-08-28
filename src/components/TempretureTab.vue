@@ -7,7 +7,7 @@
       <span>Head:</span><span id="tar_head">{{ TargetHead }}</span><span>℃</span>
     </div>              
     <div class="input-container">
-      <input placeholder="Enter Target Tempreture" class="input-field" type="number" onkeyup="set_nozzle_temp(event)" id="targetTemp0">
+      <input placeholder="Enter Target Tempreture" class="input-field" type="number" @keyup.enter="set_nozzle_temp(event)" id="targetTemp0">
       <label for="input-field" class="input-label">Enter Tar-Temp.</label>
       <span class="input-highlight"></span>
     </div>
@@ -17,7 +17,7 @@
       <span>Bed:</span><span id="tar_bed">{{ TargetBed }}</span><span>℃</span>
     </div>  
     <div class="input-container">
-      <input placeholder="Enter Target Tempreture" class="input-field" type="number"  onkeyup="set_bed_temp(event)" id="targetBedTemp">
+      <input placeholder="Enter Target Tempreture" class="input-field" type="number"  @keyup.enter="set_bed_temp(event)" id="targetBedTemp">
       <label for="input-field" class="input-label">Enter Tar-Temp.</label>
       <span class="input-highlight"></span>
     </div>
@@ -37,7 +37,37 @@ export default{
       TargetHead:"200",
       TargetBed:"200",
     };
-  }
+  },
+  methods:{
+    set_nozzle_temp(){
+      var xhr = new XMLHttpRequest();
+      var form_data = new FormData();
+      xhr.open("POST", "api/ctrl/heat");
+      form_data.append("target", "0");
+      form_data.append("temp", document.getElementById('targetTemp0').value);
+      xhr.onload = function() {
+        console.log("heat success");
+      }
+      xhr.send(form_data);
+
+      var tar_head = document.getElementById("tar_head");
+      tar_head.innerHTML = document.getElementById('targetTemp0').value;
+    },
+    set_bed_temp() {
+        var xhr = new XMLHttpRequest();
+        var form_data = new FormData();
+        xhr.open("POST", "api/ctrl/heat");
+        form_data.append("target", "2");
+        form_data.append("temp", document.getElementById('targetBedTemp').value);
+        xhr.onload = function() {
+          console.log("heat success");
+        }
+        xhr.send(form_data);
+
+        var tar_bed = document.getElementById("tar_bed");
+        tar_bed.innerHTML = document.getElementById('targetBedTemp').value;
+      }
+    }
 }
 
 </script>
