@@ -1,23 +1,24 @@
 <template>
+  <p>{{ui_state.now_tab}}</p>
   <div class="main_container">
     <div class="content_container">
       <div class="tab">
-        <button :class="{active:activeId==1}" @click="openTab(1)" id="1"><i class="iconfont icon-dayinji_o icon-intab"></i>Print</button>
-        <button :class="{active:activeId==2}" @click="openTab(2)" id="2"><i class="iconfont icon-shangchuan icon-intab"></i>Upload</button>
-        <button :class="{active:activeId==3}" @click="openTab(3)" id="3"><i class="iconfont icon-yuanduanfuzhi icon-intab"></i>Remote</button>
-        <button :class="{active:activeId==4}" @click="openTab(4)" id="4"><i class="iconfont icon-xitongkongzhi icon-intab"></i>Control</button>
+        <button :class="{active:ui_state.now_tab==1}" @click="openTab(1)" id="1"><i class="iconfont icon-dayinji_o icon-intab"></i>Print</button>
+        <button :class="{active:ui_state.now_tab==2}" @click="openTab(2)" id="2"><i class="iconfont icon-shangchuan icon-intab"></i>Upload</button>
+        <button :class="{active:ui_state.now_tab==3}" @click="openTab(3)" id="3"><i class="iconfont icon-yuanduanfuzhi icon-intab"></i>Remote</button>
+        <button :class="{active:ui_state.now_tab==4}" @click="openTab(4)" id="4"><i class="iconfont icon-xitongkongzhi icon-intab"></i>Control</button>
       </div>
-      <div id="Print" class="tabcontent" v-if="activeId==1">
+      <div id="Print" class="tabcontent" v-if="ui_state.now_tab==1">
         <camera-tab></camera-tab>
         <print-tab></print-tab>
       </div>
-      <div id="Upload" class="tabcontent" v-else-if="activeId==2">
+      <div id="Upload" class="tabcontent" v-else-if="ui_state.now_tab==2">
         <upload-tab></upload-tab>
       </div>
-      <div id="Remote" class="tabcontent " v-else-if="activeId==3">
+      <div id="Remote" class="tabcontent " v-else-if="ui_state.now_tab==3">
         <file-list></file-list>
       </div>
-      <div id="Ctrl" class="tabcontent"  v-else-if="activeId==4">
+      <div id="Ctrl" class="tabcontent"  v-else-if="ui_state.now_tab==4">
           <tempreture-tab></tempreture-tab>
           <movement-tab></movement-tab>
       </div> 
@@ -54,38 +55,44 @@ import { mapMutations, mapState } from 'vuex';
     methods:{
       ...mapMutations(["change_tab"]),
       openTab(id_NUM) {
-        this.change_tab(id_NUM)
+        // this.change_tab(id_NUM)
+        this.$store.dispatch('update_now_tab', id_NUM)
+
         this.activeId = this.$store.getters.get_now_tab;
+        console.log("openTab:"+this.$store.state.ui_state.now_tab);
       },
     },
     mounted(){
 
     },
     watch:{
-      // get_changed_tab(val){
-      //   console.log(val);
-      //   this.activeId = val;
-      //   // this.$store.commit('change_tab', val);
-      // }
-      get_changed_tab(newVal, oldval){
-        console.log(oldval);
-        this.activeId = newVal;
-        // this.$store.commit('change_tab', val);
-      }
-      // "$store.state.ui_state.now_tab":{
-      //   handler:function (newVal, oldVal) {
-      //     console.log(oldVal);
-      //     this.activeId = newVal;
-      //   }
-      // }
-
+      get_changed_tab:{
+        deep:true,
+        immediate: true,
+        // flush: 'post',
+        handler(val){
+          console.log("get_changed_tab:"+val);
+          this.activeId = val;
+          this.openTab(val);
+        },
+      },
+      '$root.cur_main_tab':{
+        handler(){
+          this.activeId =  this.$root.cur_main_tab;
+          // console.log("changed");
+        },
+        deep:true,
+        immediate: true,
+      }  
     },
     // 专门读取 vuex 数据
     computed:{      
+      ...mapState(['ui_state']),
       get_changed_tab(){
+        console.log("computed");
+        // return this.$store.getters.get_now_tab;
         return this.$store.state.ui_state.now_tab;
       },
-      ...mapState(["now_tab"]),
     },
   }
 </script>

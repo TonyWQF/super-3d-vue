@@ -17,12 +17,17 @@ export default createStore({
   // 更改更新数据
   mutations: {
     change_tab(state, new_tab){
-      state.ui_state.now_tab = new_tab;
+      // state.ui_state.now_tab = new_tab;
+      console.log("change_tab in mutations", new_tab);
+      state.ui_state = { ...state, now_tab: new_tab }
     }
   },
   // 提交异步操作，提交mutation
   actions: {
-    
+    update_now_tab({commit}, data) {
+      commit("change_tab", data)
+    },
+
   },
   modules: {
   }

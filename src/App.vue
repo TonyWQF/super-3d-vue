@@ -17,7 +17,7 @@ export default {
   },
   data(){
     return{
-
+      cur_main_tab:1,
     };
   },
   methods:{
