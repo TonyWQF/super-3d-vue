@@ -24,7 +24,7 @@
         </div>
         <div class="preview_op">
           <br>
-          <button id="go2print" class="preview_btn btn_style" @click="goPrint">Print</button>
+          <button id="go2print" class="preview_btn btn_style" @click="goPrint()">Print</button>
           <button id="downloadfile" class="preview_btn btn_style">Download</button>
           <button id="deletefile" class="preview_btn btn_style">Delete</button>
         </div>
@@ -34,12 +34,15 @@
       </div>
     </div>
   </div>
+  <RequestImp ref="req" />
 </template>
 
 <script>
+import RequestImp from "./RequestImplement.vue";
+
 export default{
   components:{
-    
+    RequestImp,
   },
   data(){
     return{
@@ -62,6 +65,8 @@ export default{
     goPrint(){
       this.closeSpan();
       this.$store.dispatch('update_now_tab', 1)
+      this.$refs.req.start_print(this.preview_filename)
+      
     },
   },
   mounted(){

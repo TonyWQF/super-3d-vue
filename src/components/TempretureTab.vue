@@ -7,7 +7,7 @@
       <span>Head:</span><span id="tar_head">{{ TargetHead }}</span><span>℃</span>
     </div>              
     <div class="input-container">
-      <input placeholder="Enter Target Tempreture" class="input-field" type="number" @keyup.enter="set_nozzle_temp(event)" id="targetTemp0">
+      <input placeholder="Enter Target Tempreture" class="input-field" type="number" @keyup.enter="set_nozzle_temp(event)" id="targetTemp0" v-model="EnterNozzle">
       <label for="input-field" class="input-label">Enter Tar-Temp.</label>
       <span class="input-highlight"></span>
     </div>
@@ -17,57 +17,57 @@
       <span>Bed:</span><span id="tar_bed">{{ TargetBed }}</span><span>℃</span>
     </div>  
     <div class="input-container">
-      <input placeholder="Enter Target Tempreture" class="input-field" type="number"  @keyup.enter="set_bed_temp(event)" id="targetBedTemp">
+      <input placeholder="Enter Target Tempreture" class="input-field" type="number"  @keyup.enter="set_bed_temp(event)" id="targetBedTemp" v-model="EnterBed">
       <label for="input-field" class="input-label">Enter Tar-Temp.</label>
       <span class="input-highlight"></span>
     </div>
     <div class="filament_tb">
       <!-- <div class="panel_title">Filament</div> -->
-      <button class="btn_style">Load</button>
-      <button class="btn_style">Stop</button>
-      <button class="btn_style">Unload</button>
+      <button class="btn_style" @click="extrude()">Load</button>
+      <button class="btn_style" @click="stop()">Stop</button>
+      <button class="btn_style" @click="retract()">Unload</button>
     </div>
   </div>
+  <RequestImp ref='req'/>
 </template>
 
 <script>
+import RequestImp from "./RequestImplement.vue"
 export default{
+  components: {
+    RequestImp
+  },
   data(){
     return{
       TargetHead:"200",
       TargetBed:"200",
+      EnterNozzle:"20",
+      EnterBed:"0",
     };
   },
   methods:{
-    set_nozzle_temp(){
-      var xhr = new XMLHttpRequest();
-      var form_data = new FormData();
-      xhr.open("POST", "api/ctrl/heat");
-      form_data.append("target", "0");
-      form_data.append("temp", document.getElementById('targetTemp0').value);
-      xhr.onload = function() {
-        console.log("heat success");
-      }
-      xhr.send(form_data);
-
-      var tar_head = document.getElementById("tar_head");
-      tar_head.innerHTML = document.getElementById('targetTemp0').value;
+    set_nozzle_temp() {
+      var res = this.$refs.req.set_temp(0, this.EnterNozzle)
+      console.log(res[1])
     },
-    set_bed_temp() {
-        var xhr = new XMLHttpRequest();
-        var form_data = new FormData();
-        xhr.open("POST", "api/ctrl/heat");
-        form_data.append("target", "2");
-        form_data.append("temp", document.getElementById('targetBedTemp').value);
-        xhr.onload = function() {
-          console.log("heat success");
-        }
-        xhr.send(form_data);
 
-        var tar_bed = document.getElementById("tar_bed");
-        tar_bed.innerHTML = document.getElementById('targetBedTemp').value;
-      }
-    }
+    set_bed_temp() {
+      this.$refs.req.set_temp(2, this.EnterBed)
+    },
+
+    extrude() {
+      this.$refs.req.extrude(100)
+    },
+
+    stop() {
+      this.$refs.req.quick_stop()
+    },
+
+    retract() {
+      this.$refs.req.retract(50)
+    },
+
+  }
 }
 
 </script>

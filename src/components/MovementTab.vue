@@ -3,86 +3,86 @@
     <div class="panel_title">Movement</div>
     <br>
     <div class="move_btn_wrapper"> 
-      <button class="btn_style move_btn" style="width: 98%;" onclick="move_left()">X+</button>
-      <button class="btn_style move_btn" style="width: 98%;" onclick="move_back()">Y+</button>
-      <button class="btn_style move_btn" style="width: 98%;" onclick="move_up()">Z+</button>
+      <button class="btn_style move_btn" style="width: 98%;" @click="move_left()">X+</button>
+      <button class="btn_style move_btn" style="width: 98%;" @click="move_back()">Y+</button>
+      <button class="btn_style move_btn" style="width: 98%;" @click="move_up()">Z+</button>
 
-      <button class="btn_style move_btn" style="width: 98%;" onclick="move_right()">X-</button> 
-      <button class="btn_style move_btn" style="width: 98%;" onclick="move_front()">Y-</button> 
-      <button class="btn_style move_btn" style="width: 98%;" onclick="move_down()">Z-</button>
+      <button class="btn_style move_btn" style="width: 98%;" @click="move_right()">X-</button> 
+      <button class="btn_style move_btn" style="width: 98%;" @click="move_front()">Y-</button> 
+      <button class="btn_style move_btn" style="width: 98%;" @click="move_down()">Z-</button>
 
-      <button class="btn_style move_btn" style="width: 98%;">HomeXY</button>
-      <button class="btn_style move_btn" style="width: 98%;">HomeZ</button>
-      <button class="btn_style move_btn" style="width: 98%;">HomeAll</button>
+      <button class="btn_style move_btn" style="width: 98%;" @click="home_xy()">HomeXY</button>
+      <button class="btn_style move_btn" style="width: 98%;" @click="home_z()">HomeZ</button>
+      <button class="btn_style move_btn" style="width: 98%;" @click="home_all()">HomeAll</button>
     </div>
     <div class="radio-inputs" align="center" style="width: 100%; display:flex;justify-content: center; align-items:center;">
       <label class="radio">
-        <input type="radio" name="radio" id="radio_1mm" checked="" v-model="distance" value="1">
+        <input type="radio" name="radio" id="radio_1mm" value=1 checked="" v-model=Distance>
         <span class="name">1mm</span>
       </label>
       <label class="radio">
-        <input type="radio" name="radio" id="radio_10mm" v-model="distance" value="10">
+        <input type="radio" name="radio" value=10 id="radio_10mm" v-model=Distance>
         <span class="name">10mm</span>
       </label>                      
       <label class="radio">
-        <input type="radio" name="radio" id="radio_50mm" v-model="distance" value="50">
+        <input type="radio" name="radio" value=50 id="radio_50mm" v-model=Distance>
         <span class="name">50mm</span>
       </label>
     </div>
   </div> 
+  <RequestImp ref="req" />
 </template>
 
 
 <script>
+import RequestImp from "./RequestImplement.vue"
+
 export default{
-  data(){
-    return{
-      distance:10,
+  components: {
+    RequestImp
+  },
+  data() {
+    return {
+      Distance: 1
     }
   },
-  methods:{
-     move_axis(axis, distance) {
-      var xhr = new XMLHttpRequest();
-      var form_data = new FormData();
-
-      xhr.open("POST", "api/ctrl/move")
-      form_data.append('axis', axis)
-      form_data.append('this.distance', distance)
-      xhr.onload = function() {
-        if(xhr.status == 200) {
-          console.log("move success")
-        }
-      }
-      xhr.send(form_data)
-    },
-    get_move_distance()
-    {
-      return this.distance;
-    },
+  methods: {
     move_left() {
-      this.distance = this.get_move_distance();
-      this.move_axis('X', this.distance);
+      this.$refs.req.move_axis(0, -this.Distance)
     },
+
     move_right() {
-      this.distance = this.get_move_distance();
-      this.move_axis('X', -this.distance);
+      this.$refs.req.move_axis(0, this.Distance)
     },
-    move_front() {
-      this.distance = this.get_move_distance();
-      this.move_axis('Y', this.distance);
-    },
+
     move_back() {
-      this.distance = this.get_move_distance();
-      this.move_axis('Y', -this.distance);
+      this.$refs.req.move_axis(1, -this.Distance)
     },
+
+    move_front() {
+      this.$refs.req.move_axis(1, this.Distance)
+    },
+
     move_up() {
-      this.distance = this.get_move_distance();
-      this.move_axis('Z', this.distance);
+      this.$refs.req.move_axis(2, this.Distance)
     },
+
     move_down() {
-      this.distance = this.get_move_distance();
-      this.move_axis('Z', -this.distance);
+      this.$refs.req.move_axis(2, -this.Distance)
     },
+
+    home_xy() {
+      this.$refs.req.home_axis((1<<0) | (1<<1))
+    },
+
+    home_z() {
+      this.$refs.req.home_axis(1<<2)
+    },
+
+    home_all() {
+      this.$refs.req.home_all()
+    },
+
   }
 }
 
