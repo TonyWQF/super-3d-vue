@@ -1,7 +1,7 @@
-import socket
-from threading import Thread
+from threading import Thread, Lock
 import time
 from V30Commands import Commands, MachineStatus
+from TcpTransmitter import TcpTransmiter
 
 class MachineControler:
   def __init__(self):
@@ -16,11 +16,13 @@ class MachineControler:
     self.__data_thread_handle = Thread(target=self.__data_process, daemon=True)
     self.__data_thread_handle.start()
     self.__wait_queue = []
+    self.__lock = Lock()
     
+
     self.status = MachineStatus()
     
     print('machine inited')
-  
+
   def __data_process(self):
     while(True):
       new_data = self.__transmiter.fetch_data()
@@ -29,6 +31,7 @@ class MachineControler:
       if(parse_data is not None):
         self.__recv_buffer = parse_data[0]
         result = self.__commands.analize(parse_data[1])
+        self.__check_wait(parse_data)
       self.status = self.__commands.machine_status
       time.sleep(0.01)
 
@@ -38,32 +41,101 @@ class MachineControler:
       datas_to_send = self.__protocal.setup_pack(src_datas)
       self.__transmiter.send_pack(datas_to_send)
       time.sleep(1)
+  
+  def __check_wait(self, data):
+    if(len(self.__wait_queue) > 0):
+      with self.__lock:
+        for item in self.__wait_queue:
+          if (item[0] == data[0] and item[1] == data[1]):
+            item[2] = True
+            item[3] = data
+  
+  def __wait_replay(self, Command, SubCommand, TimeOut):
+    new_wait = [Command, SubCommand, False, None]
+    self.__wait_queue.append(new_wait)
+    time_counter = TimeOut * 10
+    while(True):
+      if(new_wait[2] == True):
+        break
+      if(TimeOut > 0): 
+        time_counter = time_counter - 1
+        if(time_counter == 0):
+          with self.__lock:
+            self.__wait_queue.remove(new_wait)
+          return new_wait
+      time.sleep(0.1)
 
+    with self.__lock:
+      self.__wait_queue.remove(new_wait)
+    return new_wait
+  
   def get_status(self):
     return self.status
-
-  def heatup(self,Target, Temp):
-    src_datas = self.__commands.req_heatup(int(Target), int(Temp))
-    datas_to_send = self.__protocal.setup_pack(src_datas)
+  
+  #发送数据，不等待应答
+  def __send_command(self, data):
+    datas_to_send = self.__protocal.setup_pack(data)
     self.__transmiter.send_pack(datas_to_send)
 
-  def move_axis(self,Axis, Distance):
-    pass
+  #发送数据，并等待应答
+  #返回数据为数组，[主命令，子命令，结果，应答数据]
+  #结果为True，应答数据有效
+  def __send_command_check_reply(self, data, TimeOut=5):
+    datas_to_send = self.__protocal.setup_pack(data)
+    self.__transmiter.send_pack(datas_to_send)
+    return self.__wait_replay(data[0], data[1], TimeOut)
+
+  def heatup(self, Target, Temp):
+    src_datas = self.__commands.req_heatup(int(Target), int(Temp))
+    self.__send_command(src_datas)
+
+  def set_fan(self, Fan, Speed):
+    src_datas = self.__commands.req_fan(Fan, Speed)
+    self.__send_command(src_datas)
+
+  def move_axis(self, Axis, Distance):
+    src_datas = self.__commands.req_move_axis(Axis, Distance)
+    self.__send_command(src_datas)
+
+  def extrude(self, Nozzle, Distance):
+    src_datas = self.__commands.req_extrude(Nozzle, Distance)
+    self.__send_command(src_datas)
+
+  def retract(self, Nozzle, Distance):
+    src_datas = self.__commands.req_retract(Nozzle, Distance)
+    self.__send_command(src_datas)
 
   def home_axis(self,Axis):
-    pass
+    src_datas = self.__commands.req_home(Axis)
+    self.__send_command(src_datas)
+
+  def home_all(self):
+    src_datas = self.__commands.req_home()
+    self.__send_command(src_datas)
 
   def start_print(self,FileName):
-    pass
+    src_datas = self.__commands.req_remote_print(FileName)
+    reply = self.__send_command_check_reply(src_datas, 5)
+    if(reply[2] == True): return 200, ['success']
+    else: return 200, ['fail']
 
   def stop_print(self):
-    pass
+    src_datas = self.__commands.req_remote_stop()
+    reply = self.__send_command_check_reply(src_datas, 5)
+    if(reply[2] == True): return 200, ['success']
+    else: return 200, ['fail']
 
   def pause_print(self):
-    pass
+    src_datas = self.__commands.req_remote_pause()
+    reply = self.__send_command_check_reply(src_datas, 5)
+    if(reply[2] == True): return 200, ['success']
+    else: return 200, ['fail']
 
   def resume_print(self):
-    pass
+    src_datas = self.__commands.req_remote_resume()
+    reply = self.__send_command_check_reply(src_datas, 5)
+    if(reply[2] == True): return 200, ['success']
+    else: return 200, ['fail']
 
 class ProtocalV30:
   def __init__(self):
@@ -123,60 +195,3 @@ class ProtocalV30:
     return None
 
 
-class TcpTransmiter:
-  def __init__(self):
-    self.pack_queue = []
-    self.__recv_buffer = b''
-    self.__recv_thread_handle = Thread(target=self.__receive_thread, daemon=True)
-    self.__recv_thread_handle.start()
-    self.__connect_retry = False
-
-  def fetch_data(self):
-    retval = b''
-    if(len(self.__recv_buffer) > 0):
-      retval = self.__recv_buffer
-      self.__recv_buffer = b''
-    return retval
-
-  def peek_length(self):
-    return len(self.__recv_buffer)
-
-  def __receive_thread(self):
-    while(True):
-      try:
-        datas = self.tcp_client.recv(10240)
-        self.__recv_buffer = self.__recv_buffer + datas
-        if(len(self.__recv_buffer) > 40960):
-          self.__recv_buffer = b''
-      except:
-        time.sleep(1)
-
-  def connect_check(self):
-    print("Connect after 1s")
-    time.sleep(1)
-    while(True):
-      try:
-        self.tcp_client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.tcp_client.connect(("192.168.1.7", 7777))
-        if(len(self.pack_queue) > 0):
-          self.tcp_client.send(self.pack_queue[0])
-          self.pack_queue = self.pack_queue[1:]
-        print('connect ok')
-        break
-      except:
-        print('connect fail')
-        time.sleep(1)
-        continue
-      self.__connect_retry = False
-
-  def send_pack(self, data):
-    try:
-      self.tcp_client.send(data)
-      return True
-    except:
-      if(self.__connect_retry == False):
-        self.__connect_retry = True
-        self.pack_queue.append(data)
-        self.connection_thread = Thread(target=self.connect_check, daemon=True)
-        self.connection_thread.start()
-      return False
