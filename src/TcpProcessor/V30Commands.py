@@ -190,6 +190,14 @@ class Commands:
     retval += int.to_bytes(distance_by_1000, 4, byteorder='little', signed=False)
     return retval
   
+  def req_quick_stop(self):
+    retval = b''
+    retval += int.to_bytes(self.__CMD_CONTROL, 1, byteorder='little', signed=True)
+    retval += int.to_bytes(self.__SCMD_CTRL_STOP_STEPPER, 1, byteorder='little', signed=True)
+    retval += b'\x00'
+    retval += int.to_bytes(self.connect_id, 1, byteorder='little', signed=True)
+    return retval
+  
   def req_unlock_stepper(self):
     retval = b''
     retval += int.to_bytes(self.__CMD_CONTROL, 1, byteorder='little', signed=True)
