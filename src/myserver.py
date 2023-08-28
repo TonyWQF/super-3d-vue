@@ -54,6 +54,11 @@ class control_manage:
     machine.retract(int(nozzle), float(distance))
     return 200
   
+  @request_map("/quick_stop", method=("GET"))
+  def quick_stop(self):
+    machine.quick_stop()
+    return 200
+  
   @request_map('/heat')
   def heat_up(self, target=Parameter('target'), temp=Parameter('temp')):
     machine.heatup(int(target), int(temp))
@@ -116,11 +121,23 @@ class file_manager:
   
   @request_map("/delete", method=("POST"))
   def delete_file(self, file_name=Parameter("file_name")):
-    pass
+    os.remove(gcode_file_path + str(file_name))
   
   @request_map("/print", method=("POST"))
-  def print_file(self, file_name=Parameter("file_name")):
-    pass
+  def start_print(self, file_name=Parameter("file_name")):
+    machine.start_print(str(file_name))
+
+  @request_map("/pause", method=("GET"))
+  def pause_print(self):
+    machine.pause_print()
+
+  @request_map("/resume", method=("GET"))
+  def resume_print(self):
+    machine.resume_print()
+
+  @request_map("/stop", method=("GET"))
+  def stop_print(self):
+    machine.stop_print()
 
 
 if __name__ == '__main__':
