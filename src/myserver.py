@@ -41,27 +41,27 @@ class control_manage:
 
   @request_map("/move", method=("POST"))
   def move_axis(self, axis=Parameter('axis'), distance=Parameter('distance')):
-    machine.move_axis(axis, distance)
+    machine.move_axis(int(axis), float(distance))
     return 200
   
   @request_map("/extrude", method=("POST"))
   def extrude(self, nozzle=Parameter('axis'), distance=Parameter('distance')):
-    machine.extrude(nozzle, distance)
+    machine.extrude(int(nozzle), float(distance))
     return 200
   
   @request_map("/retract", method=("POST"))
   def retract(self, nozzle=Parameter('axis'), distance=Parameter('distance')):
-    machine.retract(nozzle, distance)
+    machine.retract(int(nozzle), float(distance))
     return 200
   
   @request_map('/heat')
   def heat_up(self, target=Parameter('target'), temp=Parameter('temp')):
-    machine.heatup(target, temp)
+    machine.heatup(int(target), int(temp))
     return 200
 
   @request_map('/fan')
   def heat_up(self, fan=Parameter('fan'), speed=Parameter('speed')):
-    machine.set_fan(fan, speed)
+    machine.set_fan(int(fan), int(speed))
     return 200
 
   @request_map('/homeall')
