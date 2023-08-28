@@ -39,20 +39,22 @@ export default{
   },
   data(){
     return{
-      TargetHead:"200",
-      TargetBed:"200",
-      EnterNozzle:"20",
+      TargetHead:"0",
+      TargetBed:"0",
+      EnterNozzle:"0",
       EnterBed:"0",
     };
   },
   methods:{
     set_nozzle_temp() {
       var res = this.$refs.req.set_temp(0, this.EnterNozzle)
+      this.TargetHead = this.EnterNozzle;
       console.log(res[1])
     },
 
     set_bed_temp() {
       this.$refs.req.set_temp(2, this.EnterBed)
+      this.TargetBed = this.EnterBed;
     },
 
     extrude() {
