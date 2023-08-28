@@ -211,6 +211,7 @@ class Commands:
     retval += int.to_bytes(self.__CMD_REMOTE_PRINT, 1, byteorder='little', signed=True)
     retval += int.to_bytes(self.__SCMD_REMOTE_START, 1, byteorder='little', signed=True)
     retval += b'\x00'
+    retval += b'\x00'
     retval += int.to_bytes(self.connect_id, 1, byteorder='little', signed=True)
     retval += file_name.encode('utf-8')
     retval += b'\x00'
