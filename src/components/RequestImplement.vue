@@ -78,11 +78,19 @@ export default{
 
     upload_file(file) {
       var xhr = new XMLHttpRequest();
-      xhr.open("POST", 'api/files/upload', false);
+      xhr.open("POST", 'api/files/upload', true);
       var form_data = new FormData();
       form_data.append('file', file);
       return this.post_method(xhr, form_data)
     },
+
+    delete_file(filename) {
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", 'api/files/delete', false);
+      var form_data = new FormData();
+      form_data.append('file_name', filename);
+      return this.post_method(xhr, form_data)
+    }
 
     start_print(filename) {
       var xhr = new XMLHttpRequest();
