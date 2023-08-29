@@ -34,8 +34,6 @@ import TempretureTab from './TempretureTab.vue'
 import MovementTab from './MovementTab.vue'
 import { mapMutations, mapState } from 'vuex';
 
-
-
   export default{
     components:{
       CameraTab,

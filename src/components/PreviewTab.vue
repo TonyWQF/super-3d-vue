@@ -24,14 +24,22 @@
         </div>
         <div class="preview_op">
           <br>
-          <button id="go2print" class="preview_btn btn_style" @click="goPrint()">Print</button>
+          <button id="go2print" class="preview_btn btn_style" @click="goPrint">Print</button>
           <button id="downloadfile" class="preview_btn btn_style">Download</button>
-          <button id="deletefile" class="preview_btn btn_style" @click="deleteFile()">Delete</button>
+          <button id="deletefile" class="preview_btn btn_style" @click="deleteFile">Delete</button>
         </div>
       </div>
       <div class="modal-footer">
         <span class="hint_preview" >You can print, download, delete gcode from remote.</span>
       </div>
+      <!-- 预览点击删除弹出界面 -->
+      <dialog-tab ref="delete_dialog" 
+          :dialog_type="deleteDialogType" 
+          :title="DeleteFileTitle"
+          :hint="deleteHint" 
+          @confirm="delete_confirm"
+          @cancel="cancel"
+        ></dialog-tab>
     </div>
   </div>
   <RequestImp ref="req" />
@@ -39,9 +47,11 @@
 
 <script>
 import RequestImp from "./RequestImplement.vue";
+import DialogTab from "./DialogTab.vue"
 
 export default{
   components:{
+    DialogTab,
     RequestImp,
   },
   data(){
@@ -52,6 +62,14 @@ export default{
       preview_bed:60,
       preview_layercount:2,
       preview_time:"24:24:24",
+
+      GoPrintDialogType:"Process",   //YesNo, Confirm, Process
+      GoPrintFileTitle:"Parsing File",
+      GoPrintHint:"Parsing file, wait a while...",
+
+      deleteDialogType:"YesNo",   //YesNo, Confirm, Process
+      DeleteFileTitle:"Delete File",
+      deleteHint:"Are you sure to delete the remote file?",
     }
   },
   methods:{
@@ -62,14 +80,42 @@ export default{
       this.isDisplay = true;
       this.preview_filename = fileitem_name;
     },
+
     goPrint(){
-      this.closeSpan();
-      this.$store.dispatch('update_now_tab', 1)
-      this.$refs.req.start_print(this.preview_filename)
+      this.startPrint()
     },
+
+    startPrint(){
+      // this.$refs.req.start_print(this.preview_filename)
+      // this.closeSpan();
+      // this.$store.dispatch('update_now_tab', 1)
+      var res=this.$refs.req.start_print(this.preview_filename)
+      if(res[0]==true){
+        this.closeSpan();
+        this.$store.dispatch('update_now_tab', 1)
+      }
+      else{
+        alert("error");
+      }
+    },
+
     deleteFile(){
-      this.$refs.req.delete_file(this.preview_filename)
-    }
+      this.$refs.delete_dialog.show();
+    },
+    delete_confirm(){
+      console.log("file_delete");
+      this.$refs.req.delete_file(this.preview_filename);
+      this.closeSpan();
+      // 刷新列表
+    },
+
+
+    cancel(){
+      console.log("file_delete cancel");
+      this.closeSpan();
+      // 刷新列表
+    },
+    
   },
   mounted(){
 

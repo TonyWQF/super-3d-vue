@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from 'vuex';
 import RequestImp from "./RequestImplement.vue";
 
 export default{
@@ -35,10 +36,13 @@ export default{
     }
   },
   methods: {
+    ...mapMutations(["change_printer_status"]),
+        
     get_status() {
       var retval = this.$refs.req.get_status()
       var result = retval[0]
       if(result == true) {
+
         var status_text = retval[1].slice(1,-1)
         console.log(status_text)
         var status_item = status_text.split(',')
@@ -46,8 +50,13 @@ export default{
         this.NozzleTargetTemp = status_item[2]
         this.BedTemp = status_item[3]
         this.BedTargetTemp = status_item[4]
+
+        this.change_printer_status(status_item[0])
       }
     }
+  },
+  computed:{
+    ...mapState['ui_state']
   }
 }
 </script>

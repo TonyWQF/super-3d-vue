@@ -29,21 +29,33 @@
         <span class="name">50mm</span>
       </label>
     </div>
+    <!-- 点击归零弹出界面 -->
+    <dialog-tab ref="home_dialog" 
+      :dialog_type="DialogType" 
+      :title="HomeTitle"
+      :hint="HomeHint" 
+    ></dialog-tab>
   </div> 
   <RequestImp ref="req" />
 </template>
 
 
 <script>
+import DialogTab from "./DialogTab.vue"
 import RequestImp from "./RequestImplement.vue"
 
 export default{
   components: {
-    RequestImp
+    DialogTab,
+    RequestImp,
   },
   data() {
     return {
-      Distance: 1
+      Distance: 1,
+
+      DialogType:"Process",
+      HomeTitle:"Home Aixs",
+      HomeHint:"Homing axis, wait a while...",
     }
   },
   methods: {
@@ -72,15 +84,18 @@ export default{
     },
 
     home_xy() {
-      this.$refs.req.home_axis((1<<0) | (1<<1))
+      this.$refs.req.home_axis((1<<0) | (1<<1));
+      this.$refs.home_dialog.show();
     },
 
     home_z() {
-      this.$refs.req.home_axis(1<<2)
+      this.$refs.req.home_axis(1<<2);
+      this.$refs.home_dialog.show();
     },
 
     home_all() {
-      this.$refs.req.home_all()
+      this.$refs.req.home_all();
+      this.$refs.home_dialog.show();
     },
 
   }
@@ -145,7 +160,6 @@ export default{
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
   }
-
 
 /* Phone */
 @media screen and (max-width:600px){
