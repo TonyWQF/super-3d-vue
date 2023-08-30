@@ -78,14 +78,25 @@ class control_manage:
   def homeall(self, axis=Parameter('axis')):
     machine.home_axis(axis)
     return 200
-  
-
 
 @controller
 @route("/files")
 class file_manager:
   def __init__(self):
     self.name="file manager"
+
+  def __get_file_preview(self, file_name):
+    param_search = {"estimated_time(s)": "0", "nozzle_temperature(°C):": "0", "build_plate_temperature(°C):": "0", "layer_height:": "0", "matierial_weight:": "0", "LAYER_COUNT:": "0", "thumbnail:": ""}
+    keys = list(param_search.keys())
+    with open(gcode_file_path + file_name, encoding='utf-8') as f:
+      for i in range(100):
+        tmpline = f.readline()
+        for item_key in keys:
+          if item_key in tmpline:
+            param_search[item_key] = tmpline[tmpline.index(':') + 1:].strip()
+    retval = ','.join(param_search.values())
+    return retval
+
 
   @request_map("/upload", method=("GET","POST"))
   def upload(self, file=MultipartFile("file")):
@@ -122,6 +133,12 @@ class file_manager:
   @request_map("/delete", method=("POST"))
   def delete_file(self, file_name=Parameter("file_name")):
     os.remove(gcode_file_path + str(file_name))
+    return 200
+
+  @request_map("/preview", method=("POST"))
+  def delete_file(self, file_name=Parameter("file_name")):
+    retval = self.__get_file_preview(file_name)
+    return 200, retval
   
   @request_map("/print", method=("POST"))
   def start_print(self, file_name=Parameter("file_name")):
