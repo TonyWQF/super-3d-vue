@@ -90,7 +90,16 @@ export default{
       var form_data = new FormData();
       form_data.append('file_name', filename);
       return this.post_method(xhr, form_data)
-    }
+    },
+
+    // {"estimated_time(s)", "nozzle_temperature(°C)", "build_plate_temperature(°C)", "layer_height", "matierial_weight:", "LAYER_COUNT:", "thumbnail:"}
+    preview_file(filename) {
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", 'api/files/preview', false);
+      var form_data = new FormData();
+      form_data.append('file_name', filename);
+      return this.post_method(xhr, form_data)
+    },
 
     start_print(filename) {
       var xhr = new XMLHttpRequest();
