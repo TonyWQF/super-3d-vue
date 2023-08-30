@@ -21,7 +21,6 @@ export default{
 
 <style>
 
-
 /* PC */
 @media screen and (min-width:972px){
 
@@ -80,19 +79,18 @@ export default{
 /* Phone */
 @media screen and (max-width:600px){
 #camera_show{
-  width: 65%;
-  height: 65%;
+  width: 70%;
+  height: 70%;
   margin-top: 1%;
   margin-bottom: 2%;
-  margin-left: 17.5%;
-  margin-right: 17.5%;
+  margin-left: 15%;
 }
 
 .camera_process{
   float:left;
   margin: 1%;
   width: 100%;
-  height: 50%;
+  height: 48%;
   box-shadow: 0 8px 50px #23232333;
   text-align: center;
   margin-left: -1.5rem;

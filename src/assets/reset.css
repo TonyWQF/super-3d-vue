@@ -11,6 +11,8 @@ html {
   font: 62.5% / 1.15 sans-serif;
   width: 100%;
   height: 100%;
+  overflow: hidden;
+  min-width: 365px;
 }
 h1,
 h2 {
@@ -20,50 +22,14 @@ ul {
   list-style: none;
   padding: 0;
 }
-button {
-  /* border: none;
-  margin: 0;
-  padding: 0;
-  width: auto;
-  overflow: visible;
-  background: transparent;
-  color: inherit;
-  font: inherit;
-  line-height: normal;
-  -webkit-font-smoothing: inherit;
-  -moz-osx-font-smoothing: inherit;
-  appearance: none; */
-}
-button::-moz-focus-inner {
-  /* border: 0; */
-}
-button,
-input,
-optgroup,
-select,
-textarea {
-  /* font-family: inherit;
-  font-size: 100%;
-  line-height: 1.15;
-  margin: 0; */
-}
 
 
-
-button,
-input {
-  /* 1 */
-  /* overflow: visible; */
-}
-input[type="text"] {
-  /* border-radius: 0; */
-}
 body {
   width: 100%;
   height: 100%;
   max-width: 100%;
   max-height: 100%;
-  margin: 0 auto;
+  margin: 0;
   font:
     1.6rem/1.25 "Helvetica Neue",
     Helvetica,
@@ -81,12 +47,33 @@ body {
   }
 }
 
+/* Desktops and laptops ----------- */
+@media only screen and (min-width : 1224px) {
+  body {
+    font-size: 1.9rem;
+    line-height: 1.31579;
+  }
+
+  html{
+    min-width: 1050px;
+    max-width: 1700px;
+  }
+
+}
+
 
 /*平板*/
 @media screen and (min-width:600px) and (max-width:972px){
   html{
-    min-width: 972px;
+    min-width: 1050px;
     min-height: 800px;
+  }
+
+}
+/*手机*/
+@media screen and (max-width:600px){
+  body{
+    
   }
 
 }
@@ -139,5 +126,6 @@ body {
  color: rgba(0, 0, 0, 0.65);
  transform: translateY(0);
 }
+
 
 /*END RESETS*/

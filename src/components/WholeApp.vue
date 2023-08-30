@@ -95,6 +95,18 @@ import { mapMutations, mapState } from 'vuex';
   height: 70%;
 }
 
+/* Style the tab content */
+.tabcontent {
+  position: absolute;
+  right: 0%;
+  float: left;
+  padding: 0px 12px;
+  /* border: 1px solid #ccc; */
+  width: 70%;
+  border-left: none;
+  height: 97%;
+}
+
 
 /* phone */
 @media screen and (max-width:600px){

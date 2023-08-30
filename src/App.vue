@@ -60,7 +60,7 @@ export default {
   }
   /* 全局样式结束 */
   #app {
-    height: 98%;
+    height: 100%;
     background: #fff;
     margin: 2rem 0 4rem 0;
     padding: 1rem;

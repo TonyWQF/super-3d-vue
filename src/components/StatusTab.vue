@@ -54,8 +54,8 @@ export default{
 
         // console.log("status_item[0]"+status_item[0]);
 
-        this.$store.commit('change_printer_status', status_item[0])
-        this.$store.commit('change_print_percent', status_item[10])
+        // this.$store.commit('change_printer_status', status_item[0])
+        // this.$store.commit('change_print_percent', status_item[10])
         // this.change_printer_status(status_item[0]);
         // this.change_print_percent(status_item[10]);
       }

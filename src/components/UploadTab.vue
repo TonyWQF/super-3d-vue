@@ -9,15 +9,18 @@
         </div>
         <input type="file" id="file" accept=".gcode" ref="filedialog" @change="file_upload()">
     </label>
+    <upload-item></upload-item>
   </div>
   <RequestImp ref="req" />
 </template>
 
 <script>
+import UploadItem from "./UploadItem.vue"
 import RequestImp from "./RequestImplement.vue";
 
 export default{
   components: {
+    UploadItem,
     RequestImp,
   },
   methods: {
