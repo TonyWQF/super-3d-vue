@@ -34,6 +34,8 @@
       :dialog_type="DialogType" 
       :title="HomeTitle"
       :hint="HomeHint" 
+      :waitStatus="HomeWaitStatus"
+      :waitSTick="HomeWaitStick"
     ></dialog-tab>
   </div> 
   <RequestImp ref="req" />
@@ -56,6 +58,10 @@ export default{
       DialogType:"Process",
       HomeTitle:"Home Aixs",
       HomeHint:"Homing axis, wait a while...",
+
+      HomeWaitStatus:"PRINT_STATE_IDLE",
+      HomeWaitStick:5,
+
     }
   },
   methods: {

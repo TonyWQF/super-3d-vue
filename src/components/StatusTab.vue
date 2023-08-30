@@ -51,6 +51,7 @@ export default{
         this.BedTemp = status_item[3]
         this.BedTargetTemp = status_item[4]
 
+        console.log("status_item[0]"+status_item[0]);
         this.change_printer_status(status_item[0])
       }
     }

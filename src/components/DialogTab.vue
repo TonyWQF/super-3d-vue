@@ -33,14 +33,16 @@
 </template>
 
 <script>
+import { mapState } from "vuex"
 import CircleSpinnerTab from "./CircleSpinnerTab.vue"
  
 export default{
   props:{
     title:{ required:true, type:String},
     hint:{required:true, type:String},
-    dialog_type:{default:"YesNo", required:true, type:String},
-
+    dialog_type:{default:"YesNo", type:String},
+    waitStatus:{default:"PRINT_STATE_MAX", type:String},
+    waitSTick:{default:"5", type:String},
   },
   components:{
     CircleSpinnerTab,
@@ -48,6 +50,8 @@ export default{
   data(){
     return{
       visible:false,
+      timer:"",
+      tick:0,
     }
   },
   methods:{
@@ -63,8 +67,28 @@ export default{
       this.visible = false
     },
     show () {
+      this.tick = 0;
+      this.timer = setInterval(this.checkStatus, 1000); // 注意: 第一个参数为方法名的时候不要加括号;
       this.visible = true
     },
+    checkStatus(){
+      this.tick++;
+
+      console.log("this.tick"+this.tick);
+      if(this.waitStatus == this.$store.getters.get_now_printer_status){
+        this.visible = false;
+        this.tick = 0;
+        clearInterval(this.timer);
+      }
+      if(this.waitSTick > this.tick){
+        this.visible = false;
+        this.tick = 0;
+        clearInterval(this.timer);
+      }
+    }
+  },
+  computed:{
+    ...mapState["ui_state"],
   },
   emits:['confirm', 'cancel'],
 }

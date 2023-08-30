@@ -14,8 +14,8 @@ export default createStore({
     get_now_tab(state){
       return state.ui_state.now_tab;
     },
-    get_now_printer_status(){
-      return this.state.ui_state.printer_status;
+    get_now_printer_status(state){
+      return state.ui_state.printer_status;
     },
   },
   // 更改更新数据
