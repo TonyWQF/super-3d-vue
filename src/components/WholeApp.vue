@@ -243,26 +243,12 @@ import { mapMutations, mapState } from 'vuex';
   background-color: #ccc;
 }
 
-/* Style the tab content */
-.tabcontent {
-  position: absolute;
-  right: 0%;
-  float: left;
-  padding: 0px 12px;
-  /* border: 1px solid #ccc; */
-  width: 70%;
-  border-left: none;
-  height: 97%;
-}
-
 .print_hint{
   width: 50%;
   margin-top: 5px;
   float: left;
   font-size: large;
 }
-
-
 
 
 /* Add Animation */

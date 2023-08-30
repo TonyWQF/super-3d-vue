@@ -12,12 +12,18 @@
       <button id="refresh_filelist" class=" filelist_btn btn_style" align="center" @click="go_file_first_page()">Refresh</button>
       <button id="next_filelist" class=" filelist_btn btn_style" align="center" @click="file_next_page()">Next</button>
     </div> 
+    <dialog-tab ref="preview_dialog" 
+      :dialog_type="DialogType" 
+      :title="Title"
+      :hint="Hint" 
+    ></dialog-tab>
   </div>
   <RequestImp ref='req' />
 </template>
 
 
 <script>
+import { mapState } from "vuex";
 import FileListItem from "./FileListItem.vue";
 import PreviewTab from "./PreviewTab.vue";
 import RequestImp from "./RequestImplement.vue" 
@@ -30,6 +36,10 @@ export default{
   },
   data(){
     return{
+      DialogType:"Confirm",
+      Title:"Printing",
+      Hint:"Printer is printing, wait for finish...",
+
       FileListItems:[
         {id:"fileitem-", label:"1.gcode"},
         {id:"fileitem-", label:"2.gcode"},
@@ -50,6 +60,13 @@ export default{
   },
   methods: {
     go_preview(fileitem_name){
+      if(this.$store.getters.get_now_printer_status == "PRINT_STATE_PRINTING"||
+        this.$store.getters.get_now_printer_status == "PRINT_STATE_PAUSE"||
+        this.$store.getters.get_now_printer_status == "PRINT_STATE_FAULT_PAUSE" ){
+          this.$refs.preview_dialog.show();
+        return;
+      }
+
       if(fileitem_name != "") {
         console.log(fileitem_name);
         this.$refs.PreviewTab.show_preview(fileitem_name);
@@ -103,6 +120,9 @@ export default{
       }
       xhr.send(form_data);
     },
+  },
+  computed:{
+    ...mapState["ui_state"],
   }
 }
 

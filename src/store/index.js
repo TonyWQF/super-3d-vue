@@ -6,6 +6,7 @@ export default createStore({
     ui_state:{
       now_tab:1,
       printer_status:"PRINT_STATE_IDLE",
+      print_percent:0,
     },
     
   },
@@ -17,16 +18,20 @@ export default createStore({
     get_now_printer_status(state){
       return state.ui_state.printer_status;
     },
+    get_now_print_percent(state){
+      return state.ui_state.print_percent;
+    },
   },
   // 更改更新数据
   mutations: {
     change_tab(state, new_tab){
       state.ui_state.now_tab = new_tab;
-      console.log("change_tab in mutations", new_tab);
     },
     change_printer_status(state, new_status){
       state.ui_state.printer_status = new_status;
-      console.log("change_printer_status in mutations", new_status);
+    },
+    change_print_percent(state, new_percent){
+      state.ui_state.print_percent = new_percent;
     },
 
   },
@@ -37,6 +42,9 @@ export default createStore({
     },
     update_now_status({commit}, data) {
       commit("change_printer_status", data)
+    },
+    update_now_percent({commit}, data) {
+      commit("change_print_percent", data)
     },
   },
   modules: {

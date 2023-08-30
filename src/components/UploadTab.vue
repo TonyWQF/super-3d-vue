@@ -1,14 +1,14 @@
 <template>
-  <div>
+  <div class="upload_tab">
     <label  class="custum-file-upload" for="file">
-          <div class="upload_icon">
-          <img src="" alt="">
-          </div>
-          <div class="upload_text">
-              <span>Click to upload file</span>
-              </div>
-              <input type="file" id="file" accept=".gcode" ref="filedialog" @change="file_upload()">
-        </label>
+      <div class="upload_icon">
+      <img src="" alt="">
+      </div>
+      <div class="upload_text">
+        <span>Click to upload file</span>
+        </div>
+        <input type="file" id="file" accept=".gcode" ref="filedialog" @change="file_upload()">
+    </label>
   </div>
   <RequestImp ref="req" />
 </template>
@@ -29,6 +29,14 @@ export default{
 </script>
 
 <style>
+
+.upload_tab{
+  margin: 1%;
+  width: 98%;
+  height: 99%;
+  box-shadow: 0 8px 50px #23232333;
+}
+
 
 /* upload area style */
 .custum-file-upload {
@@ -77,7 +85,16 @@ export default{
 
 /* Phone */
 @media screen and (max-width:600px){
-  .custum-file-upload {
+.upload_tab{
+  margin: 1%;
+  margin-left: -1.1rem;
+  /* margin-top: 1.5rem; */
+  width: 98%;
+  height: 100%;
+  box-shadow: 0 8px 50px #23232333;
+}
+
+.custum-file-upload {
   height: 150px;
   width: 100%;
   display: flex;
@@ -91,7 +108,7 @@ export default{
   background-color: rgba(255, 255, 255, 1);
   border-radius: 10px;
   box-shadow: 0px 48px 35px -48px rgba(0,0,0,0.1);
-  margin-left: -1.5rem;
+  /* margin-left: -1.5rem; */
 }
 
 }

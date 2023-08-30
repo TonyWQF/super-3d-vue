@@ -37,6 +37,7 @@ export default{
   },
   methods: {
     ...mapMutations(["change_printer_status"]),
+    ...mapMutations(["change_print_percent"]),
         
     get_status() {
       var retval = this.$refs.req.get_status()
@@ -51,8 +52,12 @@ export default{
         this.BedTemp = status_item[3]
         this.BedTargetTemp = status_item[4]
 
-        console.log("status_item[0]"+status_item[0]);
-        this.change_printer_status(status_item[0])
+        // console.log("status_item[0]"+status_item[0]);
+
+        this.$store.commit('change_printer_status', status_item[0])
+        this.$store.commit('change_print_percent', status_item[10])
+        // this.change_printer_status(status_item[0]);
+        // this.change_print_percent(status_item[10]);
       }
     }
   },

@@ -1,39 +1,39 @@
 
 
 <template>
-
-<div class="print_process">
-  <div class="panel_title">Filename</div>
-  <img id="preview_show" src="../assets/Bulbasaur_0.jpg" alt="">
-
-  <div class="print_info">
-    <div class="print-info-con">
+  <div class="print_process">
+      <div class="panel_title">Filename</div>
+      <img id="preview_show" :src="preview_img_data?preview_img_data:require('../assets/Bulbasaur_0.jpg')" alt="">
+      <div class="print_info">
         <div class="print_hint">
-          <span>Z-Height:</span><span>{{ z_height }}mm</span>
+        <span>Z-Height:</span><span>{{ z_height }}mm</span>
         </div>
         <div class="print_hint">
-          <span>Speed:</span><span>{{ print_speed }}%</span>
+        <span>Speed:</span><span>{{ print_speed }}%</span>
         </div>
         <div class="print_hint">
-          <span>Time:</span><span>{{ print_time }}</span>
+        <span>Time:</span><span>{{ print_time }}</span>
         </div>
         <div class="print_hint">
-          <span>flowrate:</span><span>{{ print_flowrate }}%</span>
+        <span>flowrate:</span><span>{{ print_flowrate }}%</span>
         </div>
+        <line-progress class="progress" :percent="print_percentage" :show-slider="false" :show-per-text="true" ></line-progress>
       </div>
-    <!-- <div class="loader" style="margin-top: 10px;"></div> -->
     <div style="height: 30%;">
       <button v-if="isPaused==true" id="btn_resume" class="print_btn btn_style" @click="resumePrint">Resume</button>
       <button v-if="isPaused==false" id="btn_pause" class="print_btn btn_style" @click="pausePrint">Pause</button>
       <button id="btn_stop_print" class="print_btn btn_style">Stop</button>
     </div>
   </div>
-</div>
 </template>
 
 <script>
+import LineProgress from "./LineProgress.vue"
 
 export default{
+  components:{
+    LineProgress,
+  },
   methods:{
     resumePrint(){
       this.isPaused=false;
@@ -49,6 +49,9 @@ export default{
       print_time:"24:24:24",
       print_flowrate:100,
       isPaused:false,
+
+      print_percentage:45,
+      preview_img_data:"",
     };
   },
 }
@@ -59,6 +62,7 @@ export default{
 
 #preview_show{
   width: 80%;
+  max-height: 50%;
   margin-top: 2%;
   margin-bottom: 2%;
   margin-left: 10%;
@@ -74,48 +78,27 @@ export default{
   text-align: center;
 }
 
-
-.loader {
-  display: block;
-  --height-of-loader: 4px;
-  --loader-color: #0071e2;
-  left: 20%;
-  width: 60%;
-  height: var(--height-of-loader);
-  border-radius: 30px;
-  background-color: rgba(0,0,0,0.2);
+.print_info{
+  float: left;
+  width: 100%;
+  height: 20%;
+  font-size: small;
+  font-weight: lighter;
   position: relative;
-  padding-left: 30%;
-}
+  text-align: center;
+  margin: 0;
 
-.loader::before {
-  content: "";
-  position: absolute;
-  background: var(--loader-color);
-  top: 0;
-  left: 0;
-  width: 0%;
-  height: 100%;
-  border-radius: 30px;
-  animation: moving 1s ease-in-out infinite;
-}
-
-@keyframes moving {
-  50% {
-    width: 100%;
-  }
-
-  100% {
-    width: 0;
-    right: 0;
-    left: unset;
+  .progress{
+    width: 80%;
+    margin-top: 20%;
+    margin-left: 10%;
   }
 }
 
 
 /* Phone */
 @media screen and (max-width:600px){
-  #preview_show{
+#preview_show{
   height: 50%;
   width: 50%;
   margin-top: 0.5%;
