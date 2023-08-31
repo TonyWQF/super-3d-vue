@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4216500 */
-  src: url('iconfont.woff2?t=1692409422841') format('woff2'),
-       url('iconfont.woff?t=1692409422841') format('woff'),
-       url('iconfont.ttf?t=1692409422841') format('truetype');
+  src: url('iconfont.woff2?t=1693450286456') format('woff2'),
+       url('iconfont.woff?t=1693450286456') format('woff'),
+       url('iconfont.ttf?t=1693450286456') format('truetype');
 }
 
 .iconfont {
@@ -13,14 +13,20 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-@media screen and (max-width:600px){
-  .iconfont {
-    font-family: "iconfont" !important;
-    font-size: 34px;
-    font-style: normal;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
+.icon-camera:before {
+  content: "\e667";
+}
+
+.icon-24gl-fileText:before {
+  content: "\eabe";
+}
+
+.icon-trash1:before {
+  content: "\e600";
+}
+
+.icon-trash:before {
+  content: "\e8d6";
 }
 
 .icon-kongzhitai:before {

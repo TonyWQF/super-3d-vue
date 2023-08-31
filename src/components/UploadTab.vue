@@ -38,6 +38,7 @@ export default{
   width: 98%;
   height: 99%;
   box-shadow: 0 8px 50px #23232333;
+  overflow: hidden; /*超出部分隐藏*/
 }
 
 
@@ -95,6 +96,7 @@ export default{
   width: 98%;
   height: 100%;
   box-shadow: 0 8px 50px #23232333;
+  overflow: hidden; /*超出部分隐藏*/
 }
 
 .custum-file-upload {

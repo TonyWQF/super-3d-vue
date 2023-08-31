@@ -45,7 +45,7 @@ export default{
       if(result == true) {
 
         var status_text = retval[1].slice(1,-1)
-        console.log(status_text)
+        // console.log(status_text)
         var status_item = status_text.split(',')
         this.NozzleTemp = status_item[1]
         this.NozzleTargetTemp = status_item[2]

@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "15838440",
+      "name": "camera",
+      "font_class": "camera",
+      "unicode": "e667",
+      "unicode_decimal": 58983
+    },
+    {
+      "icon_id": "7594804",
+      "name": "24gl-fileText",
+      "font_class": "24gl-fileText",
+      "unicode": "eabe",
+      "unicode_decimal": 60094
+    },
+    {
+      "icon_id": "1842169",
+      "name": "trash",
+      "font_class": "trash1",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "142074",
+      "name": "trash",
+      "font_class": "trash",
+      "unicode": "e8d6",
+      "unicode_decimal": 59606
+    },
+    {
       "icon_id": "6308132",
       "name": "控制台",
       "font_class": "kongzhitai",
