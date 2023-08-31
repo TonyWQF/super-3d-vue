@@ -2,22 +2,53 @@
   <div class="temp-card">
     <div class="show-card">
       <img class="tempicon" src="../assets/bed_in_state.png" alt="">
-      <p class="cur-temp-style">110</p>
-      <p class="tar-temp-style">/110℃</p>
+      <p class="cur-temp-style">{{NozzleTemp}}</p>
+      <p class="tar-temp-style">/{{NozzleTargetTemp}}℃</p>
       <!-- <p class="label-hint-style">Bed</p> -->
     </div>
     <div class="show-card">
       <img class="tempicon" src="../assets/ext_in_state.png" alt="">
-      <p class="cur-temp-style">300</p>
-      <p class="tar-temp-style">/330℃</p>
+      <p class="cur-temp-style">{{BedTemp}}</p>
+      <p class="tar-temp-style">/{{BedTargetTemp}}℃</p>
       <!-- <p class="label-hint-style">Head</p> -->
     </div>
   </div>
+  <RequestImp ref="req" />
 </template>
 
 <script>
-export default{
+import RequestImp from "./RequestImplement.vue";
 
+export default{
+  components: {
+    RequestImp,
+  },
+  created() {
+    setInterval(this.get_status, 1000);
+  },
+  data() {
+    return {
+      NozzleTargetTemp:0,
+      NozzleTemp: 0,
+      BedTargetTemp:0,
+      BedTemp: 0,
+    }
+  },
+  methods: {
+    get_status() {
+      var retval = this.$refs.req.get_status()
+      var result = retval[0]
+      if(result == true) {
+        var status_text = retval[1].slice(1,-1)
+        console.log(status_text)
+        var status_item = status_text.split(',')
+        this.NozzleTemp = status_item[1]
+        this.NozzleTargetTemp = status_item[2]
+        this.BedTemp = status_item[3]
+        this.BedTargetTemp = status_item[4]
+      }
+    }
+  }
 }
 </script>
 

@@ -7,14 +7,24 @@
           <div class="upload_text">
               <span>Click to upload file</span>
               </div>
-              <input type="file" id="file" onchange="file_upload()">
+              <input type="file" id="file" accept=".gcode" ref="filedialog" @change="file_upload()">
         </label>
   </div>
+  <RequestImp ref="req" />
 </template>
 
 <script>
-export default{
+import RequestImp from "./RequestImplement.vue";
 
+export default{
+  components: {
+    RequestImp,
+  },
+  methods: {
+    file_upload() {
+      this.$refs.req.upload_file(this.$refs.filedialog.files[0])
+    }
+  }
 }
 </script>
 

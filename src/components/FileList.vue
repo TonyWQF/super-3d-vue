@@ -13,17 +13,20 @@
       <button id="next_filelist" class=" filelist_btn btn_style" align="center" @click="file_next_page()">Next</button>
     </div> 
   </div>
+  <RequestImp ref='req' />
 </template>
 
 
 <script>
 import FileListItem from "./FileListItem.vue";
 import PreviewTab from "./PreviewTab.vue";
+import RequestImp from "./RequestImplement.vue" 
 
 export default{
   components:{
     FileListItem,
     PreviewTab,
+    RequestImp,
   },
   data(){
     return{
@@ -47,38 +50,31 @@ export default{
   },
   methods: {
     go_preview(fileitem_name){
-      console.log(fileitem_name);
-      this.$refs.PreviewTab.show_preview(fileitem_name);
+      if(fileitem_name != "") {
+        console.log(fileitem_name);
+        this.$refs.PreviewTab.show_preview(fileitem_name);
+      }
     },
     file_list() {
-      var xhr = new XMLHttpRequest();
-      xhr.open("GET", 'api/files/list?page=' + this.file_list_page_index + '&page_per_count=10', true);
-      xhr.onload = function() {
-        if(xhr.status == 200) {
-          console.log("Upload succes");
-          var response_text = xhr.responseText;
-          this.file_first_page = response_text.slice(1, response_text.indexOf(']'));
-          this.file_names = response_text.slice(response_text.indexOf(']') + 1).split('//');
+      var result = this.$refs.req.file_list(this.file_list_page_index)
+      if(result[0] == true) {
+        var response_text = result[1]
+        this.file_first_page = response_text.slice(1, response_text.indexOf(']'));
+        this.file_names = response_text.slice(response_text.indexOf(']') + 1).split('//');
 
-          console.log(this.file_list_page_index)
-          console.log(this.file_names)
+        // Clear item
+        for(let item in this.FileListItems) {
+          this.FileListItems[item].label = "";
+        }
 
-          // Clear item
-          for(let item in this.FileListItems) {
-            item.label = "";
-          }
-
-          if(this.file_names.length > 0) {
-            for(let index in this.file_names) {
-              // document.getElementById("file" + index).innerHTML = file_names[index];
-              console.log(index);
-              this.FileListItems[index].label = this.file_names[index];
-            }
+        if(this.file_names.length > 0) {
+          for(let index in this.file_names) {
+            this.FileListItems[index].label = this.file_names[index];
           }
         }
       }
-      xhr.send();
     },
+
     go_file_first_page() {
       this.file_list_page_index = 0;
       this.file_list();
