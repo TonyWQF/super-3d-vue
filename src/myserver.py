@@ -128,7 +128,7 @@ class file_manager:
     
     if(start_index > len(files) - 1): return 200, '[' + str(total_page-1) + ']'
     if(end_index > (len(files)-1)): end_index = len(files) - 1
-    return 200, '[' + str(pageindex) + ']' + '//'.join(files[start_index:end_index])
+    return 200, '[' + str(pageindex) + ']' + '//'.join(files[start_index:end_index + 1])
   
   @request_map("/delete", method=("POST"))
   def delete_file(self, file_name=Parameter("file_name")):
