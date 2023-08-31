@@ -18,7 +18,7 @@
       </li>
     </ul>
   </div>
-  <RequestImp ref="req" />
+  <RequestImp ref="req" @upload_update="uploadUpdate"/>
 </template>
 
 <script>
@@ -31,23 +31,58 @@ export default{
     UploadItem,
     RequestImp,
   },
-  methods: {
-    file_upload() {
-      this.$refs.req.upload_file(this.$refs.filedialog.files[0])
-    }
-  },
   data(){
     return{
       uploadList:[
-        {id: uniqueId("upload-item-"), filename:"xxx.gcode", upload_percentage:45},
-        {id: uniqueId("upload-item-"), filename:"xxx.gcode", upload_percentage:45},
-        {id: uniqueId("upload-item-"), filename:"xxx.gcode", upload_percentage:45},
-        {id: uniqueId("upload-item-"), filename:"xxx.gcode", upload_percentage:45},
-        {id: uniqueId("upload-item-"), filename:"xxx.gcode", upload_percentage:45},
-        {id: uniqueId("upload-item-"), filename:"xxx.gcode", upload_percentage:45},
-        {id: uniqueId("upload-item-"), filename:"xxx.gcode", upload_percentage:45},
-      ]
+        {id: uniqueId("upload-item-"), filename:"xxx.gcode", upload_percentage:30},
+        // {id: uniqueId("upload-item-"), filename:"111.gcode", upload_percentage:45},
+        // {id: uniqueId("upload-item-"), filename:"222.gcode", upload_percentage:75},
+        // {id: uniqueId("upload-item-"), filename:"333.gcode", upload_percentage:66},
+        // {id: uniqueId("upload-item-"), filename:"444.gcode", upload_percentage:100},
+        // {id: uniqueId("upload-item-"), filename:"555.gcode", upload_percentage:45},
+        // {id: uniqueId("upload-item-"), filename:"666.gcode", upload_percentage:45},
+      ],
+
+
     }
+  },
+  methods: {
+    uploadUpdate(file_name, state, progress){
+      for (let index = 0; index < this.uploadList.length; index++) {
+        const element = this.uploadList[index];
+        if(element.filename == file_name){
+          if(state=="progress"){
+            element.upload_percentage = progress;
+          }else if(state=="complete"){
+            element.upload_percentage = 100;
+            const temp = element;
+            this.uploadList.splice(index,1);
+            this.uploadList.push(temp);
+          }else{
+            element.upload_percentage = "error";
+          }
+        }
+      }
+    },
+    file_upload() {
+      
+      for (var i=0;i<this.$refs.filedialog.files.length;i++) {
+
+        this.$refs.req.upload_file(this.$refs.filedialog.files[i])
+
+        var get_id = uniqueId("upload-item-");
+        var get_filename = this.$refs.filedialog.files[0].name
+        var get_percent = 0
+
+        const uploadItem = {id:get_id, filename:get_filename, upload_percentage:get_percent};
+        this.uploadList.unshift(uploadItem)
+
+      }
+      console.log(this.uploadList)
+    }
+  },
+  computed:{
+    
   }
 }
 </script>
@@ -60,6 +95,7 @@ export default{
   height: 99%;
   box-shadow: 0 8px 50px #23232333;
   overflow: hidden; /*超出部分隐藏*/
+  overflow-x: hidden;
 }
 
 
@@ -111,8 +147,10 @@ export default{
 
 .upload_list{
   margin-top: 0;
-  /* overflow: hidden; */
+  overflow: hidden;
   overflow-y:scroll;
+  overflow-x: hidden;
+
 }
 
 /* Phone */
