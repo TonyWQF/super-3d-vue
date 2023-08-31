@@ -34,11 +34,7 @@ export default{
   data(){
     return{
       uploadList:[
-<<<<<<< HEAD
-        {id: uniqueId("upload-item-"), filename:"xxx.gcode", upload_percentage:30},
-=======
         // {id: uniqueId("upload-item-"), filename:"xxx.gcode", upload_percentage:30},
->>>>>>> temp
         // {id: uniqueId("upload-item-"), filename:"111.gcode", upload_percentage:45},
         // {id: uniqueId("upload-item-"), filename:"222.gcode", upload_percentage:75},
         // {id: uniqueId("upload-item-"), filename:"333.gcode", upload_percentage:66},
@@ -72,17 +68,10 @@ export default{
       
       for (var i=0;i<this.$refs.filedialog.files.length;i++) {
 
-<<<<<<< HEAD
-        this.$refs.req.upload_file(this.$refs.filedialog.files[i])
-
-        var get_id = uniqueId("upload-item-");
-        var get_filename = this.$refs.filedialog.files[0].name
-=======
         this.$refs.req.upload_file_with_progress(this.$refs.filedialog.files[i])
 
         var get_id = uniqueId("upload-item-");
         var get_filename = this.$refs.filedialog.files[i].name
->>>>>>> temp
         var get_percent = 0
 
         const uploadItem = {id:get_id, filename:get_filename, upload_percentage:get_percent};
