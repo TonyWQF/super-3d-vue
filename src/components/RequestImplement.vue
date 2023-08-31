@@ -6,6 +6,7 @@
 
 <script>
 export default{
+  emits: ['upload_update'],
   methods: {
     get_status () {
       var xhr = new XMLHttpRequest();
@@ -82,6 +83,36 @@ export default{
       var form_data = new FormData();
       form_data.append('file', file);
       return this.post_method(xhr, form_data)
+    },
+
+    upload_file_with_progress(file) {
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", 'api/files/upload', true);
+      var form_data = new FormData();
+      form_data.append('file', file);
+      var file_name = file.name
+      // xhr.onload = (event) => {
+      //   $emit('upload_update', "complete", 0)
+      // }
+      xhr.upload.onprogress = (event) => {
+        if(event.lengthComputable == true) {
+          var progress = Math.round(event.loaded / event.total * 100)
+          this.$emit('upload_update', file_name, "progress", progress)
+        }
+      }
+      xhr.onerror = () => {
+        this.$emit('upload_update', file_name, "error", 0)
+      }
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+              this.$emit('upload_update', file_name, "complete", 0)
+            }else{
+              this.$emit('upload_update', file_name, "fail", 0)
+            }
+        }
+      };
+      xhr.send(form_data)
     },
 
     delete_file(filename) {
