@@ -58,10 +58,11 @@ export default{
     return{
       isDisplay:false,
       preview_filename:"xxx",
+      preview_time:"24:24:24",
       preview_head:200,
       preview_bed:60,
       preview_layercount:2,
-      preview_time:"24:24:24",
+
 
       GoPrintDialogType:"Process",   //YesNo, Confirm, Process
       GoPrintFileTitle:"Parsing File",
@@ -78,7 +79,15 @@ export default{
     },
     show_preview(fileitem_name){
       this.isDisplay = true;
+      // {"estimated_time(s)", "nozzle_temperature(°C)", "build_plate_temperature(°C)", "layer_height", "matierial_weight:", "LAYER_COUNT:", "thumbnail:"}
+      var retval = this.$refs.req.preview_file(fileitem_name)
       this.preview_filename = fileitem_name;
+      var min = Math.floor(retval[0]%3600);
+      this.preview_time = Math.floor(retval[0]/3600)+":"+ Math.floor(min/60)+":"+Math.floor(retval[0]%60);
+      this.previe_head = retval[1];
+      this.previe_head = retval[2];
+      this.preview_layercount = retval[5];
+      
     },
 
     goPrint(){

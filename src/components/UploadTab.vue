@@ -9,14 +9,22 @@
         </div>
         <input type="file" id="file" accept=".gcode" ref="filedialog" @change="file_upload()">
     </label>
-    <upload-item></upload-item>
+    <ul class="upload_list">
+      <li v-for="item in uploadList" :key="item.id">
+        <upload-item :id="item.id" 
+          :upload_filename="item.filename"
+          :upload_percentage="item.upload_percentage"
+          ></upload-item>
+      </li>
+    </ul>
   </div>
   <RequestImp ref="req" />
 </template>
 
 <script>
-import UploadItem from "./UploadItem.vue"
+import UploadItem from "./UploadItem.vue";
 import RequestImp from "./RequestImplement.vue";
+import uniqueId from "lodash.uniqueid";
 
 export default{
   components: {
@@ -26,6 +34,19 @@ export default{
   methods: {
     file_upload() {
       this.$refs.req.upload_file(this.$refs.filedialog.files[0])
+    }
+  },
+  data(){
+    return{
+      uploadList:[
+        {id: uniqueId("upload-item-"), filename:"xxx.gcode", upload_percentage:45},
+        {id: uniqueId("upload-item-"), filename:"xxx.gcode", upload_percentage:45},
+        {id: uniqueId("upload-item-"), filename:"xxx.gcode", upload_percentage:45},
+        {id: uniqueId("upload-item-"), filename:"xxx.gcode", upload_percentage:45},
+        {id: uniqueId("upload-item-"), filename:"xxx.gcode", upload_percentage:45},
+        {id: uniqueId("upload-item-"), filename:"xxx.gcode", upload_percentage:45},
+        {id: uniqueId("upload-item-"), filename:"xxx.gcode", upload_percentage:45},
+      ]
     }
   }
 }
@@ -85,6 +106,13 @@ export default{
 
 .custum-file-upload input {
   display: none;
+}
+
+
+.upload_list{
+  margin-top: 0;
+  /* overflow: hidden; */
+  overflow-y:scroll;
 }
 
 /* Phone */
