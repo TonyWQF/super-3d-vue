@@ -34,6 +34,7 @@ class MachineStatus:
     str_value.append(str(self.y))
     str_value.append(str(self.z))
     str_value.append(str(self.e))
+    str_value.append(str(self.print_percent))
     str_value.append(str(self.fan_0))
     str_value.append(str(self.fan_1))
     str_value.append(str(self.fan_2))
