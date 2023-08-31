@@ -76,7 +76,7 @@ class control_manage:
 
   @request_map('/homeaxis')
   def homeall(self, axis=Parameter('axis')):
-    machine.home_axis(axis)
+    machine.home_axis(int(axis))
     return 200
 
 @controller
@@ -86,14 +86,14 @@ class file_manager:
     self.name="file manager"
 
   def __get_file_preview(self, file_name):
-    param_search = {"estimated_time(s)": "0", "nozzle_temperature(°C):": "0", "build_plate_temperature(°C):": "0", "layer_height:": "0", "matierial_weight:": "0", "LAYER_COUNT:": "0", "thumbnail:": ""}
+    param_search = {";estimated_time(s):": "0", ";nozzle_temperature(°C):": "0", ";build_plate_temperature(°C):": "0", ";layer_height:": "0", ";matierial_weight:": "0", ";LAYER_COUNT:": "0", ";thumbnail: data:image/png;base64,": ""}
     keys = list(param_search.keys())
     with open(gcode_file_path + file_name, encoding='utf-8') as f:
       for i in range(100):
         tmpline = f.readline()
         for item_key in keys:
           if item_key in tmpline:
-            param_search[item_key] = tmpline[tmpline.index(':') + 1:].strip()
+            param_search[item_key] = tmpline.replace(item_key, '').strip()
     retval = ','.join(param_search.values())
     return retval
 
