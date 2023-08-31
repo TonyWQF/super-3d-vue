@@ -6,7 +6,7 @@
       <img id="preview_show" :src="preview_img_data?preview_img_data:require('../assets/Bulbasaur_0.jpg')" alt="">
       <div class="print_info">
         <div class="print_hint">
-        <span>Z-Height:</span><span>{{ z_height }}mm</span>
+        <span>Height:</span><span>{{ z_height }}mm</span>
         </div>
         <div class="print_hint">
         <span>Speed:</span><span>{{ print_speed }}%</span>

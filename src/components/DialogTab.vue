@@ -65,10 +65,11 @@ export default{
     },
     hide () {
       this.visible = false
+      clearInterval(this.timer);
     },
     show () {
       this.tick = 0;
-      this.timer = setInterval(this.checkStatus, 1000); // 注意: 第一个参数为方法名的时候不要加括号;
+      // this.timer = setInterval(this.checkStatus, 1000); // 注意: 第一个参数为方法名的时候不要加括号;
       this.visible = true
     },
     checkStatus(){

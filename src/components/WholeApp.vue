@@ -54,7 +54,7 @@ import { mapMutations, mapState } from 'vuex';
       openTab(id_NUM) {
         this.change_tab(id_NUM)
         this.activeId = this.$store.getters.get_now_tab;
-        console.log("openTab:"+this.$store.state.ui_state.now_tab);
+        // console.log("openTab:"+this.$store.state.ui_state.now_tab);
       },
     },
     mounted(){
