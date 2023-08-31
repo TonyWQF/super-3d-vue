@@ -14,6 +14,7 @@
         <upload-item :id="item.id" 
           :upload_filename="item.filename"
           :upload_percentage="item.upload_percentage"
+          @confirm_delete="delete_task"
           ></upload-item>
       </li>
     </ul>
@@ -34,7 +35,7 @@ export default{
   data(){
     return{
       uploadList:[
-        // {id: uniqueId("upload-item-"), filename:"xxx.gcode", upload_percentage:30},
+        {id: uniqueId("upload-item-"), filename:"xxx.gcode", upload_percentage:30},
         // {id: uniqueId("upload-item-"), filename:"111.gcode", upload_percentage:45},
         // {id: uniqueId("upload-item-"), filename:"222.gcode", upload_percentage:75},
         // {id: uniqueId("upload-item-"), filename:"333.gcode", upload_percentage:66},
@@ -61,6 +62,14 @@ export default{
           }else{
             element.upload_percentage = "error";
           }
+        }
+      }
+    },
+    delete_task(file_name){
+      for (let index = 0; index < this.uploadList.length; index++) {
+        const element = this.uploadList[index];
+        if(element.filename == file_name){
+          this.uploadList.splice(index,1);
         }
       }
     },

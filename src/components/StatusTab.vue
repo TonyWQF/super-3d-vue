@@ -25,7 +25,7 @@ export default{
     RequestImp,
   },
   created() {
-    setInterval(this.get_status, 1000);
+    // setInterval(this.get_status, 1000);
   },
   data() {
     return {

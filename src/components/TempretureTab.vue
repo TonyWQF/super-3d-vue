@@ -4,7 +4,7 @@
     <br>
     <div style="display: flex; justify-content: center; align-items: center;">
       <img class="icon" src="../assets/ext_in_state.png">
-      <span>Head:</span><span id="tar_head">{{ TargetHead }}</span><span>℃</span>
+      <span>Nozzle:</span><span id="tar_head">{{ TargetHead }}</span><span>℃</span>
     </div>              
     <div class="input-container">
       <input placeholder="Enter Target Tempreture" class="input-field" type="number" @keyup.enter="set_nozzle_temp(event)" id="targetTemp0" v-model="EnterNozzle">

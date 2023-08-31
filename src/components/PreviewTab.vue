@@ -6,7 +6,7 @@
         <h2>Preview</h2>
       </div>
       <div class="modal-body">
-        <img id="preview_img" src="../assets/Bulbasaur_0.jpg" alt="">
+        <img id="preview_img" :src="icon_data?icon_data:require('../assets/Bulbasaur_0.jpg')" alt="">
         <p id="file_name">{{ preview_filename }}</p>
         <div class="info_con">
           <div class="preview_infolabel">
@@ -25,7 +25,7 @@
         <div class="preview_op">
           <br>
           <button id="go2print" class="preview_btn btn_style" @click="goPrint">Print</button>
-          <button id="downloadfile" class="preview_btn btn_style">Download</button>
+          <!-- <button id="downloadfile" class="preview_btn btn_style">Download</button> -->
           <button id="deletefile" class="preview_btn btn_style" @click="deleteFile">Delete</button>
         </div>
       </div>
@@ -62,6 +62,7 @@ export default{
       preview_head:200,
       preview_bed:60,
       preview_layercount:2,
+      icon_data:"",
 
 
       GoPrintDialogType:"Process",   //YesNo, Confirm, Process
@@ -80,13 +81,20 @@ export default{
     show_preview(fileitem_name){
       this.isDisplay = true;
       // {"estimated_time(s)", "nozzle_temperature(°C)", "build_plate_temperature(°C)", "layer_height", "matierial_weight:", "LAYER_COUNT:", "thumbnail:"}
+      
       var retval = this.$refs.req.preview_file(fileitem_name)
-      this.preview_filename = fileitem_name;
-      var min = Math.floor(retval[0]%3600);
-      this.preview_time = Math.floor(retval[0]/3600)+":"+ Math.floor(min/60)+":"+Math.floor(retval[0]%60);
-      this.previe_head = retval[1];
-      this.previe_head = retval[2];
-      this.preview_layercount = retval[5];
+      if(retval[0]==true){
+        var res_text = retval[1].split(',')
+        this.preview_filename = fileitem_name;
+        var puredata = Math.round(res_text[0])
+        var min = Math.floor(puredata%3600);
+        this.preview_time = Math.floor(puredata/3600)+"h"+ Math.floor(min/60)+"m"+Math.floor(puredata%60)+"s";
+        this.preview_head = res_text[1];
+        this.preview_bed = res_text[2];
+        this.preview_layercount = res_text[5];
+        this.icon_data = "data:image/png;base64,"+res_text[6]
+      }
+      console.log(retval);
       
     },
 

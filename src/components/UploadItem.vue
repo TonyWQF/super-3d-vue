@@ -1,5 +1,5 @@
 <template>
-  <div class="li_vessel" data-type="0">
+  <div class="li_vessel" data-type="0" :id="id">
     <div class="upload_item c-progress-outer" :style="setProgressBgStyle" ref="progress" 
       @touchstart.capture="touchStart" @touchend.capture="touchEnd" @click="oneself">
         <div class="c-progress-inner" :style="setProgressStyle"></div>
@@ -9,32 +9,58 @@
         <!-- <upload-item-option ref="option"></upload-item-option> -->
     </div>
     <div class="drawer_op">
-      <div class="iconfont icon-trash1 icon—size"></div>
+      <div class="iconfont icon-trash1 icon—size" @click="showTransferStopDialog"></div>
     </div>
+    <dialog-tab ref="dialog"
+      :dialog_type="DialogType" 
+      :title="DialogTitle" 
+      :hint="DialogHint"
+      
+      @confirm="stopTransfer" 
+      @cancel="cancel" ></dialog-tab>
   </div>
 </template>
 
 <script>
 // import UploadItemOption from "./UploadItemOption.vue"
+import DialogTab from "./DialogTab.vue"
 
 export default{
-  
+  emits:["confirm_delete"],
   components:{
     // UploadItemOption,
+    DialogTab,
   },
   props:{
-    upload_filename:{required:true, type:String},
-    upload_percentage:{required:true, type:String},
+    id:{required:true, type:String},
+    icon_data:{type:String},
+    upload_filename:{type:String},
+    upload_percentage:{type:Number},
   },
   data(){
     return{
-      icon_data:"",
-
       startX: 0, //滑动开始
       endX:0, //滑动结束
+
+      DialogType:"YesNo",
+      DialogTitle:"Stop Transfer",
+      DialogHint:"Are you sure to stop this transfer?",
     }    
   },
   methods:{
+    showTransferStopDialog(){
+      this.$refs.dialog.show();
+    },
+
+    stopTransfer(){
+      this.$refs.dialog.hide();
+      this.$emit('confirm_delete', this.upload_filename)
+    },
+
+    cancel(){
+      this.$refs.dialog.hide();
+    },
+
     // 向左滑动出现删除按钮时，点击区域取消
     oneself(e) {
       if (this.checkSlide()) {
@@ -74,7 +100,6 @@ export default{
     //判断当前是否有滑块处于滑动状态
     checkSlide() {
       let listItems = document.querySelectorAll(".li_vessel");
-      console.log(listItems);
       for (let i = 0; i < listItems.length; i++) {
         if (listItems[i].dataset.type == 1) {
           return true;
@@ -161,7 +186,6 @@ export default{
   display: flex;
   align-items: center;
   overflow: hidden; /*消除图片带来的浮动*/
-  overflow-x: hidden;
 
   .c-progress-inner {
     width: 100px;
