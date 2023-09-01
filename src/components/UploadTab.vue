@@ -10,7 +10,7 @@
         <input type="file" id="file" accept=".gcode" ref="filedialog" @change="file_upload" multiple="multiple">
     </label>
     <ul class="upload_list">
-      <li v-for="item in uploadList" :key="item.id">
+      <li v-for="item in this.$store.state.uploadList" :key="item.id">
         <upload-item :id="item.id" 
           :upload_filename="item.filename"
           :upload_percentage="item.upload_percentage"
@@ -26,6 +26,7 @@
 import UploadItem from "./UploadItem.vue";
 import RequestImp from "./RequestImplement.vue";
 import uniqueId from "lodash.uniqueid";
+import { mapState } from "vuex";
 
 export default{
   components: {
@@ -34,44 +35,44 @@ export default{
   },
   data(){
     return{
-      uploadList:[
-        {id: uniqueId("upload-item-"), filename:"xxx.gcode", upload_percentage:30},
-        // {id: uniqueId("upload-item-"), filename:"111.gcode", upload_percentage:45},
-        // {id: uniqueId("upload-item-"), filename:"222.gcode", upload_percentage:75},
-        // {id: uniqueId("upload-item-"), filename:"333.gcode", upload_percentage:66},
-        // {id: uniqueId("upload-item-"), filename:"444.gcode", upload_percentage:100},
-        // {id: uniqueId("upload-item-"), filename:"555.gcode", upload_percentage:45},
-        // {id: uniqueId("upload-item-"), filename:"666.gcode", upload_percentage:45},
-      ],
-
-
+      // uploadList:[
+      //   // {id: uniqueId("upload-item-"), filename:"xxx.gcode", upload_percentage:30},
+      //   // {id: uniqueId("upload-item-"), filename:"111.gcode", upload_percentage:45},
+      //   // {id: uniqueId("upload-item-"), filename:"222.gcode", upload_percentage:75},
+      //   // {id: uniqueId("upload-item-"), filename:"333.gcode", upload_percentage:66},
+      //   // {id: uniqueId("upload-item-"), filename:"444.gcode", upload_percentage:100},
+      //   // {id: uniqueId("upload-item-"), filename:"555.gcode", upload_percentage:45},
+      //   // {id: uniqueId("upload-item-"), filename:"666.gcode", upload_percentage:45},
+      // ],
     }
   },
   methods: {
     uploadUpdate(file_name, state, progress){
-      for (let index = 0; index < this.uploadList.length; index++) {
-        const element = this.uploadList[index];
+      for (let index = 0; index < this.$store.state.uploadList.length; index++) {
+        const element = this.$store.state.uploadList[index];
         if(element.filename == file_name){
           if(state=="progress"){
             element.upload_percentage = progress;
           }else if(state=="complete"){
-            element.upload_percentage = 100;
+            element.upload_percentage = "100";
             const temp = element;
-            this.uploadList.splice(index,1);
-            this.uploadList.push(temp);
+            this.$store.state.uploadList.splice(index,1);
+            this.$store.state.uploadList.push(temp);
           }else{
             element.upload_percentage = "error";
           }
         }
       }
+      this.$store.dispatch('update_uploadList', this.$store.state.uploadList);
     },
     delete_task(file_name){
-      for (let index = 0; index < this.uploadList.length; index++) {
-        const element = this.uploadList[index];
+      for (let index = 0; index < this.$store.state.uploadList.length; index++) {
+        const element = this.$store.state.uploadList[index];
         if(element.filename == file_name){
-          this.uploadList.splice(index,1);
+          this.$store.state.uploadList.splice(index,1);
         }
       }
+      this.$store.dispatch('update_$store.state.uploadList', this.$store.state.uploadList);
     },
     file_upload() {
       
@@ -84,14 +85,15 @@ export default{
         var get_percent = 0
 
         const uploadItem = {id:get_id, filename:get_filename, upload_percentage:get_percent};
-        this.uploadList.unshift(uploadItem)
+        this.$store.state.uploadList.unshift(uploadItem)
 
       }
-      console.log(this.uploadList)
+      console.log(this.$store.state.uploadList)
+      this.$store.dispatch('update_uploadList', this.$store.state.uploadList);
     }
   },
   computed:{
-    
+    ...mapState["uploadList"],
   }
 }
 </script>
@@ -105,6 +107,7 @@ export default{
   box-shadow: 0 8px 50px #23232333;
   overflow: hidden; /*超出部分隐藏*/
   overflow-x: hidden;
+  overflow-y:scroll;
 }
 
 
@@ -157,7 +160,6 @@ export default{
 .upload_list{
   margin-top: 0;
   overflow: hidden;
-  overflow-y:scroll;
   overflow-x: hidden;
 
 }
@@ -172,6 +174,7 @@ export default{
   height: 100%;
   box-shadow: 0 8px 50px #23232333;
   overflow: hidden; /*超出部分隐藏*/
+  overflow-y:scroll;
 }
 
 .custum-file-upload {

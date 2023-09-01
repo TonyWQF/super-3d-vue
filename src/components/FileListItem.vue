@@ -1,9 +1,10 @@
 <template>
-  <button :id="id" class="file_item">{{ label }}</button>
+  <button :id="id" class="file_item" @delete_file="delete_item">{{ label }}</button>
 </template>
 
 <script>
 export default{
+  emits:["delete_item"],
   props:{
     label:{required:true, type: String},
     id:{required:true, type: String},
@@ -11,6 +12,11 @@ export default{
   data(){
     return{
       
+    }
+  },
+  methods:{
+    delete_item(){
+      this.$emit("delete_item")
     }
   }
 }

@@ -13,6 +13,8 @@ html {
   height: 100%;
   overflow: hidden;
   min-width: 365px;
+  min-height: 933px;
+  overflow-y: scroll;
 }
 h1,
 h2 {
@@ -52,11 +54,14 @@ body {
   body {
     font-size: 1.9rem;
     line-height: 1.31579;
+
   }
 
   html{
     min-width: 1050px;
     max-width: 1700px;
+    min-height: 941px;
+    overflow-y: scroll;
   }
 
 }
@@ -74,6 +79,11 @@ body {
 @media screen and (max-width:600px){
   body{
     
+  }
+
+  html{
+    min-height: 941px;
+    overflow-y: scroll;
   }
 
 }

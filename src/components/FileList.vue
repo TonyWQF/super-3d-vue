@@ -5,12 +5,13 @@
       :id="item.id"
       :label="item.label" 
       @click="go_preview(item.label)"
+      @delete_item="file_refresh_now_page"
     ></file-list-item>
     <preview-tab ref="PreviewTab"></preview-tab>
     <div class="filelist_op" >
-      <button id="prev_filelist" class=" filelist_btn btn_style" align="center" @click="file_prev_page()">Prev.</button>
-      <button id="refresh_filelist" class=" filelist_btn btn_style" align="center" @click="go_file_first_page()">Refresh</button>
-      <button id="next_filelist" class=" filelist_btn btn_style" align="center" @click="file_next_page()">Next</button>
+      <button id="prev_filelist" class=" filelist_btn btn_style" align="center" @click="file_prev_page">Prev.</button>
+      <button id="refresh_filelist" class=" filelist_btn btn_style" align="center" @click="go_file_first_page">Refresh</button>
+      <button id="next_filelist" class=" filelist_btn btn_style" align="center" @click="file_next_page">Next</button>
     </div> 
     <dialog-tab ref="preview_dialog" 
       :dialog_type="DialogType" 
@@ -27,6 +28,7 @@ import { mapState } from "vuex";
 import FileListItem from "./FileListItem.vue";
 import PreviewTab from "./PreviewTab.vue";
 import RequestImp from "./RequestImplement.vue" 
+import uniqueId from "lodash.uniqueid";
 
 export default{
   components:{
@@ -41,17 +43,18 @@ export default{
       Hint:"Printer is printing, wait for finish...",
 
       FileListItems:[
-        {id:"fileitem-", label:"1.gcode"},
-        {id:"fileitem-", label:"2.gcode"},
-        {id:"fileitem-", label:"3.gcode"},
-        {id:"fileitem-", label:"4.gcode"},
-        {id:"fileitem-", label:"5.gcode"},
-        {id:"fileitem-", label:"6.gcode"},
-        {id:"fileitem-", label:"7.gcode"},
-        {id:"fileitem-", label:"8.gcode"},
-        {id:"fileitem-", label:"9.gcode"},
-        {id:"fileitem-", label:"10.gcode"},
+        {id:uniqueId("fileitem-"), label:"xxx"},
+        {id:uniqueId("fileitem-"), label:""},
+        {id:uniqueId("fileitem-"), label:""},
+        {id:uniqueId("fileitem-"), label:""},
+        {id:uniqueId("fileitem-"), label:""},
+        {id:uniqueId("fileitem-"), label:""},
+        {id:uniqueId("fileitem-"), label:""},
+        {id:uniqueId("fileitem-"), label:""},
+        {id:uniqueId("fileitem-"), label:""},
+        {id:uniqueId("fileitem-"), label:""},
       ],
+
       file_list_page_index:0,
       file_first_page:0,
       file_names:[],
@@ -106,7 +109,10 @@ export default{
         this.file_list();
       }
     },
-
+    file_refresh_now_page(){
+      this.file_list_page_index;
+      this.file_list();
+    },
     // 这个函数 需要放在 上传的那个组件里
     file_upload() {
       var xhr = new XMLHttpRequest()
@@ -140,7 +146,7 @@ export default{
 
   #file_list>button {
     width: 98%;
-    height: 38px;
+    height: 4rem;
     color: green;
     margin-top: 5px;
     margin-bottom: 5px;

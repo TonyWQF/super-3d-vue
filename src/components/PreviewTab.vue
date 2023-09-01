@@ -6,7 +6,7 @@
         <h2>Preview</h2>
       </div>
       <div class="modal-body">
-        <img id="preview_img" :src="icon_data?icon_data:require('../assets/Bulbasaur_0.jpg')" alt="">
+        <img id="preview_img" :src="icon_data=='data:image/png;base64,'?require('../assets/Bulbasaur_0.jpg'):icon_data" alt="">
         <p id="file_name">{{ preview_filename }}</p>
         <div class="info_con">
           <div class="preview_infolabel">
@@ -30,7 +30,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <span class="hint_preview" >You can print, download, delete gcode from remote.</span>
+        <div class="hint_preview" >You can print, download, delete gcode from remote.</div>
       </div>
       <!-- 预览点击删除弹出界面 -->
       <dialog-tab ref="delete_dialog" 
@@ -50,6 +50,7 @@ import RequestImp from "./RequestImplement.vue";
 import DialogTab from "./DialogTab.vue"
 
 export default{
+  emits:["delete_file"],
   components:{
     DialogTab,
     RequestImp,
@@ -93,6 +94,13 @@ export default{
         this.preview_bed = res_text[2];
         this.preview_layercount = res_text[5];
         this.icon_data = "data:image/png;base64,"+res_text[6]
+      }else{
+        this.preview_filename = fileitem_name;
+        this.preview_time = 0+"h"+ 0+"m"+0+"s";
+        this.preview_head = 0;
+        this.preview_bed = 0;
+        this.preview_layercount = 0;
+        this.icon_data = "data:image/png;base64,"
       }
       console.log(retval);
       
@@ -103,9 +111,7 @@ export default{
     },
 
     startPrint(){
-      // this.$refs.req.start_print(this.preview_filename)
-      // this.closeSpan();
-      // this.$store.dispatch('update_now_tab', 1)
+
       var res=this.$refs.req.start_print(this.preview_filename)
       if(res[0]==true){
         this.closeSpan();
@@ -124,6 +130,7 @@ export default{
       this.$refs.req.delete_file(this.preview_filename);
       this.closeSpan();
       // 刷新列表
+      this.$emit('delete_file')
     },
 
 
@@ -202,6 +209,8 @@ export default{
   width: auto;
   height: 80%;
   text-align: center;
+  min-height:485px;
+  /* max-width:953px; */
 }
 .modal-footer {
   height: 10%;
@@ -223,10 +232,11 @@ export default{
   width:50%;
 }
 
-/* .preview_op{
-  margin-top: 2rem;
-  width:100%;
-} */
+.preview_op{
+  /* margin-top: 2rem;
+  width:100%; */
+  min-height: 429px;
+}
 
 .preview_btn{
     max-width: 33.3%;
@@ -263,6 +273,11 @@ export default{
 .preview_infolabel{
   float:left;
   width:50%;
+}
+.hint_preview{
+  height:10%;
+  font-size:20px;
+  margin-top: 0.5rem;
 }
 
 

@@ -21,6 +21,7 @@
       <label for="input-field" class="input-label">Enter Tar-Temp.</label>
       <span class="input-highlight"></span>
     </div>
+    <br>
     <div class="filament_tb">
       <!-- <div class="panel_title">Filament</div> -->
       <button class="btn_style" @click="extrude()">Load</button>

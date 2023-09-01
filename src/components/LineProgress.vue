@@ -49,7 +49,8 @@ export default {
 
     .label_percent{
       margin-left: 5px;
-      font-size: 14px;
+      font-size: 16px;
+      font-weight: normal;
       color: #666;
       float:left;
       display: block;

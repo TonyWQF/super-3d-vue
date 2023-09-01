@@ -1,12 +1,10 @@
 <template>
   <div class="li_vessel" data-type="0" :id="id">
-    <div class="upload_item c-progress-outer" :style="setProgressBgStyle" ref="progress" 
-      @touchstart.capture="touchStart" @touchend.capture="touchEnd" @click="oneself">
-        <div class="c-progress-inner" :style="setProgressStyle"></div>
-        <img class="upload_gcode_icon" :src="icon_data?icon_data:require('../assets/Bulbasaur_0.jpg')">
-        <span class="upload_gcode_name">{{upload_filename}}</span>
-        <span class="upload_gcode_percent">{{ upload_percentage }}%</span>
-        <!-- <upload-item-option ref="option"></upload-item-option> -->
+    <div class="upload_item c-progress-outer" :style="setProgressBgStyle" ref="progress" @touchstart.capture="touchStart" @touchend.capture="touchEnd" @click="oneself">
+      <div class="c-progress-inner" :style="setProgressStyle"></div>
+      <img class="upload_gcode_icon" :src="icon_data?icon_data:require('../assets/Bulbasaur_0.jpg')">
+      <span class="upload_gcode_name">{{upload_filename}}</span>
+      <span class="upload_gcode_percent">{{ upload_percentage }}%</span>
     </div>
     <div class="drawer_op">
       <div class="iconfont icon-trash1 icon—size" @click="showTransferStopDialog"></div>
@@ -188,7 +186,10 @@ export default{
   overflow: hidden; /*消除图片带来的浮动*/
 
   .c-progress-inner {
-    width: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    /* width: 100px; */
     height: 9rem;
     background: #409EFF20;
     border-radius: 5px;
@@ -204,10 +205,12 @@ export default{
     padding: 1rem;
   }
   .upload_gcode_name{
+    display: block;
     position: absolute;
     left: 10rem;
-    line-height: 9rem;
-    vertical-align: middle;
+    width: 45%;
+    /* line-height: 9rem; */
+    /* vertical-align: middle; */
     float: left;
     font-size:medium;
     font-weight: normal;

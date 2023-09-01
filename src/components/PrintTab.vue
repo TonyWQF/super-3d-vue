@@ -100,6 +100,15 @@ export default{
     width: 100%;
     height: 25%;
   }
+
+    .print_hint{
+    width: 50%;
+    margin-top: 5px;
+    float: left;
+    font-size: large;
+    font-weight: normal;
+  }
+
 }
 
 
@@ -134,12 +143,20 @@ export default{
     text-align: center;
     margin: 0;
     .print_btn_container{
-      margin-top: 1%;
+      margin-top: 5%;
       position: relative;
       display: inline-block;
       width: 100%;
       height: 25%;
     }
+  }
+  
+  .print_hint{
+    width: 50%;
+    margin-top: 5px;
+    float: left;
+    font-size: large;
+    font-weight: normal;
   }
 
 

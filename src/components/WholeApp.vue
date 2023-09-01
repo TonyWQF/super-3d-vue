@@ -4,11 +4,11 @@
       <div class="tab">
         <button :class="{active:ui_state.now_tab==1}" @click="openTab(1)" id="1"><i class="iconfont icon-dayinji_o icon-intab"></i>Print</button>
         <button :class="{active:ui_state.now_tab==2}" @click="openTab(2)" id="2"><i class="iconfont icon-shangchuan icon-intab"></i>Upload</button>
-        <button :class="{active:ui_state.now_tab==3}" @click="openTab(3)" id="3"><i class="iconfont icon-yuanduanfuzhi icon-intab"></i>Remote</button>
+        <button ref="file_tab" :class="{active:ui_state.now_tab==3}" @click="openTab(3)" id="3"><i class="iconfont icon-yuanduanfuzhi icon-intab"></i>Remote</button>
         <button :class="{active:ui_state.now_tab==4}" @click="openTab(4)" id="4"><i class="iconfont icon-xitongkongzhi icon-intab"></i>Control</button>
       </div>
       <div id="Print" class="tabcontent" v-if="ui_state.now_tab==1">
-        <camera-tab></camera-tab>
+        <camera-tab v-if="isCameraActive"></camera-tab>
         <print-tab></print-tab>
       </div>
       <div id="Upload" class="tabcontent" v-else-if="ui_state.now_tab==2">
@@ -47,6 +47,8 @@ import { mapMutations, mapState } from 'vuex';
       return{
         activeId:1,
         file_list_page_index: 0,
+
+        isCameraActive:false,
       };
     },
     methods:{
@@ -55,6 +57,10 @@ import { mapMutations, mapState } from 'vuex';
         this.change_tab(id_NUM)
         this.activeId = this.$store.getters.get_now_tab;
         // console.log("openTab:"+this.$store.state.ui_state.now_tab);
+
+        if(id_NUM==3){
+          this.$refs.file_tab.go_file_first_page;
+        }
       },
     },
     mounted(){
@@ -255,12 +261,6 @@ import { mapMutations, mapState } from 'vuex';
   background-color: #ccc;
 }
 
-.print_hint{
-  width: 50%;
-  margin-top: 5px;
-  float: left;
-  font-size: large;
-}
 
 
 /* Add Animation */

@@ -8,6 +8,9 @@ export default createStore({
       printer_status:"PRINT_STATE_IDLE",
       print_percent:0,
     },
+    uploadList:[
+      // {id: "upload-item-", filename:"xxx.gcode", upload_percentage:60},
+    ],
     
   },
   // vuex 数据过滤，获取
@@ -21,6 +24,9 @@ export default createStore({
     get_now_print_percent(state){
       return state.ui_state.print_percent;
     },
+    get_now_uploadList(state){
+      return state.uploadList;
+    },
   },
   // 更改更新数据
   mutations: {
@@ -32,6 +38,9 @@ export default createStore({
     },
     change_print_percent(state, new_percent){
       state.ui_state.print_percent = new_percent;
+    },
+    change_uploadList(state, newlist){
+      state.uploadList = newlist;
     },
 
   },
@@ -45,6 +54,9 @@ export default createStore({
     },
     update_now_percent({commit}, data) {
       commit("change_print_percent", data)
+    },
+    update_uploadList({commit}, data) {
+      commit("change_uploadList", data)
     },
   },
   modules: {
