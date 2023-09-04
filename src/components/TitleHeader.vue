@@ -1,6 +1,6 @@
 <template>
   <div class="header-style">
-    <img src="../assets/logo.png" alt="">
+    <img class="logo" src="../assets/logo.png" alt="">
     <p align="center">SUPER-3D</p>
     <div  class="typing-indicator">
       <div  class="typing-circle"></div>
@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import StatusTab from './StatusTab.vue';
   export default {
     components:{
@@ -27,6 +28,9 @@ import StatusTab from './StatusTab.vue';
       return{
 
       };
+    },
+    computed:{
+      ...mapState(['ui_state'])
     },
   };
 </script>
@@ -41,7 +45,9 @@ p{
   vertical-align: middle;
 }
 
+
 img{
+  display: block;
   float: left;
   width: 8rem;
   vertical-align: middle;

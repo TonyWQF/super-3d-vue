@@ -1,6 +1,11 @@
 <template>
   <div class="li_vessel" data-type="0" :id="id">
-    <div class="upload_item c-progress-outer" :style="setProgressBgStyle" ref="progress" @touchstart.capture="touchStart" @touchend.capture="touchEnd" @click="oneself">
+    <!-- <div class="upload_item c-progress-outer" :style="setProgressBgStyle" ref="progress"
+     @touchstart.capture="touchStart"
+      @touchend.capture="touchEnd"
+       @click="oneself"> -->
+    <div class="upload_item c-progress-outer" :style="setProgressBgStyle" ref="progress"
+       @click="oneself">
       <div class="c-progress-inner" :style="setProgressStyle"></div>
       <img class="upload_gcode_icon" :src="icon_data?icon_data:require('../assets/Bulbasaur_0.jpg')">
       <span class="upload_gcode_name">{{upload_filename}}</span>
@@ -20,13 +25,11 @@
 </template>
 
 <script>
-// import UploadItemOption from "./UploadItemOption.vue"
 import DialogTab from "./DialogTab.vue"
 
 export default{
   emits:["confirm_delete"],
   components:{
-    // UploadItemOption,
     DialogTab,
   },
   props:{
@@ -66,7 +69,12 @@ export default{
       } else {
         let parentElement = e.currentTarget.parentElement;
         this.restSlide();
-        parentElement.dataset.type = 1;
+        if (this.upload_percentage == 100 || this.upload_percentage == "error" ) {
+          parentElement.dataset.type = 1;
+        }else{
+          parentElement.dataset.type = 0;
+        }
+        
       }
     },
     //滑动开始

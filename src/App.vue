@@ -1,18 +1,22 @@
 <template>
   <div id="app">
     <title-header></title-header>
-    <whole-app></whole-app>
+    <init-tab v-if="!ui_state.is_inited"></init-tab>
+    <whole-app v-else-if="ui_state.is_inited"></whole-app>
   </div>
 </template>
 
 <script>
+import InitTab from "./components/InitTab.vue"
 import TitleHeader from "./components/TitleHeader.vue";
 import WholeApp from "./components/WholeApp.vue"
+import { mapState } from "vuex";
 
 export default {
   name: 'App',
   components:{
     TitleHeader,
+    InitTab,
     WholeApp,
   },
   data(){
@@ -42,9 +46,10 @@ export default {
     },
   },
   computed: {
+    ...mapState(['ui_state']),
   },
   mounted(){
-    // this.request_status();
+    
   }
 }
 </script>
@@ -62,17 +67,39 @@ export default {
   #app {
     height: 100%;
     background: #fff;
-    margin: 2rem 0 4rem 0;
+    margin: 0rem 0 0rem 0;
     padding: 1rem;
     padding-top: 0;
     position: relative;
     box-shadow:
       0 2px 4px 0 rgba(0, 0, 0, 0.2),
       0 2.5rem 5rem 0 rgba(0, 0, 0, 0.1);
+
   }
   @media screen and (min-width: 550px) {
     #app {
       padding: 4rem;
+    }
+  }
+
+    
+  /* Desktops and laptops ----------- */
+  @media only screen and (min-width : 1224px) {
+    #app{
+      min-width: 1000px;
+    }
+  }
+
+  /*平板*/
+  @media screen and (min-width:600px) and (max-width:972px){
+    #app{
+      min-width: 1000px;
+    }
+  }
+  /*手机*/
+  @media screen and (max-width:600px){
+    #app{
+      padding: 1rem;
     }
   }
   #app > * {

@@ -1,7 +1,7 @@
 <template>
   <div class="content_box" id="tempreture_tb">
     <div class="panel_title">Tempreture</div>
-    <br>
+
     <div style="display: flex; justify-content: center; align-items: center;">
       <img class="icon" src="../assets/ext_in_state.png">
       <span>Nozzle:</span><span id="tar_head">{{ TargetHead }}</span><span>℃</span>
@@ -11,7 +11,7 @@
       <label for="input-field" class="input-label">Enter Tar-Temp.</label>
       <span class="input-highlight"></span>
     </div>
-    <br>
+
     <div style="display: flex; justify-content: center; align-items: center;">
       <img class="icon" src="../assets/bed_in_state.png" >
       <span>Bed:</span><span id="tar_bed">{{ TargetBed }}</span><span>℃</span>
@@ -21,8 +21,7 @@
       <label for="input-field" class="input-label">Enter Tar-Temp.</label>
       <span class="input-highlight"></span>
     </div>
-    <br>
-    <div class="filament_tb">
+    <div class="filament_tb" v-if="ui_state.movement_operable">
       <!-- <div class="panel_title">Filament</div> -->
       <button class="btn_style" @click="extrude()">Load</button>
       <button class="btn_style" @click="stop()">Stop</button>
@@ -34,6 +33,7 @@
 
 <script>
 import RequestImp from "./RequestImplement.vue"
+import { mapState } from 'vuex';
 export default{
   components: {
     RequestImp
@@ -69,7 +69,9 @@ export default{
     retract() {
       this.$refs.req.retract(50)
     },
-
+  },
+  computed:{
+    ...mapState(['ui_state']),
   }
 }
 
@@ -80,7 +82,6 @@ export default{
 .filament_tb{
 
 }
-
 
 
 #tempreture_tb{
@@ -144,7 +145,7 @@ export default{
     margin: 0px;
   }
   #tempreture_tb{
-  height: 60%;
+  height: 55%;
   width: 98%;
   margin-left: -1.2rem;
   }

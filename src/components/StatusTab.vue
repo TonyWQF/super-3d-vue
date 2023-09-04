@@ -25,7 +25,7 @@ export default{
     RequestImp,
   },
   created() {
-    // setInterval(this.get_status, 1000);
+    setInterval(this.get_status, 1000);
   },
   data() {
     return {
@@ -53,16 +53,30 @@ export default{
         this.BedTargetTemp = status_item[4]
 
         // console.log("status_item[0]"+status_item[0]);
-
         // this.$store.commit('change_printer_status', status_item[0])
         // this.$store.commit('change_print_percent', status_item[10])
         // this.change_printer_status(status_item[0]);
         // this.change_print_percent(status_item[10]);
+
+        var movement_operable = false
+        if (this.$store.state.ui_state.printer_status== "PRINT_STATE_PRINTING") {
+          console.log("NOW IS PRINTING");
+          movement_operable = false
+        }else if (this.$store.state.ui_state.printer_status== "PRINT_STATE_IDLE") {
+          movement_operable = true 
+        }
+
+        console.log("inited");
+        this.$store.dispatch('update_is_inited', true)
+        this.$store.dispatch('update_movement_operable', movement_operable)
+      }else{
+        console.log("inited failed");
+        this.$store.dispatch('update_is_inited', false)
       }
-    }
+    },
   },
   computed:{
-    ...mapState['ui_state']
+    ...mapState(['ui_state'])
   }
 }
 </script>
@@ -77,6 +91,9 @@ export default{
   float: right;
   display:block;
   /* box-shadow: 0 8px 50px #23232333; */
+  p{
+    display: block;
+  }
 }
 .show-card{
   float:right;
@@ -133,6 +150,7 @@ export default{
 /* Phone */
 @media screen and (max-width:600px){
 
+
 .temp-card{
   width:100%;
   height:4rem;
@@ -140,6 +158,9 @@ export default{
   float: left;
   display:block;
   /* box-shadow: 0 8px 50px #23232333; */
+  p{
+    display: block;
+  }
 }
 .show-card{
   float:right;

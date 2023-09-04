@@ -29,9 +29,9 @@
           <button id="deletefile" class="preview_btn btn_style" @click="deleteFile">Delete</button>
         </div>
       </div>
-      <div class="modal-footer">
+      <!-- <div class="modal-footer">
         <div class="hint_preview" >You can print, download, delete gcode from remote.</div>
-      </div>
+      </div> -->
       <!-- 预览点击删除弹出界面 -->
       <dialog-tab ref="delete_dialog" 
           :dialog_type="deleteDialogType" 
@@ -126,7 +126,7 @@ export default{
       this.$refs.delete_dialog.show();
     },
     delete_confirm(){
-      console.log("file_delete");
+      console.log("file_delete send");
       this.$refs.req.delete_file(this.preview_filename);
       this.closeSpan();
       // 刷新列表
@@ -207,7 +207,7 @@ export default{
 .modal-body {
   padding: 2px 16px;
   width: auto;
-  height: 80%;
+  height: 70%;
   text-align: center;
   min-height:485px;
   /* max-width:953px; */

@@ -2,20 +2,22 @@
 
 <template>
   <div class="print_process">
-      <div class="panel_title">Filename</div>
+      <div class="panel_title">3d-benchy.gcode</div>
       <img id="preview_show" :src="preview_img_data?preview_img_data:require('../assets/Bulbasaur_0.jpg')" alt="">
       <div class="print_info">
-        <div class="print_hint">
-        <span>Height:</span><span>{{ z_height }}mm</span>
-        </div>
-        <div class="print_hint">
-        <span>Speed:</span><span>{{ print_speed }}%</span>
-        </div>
-        <div class="print_hint">
-        <span>Time:</span><span>{{ print_time }}</span>
-        </div>
-        <div class="print_hint">
-        <span>flowrate:</span><span>{{ print_flowrate }}%</span>
+        <div class="hint_container">
+          <div class="print_hint">
+          <span>Height:</span><span>{{ z_height }}mm</span>
+          </div>
+          <div class="print_hint">
+          <span>Speed:</span><span>{{ print_speed }}%</span>
+          </div>
+          <div class="print_hint">
+          <span>Time:</span><span>{{ print_time }}</span>
+          </div>
+          <div class="print_hint">
+          <span>flowrate:</span><span>{{ print_flowrate }}%</span>
+          </div>
         </div>
         <line-progress class="progress" :percent="print_percentage" :show-per-text="true" ></line-progress>
         <div class="print_btn_container" style="height: 30%;">
@@ -61,6 +63,7 @@ export default{
 <style>
 
 #preview_show{
+  display: block;
   width: 80%;
   max-height: 50%;
   margin-top: 2%;
@@ -87,6 +90,13 @@ export default{
   position: relative;
   text-align: center;
   margin: 0;
+  
+  .hint_container{
+    position: absolute;
+    left: 5%;
+    width:90%;
+    height: 100%;
+  }
 
   .progress{
     width: 80%;
@@ -115,6 +125,7 @@ export default{
 /* Phone */
 @media screen and (max-width:600px){
 #preview_show{
+  display: block;
   height: 42%;
   width: 50%;
   margin-top: 0.5%;
@@ -127,7 +138,7 @@ export default{
   float:left;
   margin: 1%;
   width: 100%;
-  height: 55%;
+  height: 60%;
   box-shadow: 0 8px 50px #23232333;
   text-align: center;
   margin-left: -1.5rem;
@@ -142,6 +153,13 @@ export default{
     position: relative;
     text-align: center;
     margin: 0;
+
+    .hint_container{
+      position: absolute;
+      left: 5%;
+      width:90%;
+    }
+
     .print_btn_container{
       margin-top: 5%;
       position: relative;

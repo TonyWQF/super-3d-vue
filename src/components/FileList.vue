@@ -5,9 +5,8 @@
       :id="item.id"
       :label="item.label" 
       @click="go_preview(item.label)"
-      @delete_item="file_refresh_now_page"
     ></file-list-item>
-    <preview-tab ref="PreviewTab"></preview-tab>
+    <preview-tab  @delete_file="file_refresh_now_page" ref="PreviewTab"></preview-tab>
     <div class="filelist_op" >
       <button id="prev_filelist" class=" filelist_btn btn_style" align="center" @click="file_prev_page">Prev.</button>
       <button id="refresh_filelist" class=" filelist_btn btn_style" align="center" @click="go_file_first_page">Refresh</button>
@@ -43,7 +42,7 @@ export default{
       Hint:"Printer is printing, wait for finish...",
 
       FileListItems:[
-        {id:uniqueId("fileitem-"), label:"xxx"},
+        {id:uniqueId("fileitem-"), label:""},
         {id:uniqueId("fileitem-"), label:""},
         {id:uniqueId("fileitem-"), label:""},
         {id:uniqueId("fileitem-"), label:""},
@@ -110,7 +109,7 @@ export default{
       }
     },
     file_refresh_now_page(){
-      this.file_list_page_index;
+      console.log("refresh now page");
       this.file_list();
     },
     // 这个函数 需要放在 上传的那个组件里
@@ -184,7 +183,7 @@ export default{
   #file_list{
     margin-top: 1.6rem;
     width: 100%;
-    height: 100%;
+    height: 90%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-left: -1.4rem;
   }

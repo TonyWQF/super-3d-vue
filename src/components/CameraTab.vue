@@ -90,7 +90,7 @@ export default{
   float:left;
   margin: 1%;
   width: 100%;
-  height: 48%;
+  height: 40%;
   box-shadow: 0 8px 50px #23232333;
   text-align: center;
   margin-left: -1.5rem;

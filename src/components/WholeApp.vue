@@ -19,7 +19,7 @@
       </div>
       <div id="Ctrl" class="tabcontent"  v-else-if="ui_state.now_tab==4">
           <tempreture-tab></tempreture-tab>
-          <movement-tab></movement-tab>
+          <movement-tab v-if="ui_state.movement_operable"></movement-tab>
       </div> 
     </div>
   </div>
@@ -82,6 +82,30 @@ import { mapMutations, mapState } from 'vuex';
        box-sizing: border-box;
 }
 
+
+.panel_title{
+  position: relative;
+  left: 10%;
+  width:80%;
+  font-size:26px;
+  color: black;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-all;
+  white-space: nowrap;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.panel_title:hover{
+  overflow: auto;
+  text-overflow:clip;
+  white-space:normal;
+}
+
+
+
+
 .main_container{
   float: left;
   top: 15rem;
@@ -111,6 +135,15 @@ import { mapMutations, mapState } from 'vuex';
   width: 70%;
   border-left: none;
   height: 97%;
+
+}
+
+
+/* Desktops and laptops ----------- */
+@media only screen and (min-width : 1224px) {
+  .tabcontent{
+    min-width: 679px;
+  }
 }
 
 
