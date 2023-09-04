@@ -42,7 +42,7 @@ export default{
       Hint:"Printer is printing, wait for finish...",
 
       FileListItems:[
-        {id:uniqueId("fileitem-"), label:""},
+        {id:uniqueId("fileitem-"), label:"xxx"},
         {id:uniqueId("fileitem-"), label:""},
         {id:uniqueId("fileitem-"), label:""},
         {id:uniqueId("fileitem-"), label:""},

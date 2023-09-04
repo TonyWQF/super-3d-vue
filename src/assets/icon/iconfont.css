@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4216500 */
-  src: url('iconfont.woff2?t=1693450286456') format('woff2'),
-       url('iconfont.woff?t=1693450286456') format('woff'),
-       url('iconfont.ttf?t=1693450286456') format('truetype');
+  src: url('iconfont.woff2?t=1693822096556') format('woff2'),
+       url('iconfont.woff?t=1693822096556') format('woff'),
+       url('iconfont.ttf?t=1693822096556') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,14 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-a-penzui2:before {
+  content: "\e60a";
+}
+
+.icon-a-shangweiji-rechuang1:before {
+  content: "\e609";
 }
 
 .icon-camera:before {

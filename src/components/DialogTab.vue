@@ -102,6 +102,7 @@ export default{
     top: 0;
     bottom: 0;
     z-index: 996;
+    padding:1rem;
     background-color: rgba(0, 0, 0, 0.2);
     &.confirm-fade-enter-active {
       animation: confirm-fadein .3s;
@@ -123,6 +124,7 @@ export default{
       background-color:whitesmoke;
       transform: translate(-50%, -50%);
       z-index: 997;
+
       .confirm-content {
         text-align: center;
         width: 100%;
@@ -235,4 +237,13 @@ export default{
       }
     }
   }
+
+  /* Phone */
+@media screen and (max-width:600px){
+  .confirm-wrapper{
+    width: 90%;
+  }
+
+
+}
 </style>

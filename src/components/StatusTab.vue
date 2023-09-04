@@ -1,13 +1,13 @@
 <template>
   <div class="temp-card">
     <div class="show-card">
-      <img class="tempicon" src="../assets/bed_in_state.png" alt="">
+      <img class="tempicon" src="../assets/bed_icon.png" alt="">
       <p class="cur-temp-style">{{BedTemp}}</p>
       <p class="tar-temp-style">/{{BedTargetTemp}}℃</p>
       <!-- <p class="label-hint-style">Bed</p> -->
     </div>
     <div class="show-card">
-      <img class="tempicon" src="../assets/ext_in_state.png" alt="">
+      <img class="tempicon" src="../assets/nozzle_icon.png" alt="">
       <p class="cur-temp-style">{{NozzleTemp}}</p>
       <p class="tar-temp-style">/{{NozzleTargetTemp}}℃</p>
       <!-- <p class="label-hint-style">Head</p> -->

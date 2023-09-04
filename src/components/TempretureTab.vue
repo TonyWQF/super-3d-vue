@@ -3,7 +3,7 @@
     <div class="panel_title">Tempreture</div>
 
     <div style="display: flex; justify-content: center; align-items: center;">
-      <img class="icon" src="../assets/ext_in_state.png">
+      <img class="icon" src="../assets/nozzle_icon.png">
       <span>Nozzle:</span><span id="tar_head">{{ TargetHead }}</span><span>℃</span>
     </div>              
     <div class="input-container">
@@ -13,7 +13,7 @@
     </div>
 
     <div style="display: flex; justify-content: center; align-items: center;">
-      <img class="icon" src="../assets/bed_in_state.png" >
+      <img class="icon" src="../assets/bed_icon.png" >
       <span>Bed:</span><span id="tar_bed">{{ TargetBed }}</span><span>℃</span>
     </div>  
     <div class="input-container">
