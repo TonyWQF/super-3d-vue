@@ -97,11 +97,15 @@ class file_manager:
     retval = ','.join(param_search.values())
     return retval
 
-
   @request_map("/upload", method=("GET","POST"))
-  def upload(self, file=MultipartFile("file")):
-    file.save_to_file(gcode_file_path + file.filename)
-    return 200
+  def upload(self, file_name=Parameter("file_name"), pack_size=Parameter('pack_size'), pack_index=Parameter("pack_index"), datas=Parameter("data")):
+    with open(gcode_file_path + str(file_name), mode="ab+") as f:
+      f.seek(int(pack_index) * int(pack_size))
+      b_str_arr = datas.split(',')
+      b_arr = []
+      for b in b_str_arr:
+        b_arr.append(int(b))
+      f.write(bytes(b_arr))
   
   @request_map("/list", method=("GET"))
   def listitem(self, pageindex=Parameter('page'),page_per_count=Parameter('page_per_count')):
@@ -124,7 +128,7 @@ class file_manager:
       pageindex = total_page - 1
     
     start_index = pageindex * page_per_count
-    end_index = start_index + page_per_count
+    end_index = start_index + page_per_count - 1
     
     if(start_index > len(files) - 1): return 200, '[' + str(total_page-1) + ']'
     if(end_index > (len(files)-1)): end_index = len(files) - 1
