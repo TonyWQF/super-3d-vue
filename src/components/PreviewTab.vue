@@ -6,8 +6,8 @@
         <h2>Preview</h2>
       </div>
       <div class="modal-body">
-        <img id="preview_img" :src="icon_data=='data:image/png;base64,'?require('../assets/gcode.svg'):icon_data" alt="">
         <p id="file_name">{{ preview_filename }}</p>
+        <img id="preview_img" :src="icon_data=='data:image/png;base64,'?require('../assets/gcode.svg'):icon_data" alt="">
         <div class="info_con">
           <div class="preview_infolabel">
             <span>Head:</span><span>{{ preview_head }}℃</span>
@@ -23,7 +23,6 @@
           </div>
         </div>
         <div class="preview_op">
-          <br>
           <button id="go2print" class="preview_btn btn_style" @click="goPrint">Print</button>
           <!-- <button id="downloadfile" class="preview_btn btn_style">Download</button> -->
           <button id="deletefile" class="preview_btn btn_style" @click="deleteFile">Delete</button>
@@ -117,9 +116,7 @@ export default{
       if(res[0]==true){
         this.closeSpan();
         this.$store.dispatch('update_now_tab', 1)
-
         this.$store.dispatch('update_print_preview', this.icon_data)
-
         this.$store.dispatch('update_print_filename', this.preview_filename)
       }
       else{
@@ -211,12 +208,12 @@ export default{
 }
 
 .modal-body {
-  padding: 2px 16px;
-  width: auto;
+  width: 100%;
   height: 70%;
   text-align: center;
   min-height:485px;
   /* max-width:953px; */
+
 }
 .modal-footer {
   height: 10%;
@@ -228,10 +225,21 @@ export default{
 #file_name{
   font-size: large;
   width: 100%;
+  padding: 0% 10%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-all;
+  white-space: nowrap;
+  
 }
 .info_con{
+  position:absolute;
   width: 60%;
-  margin-left:20% ;
+  height:fit-content;
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  transform: translate(-50%, -40%);
 }
 .preview_infolabel{
   float:left;
@@ -239,9 +247,12 @@ export default{
 }
 
 .preview_op{
-  /* margin-top: 2rem;
-  width:100%; */
-  min-height: 429px;
+  /* margin-top: 2rem; */
+  width:80%;
+  position: absolute;
+  left: 10%;
+  bottom: 10%;
+  height: fit-content;
 }
 
 .preview_btn{
@@ -253,39 +264,48 @@ export default{
 }
 
 #preview_img{
-  max-width: 80%;
-  max-height: 80%;
-  width: 50%;
-  /* height: 45%; */
-  display: inline-block;
-  margin-left: 25%;
+  /* max-width: 70%; */
+  max-height: 50%;
+  display: block;
+  width: fit-content;
+  height:fit-content;
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -35%);
 }
 
 /* Phone */
 @media screen and (max-width:600px){
-  #preview_img{
-  max-width: 90%;
-  max-height: 50%;
-  width: 90%;
-  /* height: 45%; */
-  display: inline-block;
-  margin-left: 5%;
-}
 
-.info_con{
-  width: 100%;
-  margin-left:0;
-}
+
 .preview_infolabel{
   float:left;
   width:50%;
+  height: 2rem;
 }
 .hint_preview{
   height:10%;
   font-size:20px;
   margin-top: 0.5rem;
 }
+.preview_op{
+  /* margin-top: 2rem; */
+  width:80%;
+  position: absolute;
+  left: 10%;
+  bottom: 10%;
+}
 
+.info_con{
+  position:absolute;
+  width: 100%;
+  height:fit-content;
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  transform: translate(-50%, -40%);
+}
 
 }
 

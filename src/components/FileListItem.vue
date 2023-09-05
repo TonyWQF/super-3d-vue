@@ -32,16 +32,24 @@ export default{
   border-radius: 5px;
 } */
 #file_list>button {
-  width: 100%;
-  height: 35px;
-  color: green;
-  margin-bottom: 15px;
+  font-size: large;
+  width: 98%;
+  height: 40px;
+  color: black;
+  margin:5px;
+  padding-top: 12px;
+  /* margin-bottom: 15px; */
   border:none;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-all;
+  white-space: nowrap;
 }
+
 #file_list>button:hover {
-  transform: translateY(-2px);
-  border: 2px solid #ccc;
+  transform: translateY(-1px);
+  border: 1px solid #ccc;
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
 }
 

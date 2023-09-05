@@ -13,7 +13,7 @@ export default createStore({
       print_percent:0,
       print_speed:100,
       print_flowrate:100,
-      print_filename:"text.gcode",
+      print_filename:"No Gcode is printing",
       print_preview:"data:image/png;base64,",
 
       fan:[0,0,0,0,0,0],
@@ -21,7 +21,7 @@ export default createStore({
 
     },
     uploadList:[
-      // {id: "upload-item-", filename:"xxx.gcode", upload_percentage:"100"},
+      // {id: "upload-item-", filename:"xxx.gcode", upload_percentage:"45"},
     ],
     
   },

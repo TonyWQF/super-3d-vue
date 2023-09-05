@@ -58,9 +58,9 @@ import { mapMutations, mapState } from 'vuex';
         this.activeId = this.$store.getters.get_now_tab;
         // console.log("openTab:"+this.$store.state.ui_state.now_tab);
 
-        if(id_NUM==3){
-          this.$refs.file_tab.go_file_first_page;
-        }
+        // if(id_NUM==3){
+        //   this.$refs.file_tab.
+        // }
       },
     },
     mounted(){

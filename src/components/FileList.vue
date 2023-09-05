@@ -42,6 +42,7 @@ export default{
       Hint:"Printer is printing, wait for finish...",
 
       FileListItems:[
+        // {id:uniqueId("fileitem-"), label:"_3d-beasidughaksujdgjkhgdskjhagbvnchy.gcode"},
         {id:uniqueId("fileitem-"), label:""},
         {id:uniqueId("fileitem-"), label:""},
         {id:uniqueId("fileitem-"), label:""},
@@ -142,7 +143,7 @@ export default{
     height: 100%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
-
+/* 
   #file_list>button {
     width: 98%;
     height: 4rem;
@@ -151,7 +152,8 @@ export default{
     margin-bottom: 5px;
     border:none;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
+  } */
+
   .filelist_btn{
     margin: auto;
     margin-top:1rem;

@@ -136,6 +136,7 @@ export default{
     setProgressStyle () {
       return {
         width: `${this.upload_percentage}%`,
+        height:`9rem`,
       }
     },
   },

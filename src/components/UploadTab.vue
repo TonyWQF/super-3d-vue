@@ -50,6 +50,7 @@ export default{
     uploadUpdate(file_name, state, progress){
       for (let index = 0; index < this.$store.state.uploadList.length; index++) {
         const element = this.$store.state.uploadList[index];
+        console.log(element);
         if(element.filename == file_name){
           if(state=="progress"){
             element.upload_percentage = progress;
