@@ -86,42 +86,57 @@ export default{
     },
 
     upload_file_with_progress(file) {
-      var xhr = new XMLHttpRequest();
-      xhr.open("POST", 'api/files/upload', true);
-      var form_data = new FormData();
-      form_data.append('file', file);
-      var file_name = file.name
-      // xhr.onload = (event) => {
-      //   $emit('upload_update', "complete", 0)
-      // }
-      xhr.upload.onprogress = (event) => {
-        if(event.lengthComputable == true) {
-          var progress = Math.round(event.loaded / event.total * 100)
-          this.$emit('upload_update', file_name, "progress", progress)
-        }
-      }
-      xhr.onerror = () => {
-        this.$emit('upload_update', file_name, "error", 0)
-      }
-      xhr.onreadystatechange = () => {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-              this.$emit('upload_update', file_name, "complete", 0)
-            }else{
-              this.$emit('upload_update', file_name, "fail", 0)
-            }
-        }
-      };
-      xhr.send(form_data)
-    },
+      var pack_index = 0;
+      const pack_size = 256 * 1024;
+      const totol_pack = Math.ceil(file.size / pack_size);
+      var file_name = file.name;
 
-    delete_file(filename) {
-      var xhr = new XMLHttpRequest();
-      xhr.open("POST", 'api/files/delete', false);
-      var form_data = new FormData();
-      form_data.append('file_name', filename);
-      console.log("delete_file:"+filename);
-      return this.post_method(xhr, form_data)
+      var file_reader = new FileReader();
+      file_reader.onload = (e) => {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", 'api/files/upload', true);
+        xhr.onload = () => {
+          if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+              pack_index++;
+              if(pack_index >= totol_pack) {
+                console.log("Send complete")
+                this.$emit('upload_update', file_name, "complete", 0);
+              }
+              else {
+                var progress = Math.round(pack_index * pack_size / file.size * 100);
+                this.$emit('upload_update', file_name, "progress", progress);
+                var start = pack_index * pack_size;
+                var end = file.size>=start+pack_size?start+pack_size:file.size;
+                var blob = file.slice(start, end);
+                file_reader.readAsArrayBuffer(blob);
+              }
+            }else{
+              console.log(xhr.status)
+              this.$emit('upload_update', file_name, "fail", 0);
+            }
+          }
+        }
+        xhr.onerror = () => {
+          console.log("error")
+          this.$emit('upload_update', file_name, "error", 0);
+        }
+
+        var form_data = new FormData();
+        var bin_data = new Uint8Array(e.target.result);
+        console.log("Send " + pack_index)
+        form_data.append('file_name', file_name);
+        form_data.append('pack_size', pack_size);
+        form_data.append('pack_index', pack_index);
+        form_data.append('data', bin_data);
+
+        xhr.send(form_data);
+        
+      }
+      var first_pack_size = (file.size >= pack_size?pack_size:file.size);
+      console.log("first_pack_size:" + first_pack_size)
+      var blob = file.slice(0, first_pack_size);
+      file_reader.readAsArrayBuffer(blob);
     },
 
     // {"estimated_time(s)", "nozzle_temperature(°C)", "build_plate_temperature(°C)", "layer_height", "matierial_weight:", "LAYER_COUNT:", "thumbnail:"}
@@ -162,7 +177,7 @@ export default{
 
     file_list(file_list_page_index) {
       var xhr = new XMLHttpRequest();
-      xhr.open("GET", 'api/files/list?page=' + file_list_page_index + '&page_per_count=9', false);
+      xhr.open("GET", 'api/files/list?page=' + file_list_page_index + '&page_per_count=10', false);
       return this.get_method(xhr)
     },
 
