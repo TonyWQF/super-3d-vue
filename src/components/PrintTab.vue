@@ -2,46 +2,55 @@
 
 <template>
   <div class="print_process">
-      <div class="panel_title">3d-benchy.gcode</div>
-      <img id="preview_show" :src="preview_img_data?preview_img_data:require('../assets/Bulbasaur_0.jpg')" alt="">
+      <div class="panel_title">{{ ui_state.print_filename }}</div> 
+      <img id="preview_show" :src="ui_state.print_preview=='data:image/png;base64,'?require('../assets/gcode.svg'):ui_state.print_preview" alt="">
       <div class="print_info">
         <div class="hint_container">
           <div class="print_hint">
-          <span>Height:</span><span>{{ z_height }}mm</span>
+          <span>Height:</span><span>{{ ui_state.nozzle_pos[2] }}mm</span>
           </div>
           <div class="print_hint">
-          <span>Speed:</span><span>{{ print_speed }}%</span>
+          <span>Fan:</span><span>{{ ui_state.fan[0] }}%</span>
           </div>
-          <div class="print_hint">
+          <!-- <div class="print_hint">
           <span>Time:</span><span>{{ print_time }}</span>
           </div>
           <div class="print_hint">
           <span>flowrate:</span><span>{{ print_flowrate }}%</span>
-          </div>
+          </div> -->
         </div>
-        <line-progress class="progress" :percent="print_percentage" :show-per-text="true" ></line-progress>
+        <line-progress class="progress" :percent="ui_state.print_percent" :show-per-text="true" ></line-progress>
         <div class="print_btn_container" style="height: 30%;">
           <button v-if="isPaused==true" id="btn_resume" class="print_btn btn_style" @click="resumePrint">Resume</button>
           <button v-if="isPaused==false" id="btn_pause" class="print_btn btn_style" @click="pausePrint">Pause</button>
-          <button id="btn_stop_print" class="print_btn btn_style">Stop</button>
+          <button id="btn_stop_print" class="print_btn btn_style" @click="stopPrint">Stop</button>
         </div>
       </div>  
   </div>
+  <RequestImp ref="req" />
 </template>
 
 <script>
+import { mapState } from "vuex";
 import LineProgress from "./LineProgress.vue"
+import RequestImp from "./RequestImplement.vue";
 
 export default{
   components:{
     LineProgress,
+    RequestImp,
   },
   methods:{
     resumePrint(){
       this.isPaused=false;
+      this.$refs.req.resume_print();
     },
     pausePrint(){
       this.isPaused=true;
+      this.$refs.req.pause_print();
+    },
+    stopPrint(){
+      this.$refs.req.stop_print();
     },
   },
   data(){
@@ -56,6 +65,9 @@ export default{
       preview_img_data:"",
     };
   },
+  computed:{
+    ...mapState(['ui_state']),
+  }
 }
 </script>
 
@@ -170,14 +182,13 @@ export default{
   }
   
   .print_hint{
-    width: 50%;
+    width: 45%;
+    max-width: 50%;
     margin-top: 5px;
     float: left;
     font-size: large;
     font-weight: normal;
   }
-
-
 }
 
 

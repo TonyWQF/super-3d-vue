@@ -11,6 +11,13 @@ export default createStore({
       now_tab:1,
       printer_status:"PRINT_STATE_IDLE",
       print_percent:0,
+      print_speed:100,
+      print_flowrate:100,
+      print_filename:"text.gcode",
+      print_preview:"data:image/png;base64,",
+
+      fan:[0,0,0,0,0,0],
+      nozzle_pos:[0,0,0,0],
 
     },
     uploadList:[
@@ -37,7 +44,22 @@ export default createStore({
     },
     isMovementOprable(state){
       return state.movement_operable;
-    }
+    },
+    get_now_pos(state){
+      return state.ui_state.nozzle_pos;
+    },
+    get_fan_speed(state){
+      return state.ui_state.fan;
+    },
+    get_print_speed(state){
+      return state.ui_state.print_speed;
+    },
+    get_print_preview(state){
+      return state.ui_state.print_preview;
+    },
+    get_print_filename(state){
+      return state.ui_state.print_filename;
+    },
   },
   // 更改更新数据
   mutations: {
@@ -58,6 +80,21 @@ export default createStore({
     },
     change_movement_operable(state, new_status){
       state.ui_state.movement_operable = new_status;
+    },
+    change_position(state, new_status){
+      state.ui_state.nozzle_pos = new_status;
+    },
+    change_print_speed(state, new_status){
+      state.ui_state.print_speed = new_status;
+    },
+    change_fan_speed(state, new_status){
+      state.ui_state.fan = new_status;
+    },
+    change_print_preview(state, new_status){
+      state.ui_state.print_preview = new_status;
+    },
+    change_print_filename(state, new_status){
+      state.ui_state.print_filename = new_status;
     },
 
   },
@@ -81,6 +118,19 @@ export default createStore({
     update_movement_operable({commit}, data){
       commit("change_movement_operable", data)
     },
+    update_position({commit},data){
+      commit("change_position", data);
+    },
+    update_print_speed({commit},data){
+      commit("change_print_speed", data);
+    },
+    update_print_preview({commit},data){
+      commit("change_print_preview", data);
+    },
+    update_print_filename({commit},data){
+      commit("change_print_filename", data);
+    },
+ 
   },
   modules: {
   }

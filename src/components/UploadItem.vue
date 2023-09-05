@@ -7,7 +7,7 @@
     <div class="upload_item c-progress-outer" :style="setProgressBgStyle" ref="progress"
        @click="oneself">
       <div class="c-progress-inner" :style="setProgressStyle"></div>
-      <img class="upload_gcode_icon" :src="icon_data?icon_data:require('../assets/Bulbasaur_0.jpg')">
+      <img class="upload_gcode_icon" :src="icon_data?icon_data:require('../assets/gcode.svg')">
       <span class="upload_gcode_name">{{upload_filename}}</span>
       <span class="upload_gcode_percent">{{ upload_percentage }}%</span>
     </div>

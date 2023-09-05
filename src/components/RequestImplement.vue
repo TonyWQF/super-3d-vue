@@ -162,7 +162,7 @@ export default{
 
     file_list(file_list_page_index) {
       var xhr = new XMLHttpRequest();
-      xhr.open("GET", 'api/files/list?page=' + file_list_page_index + '&page_per_count=10', false);
+      xhr.open("GET", 'api/files/list?page=' + file_list_page_index + '&page_per_count=9', false);
       return this.get_method(xhr)
     },
 

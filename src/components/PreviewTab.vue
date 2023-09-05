@@ -6,7 +6,7 @@
         <h2>Preview</h2>
       </div>
       <div class="modal-body">
-        <img id="preview_img" :src="icon_data=='data:image/png;base64,'?require('../assets/Bulbasaur_0.jpg'):icon_data" alt="">
+        <img id="preview_img" :src="icon_data=='data:image/png;base64,'?require('../assets/gcode.svg'):icon_data" alt="">
         <p id="file_name">{{ preview_filename }}</p>
         <div class="info_con">
           <div class="preview_infolabel">
@@ -48,6 +48,7 @@
 <script>
 import RequestImp from "./RequestImplement.vue";
 import DialogTab from "./DialogTab.vue"
+import { mapState } from "vuex";
 
 export default{
   emits:["delete_file"],
@@ -64,7 +65,6 @@ export default{
       preview_bed:60,
       preview_layercount:2,
       icon_data:"",
-
 
       GoPrintDialogType:"Process",   //YesNo, Confirm, Process
       GoPrintFileTitle:"Parsing File",
@@ -84,6 +84,8 @@ export default{
       // {"estimated_time(s)", "nozzle_temperature(°C)", "build_plate_temperature(°C)", "layer_height", "matierial_weight:", "LAYER_COUNT:", "thumbnail:"}
       
       var retval = this.$refs.req.preview_file(fileitem_name)
+      // console.log(retval);
+
       if(retval[0]==true){
         var res_text = retval[1].split(',')
         this.preview_filename = fileitem_name;
@@ -94,6 +96,7 @@ export default{
         this.preview_bed = res_text[2];
         this.preview_layercount = res_text[5];
         this.icon_data = "data:image/png;base64,"+res_text[6]
+
       }else{
         this.preview_filename = fileitem_name;
         this.preview_time = 0+"h"+ 0+"m"+0+"s";
@@ -102,8 +105,6 @@ export default{
         this.preview_layercount = 0;
         this.icon_data = "data:image/png;base64,"
       }
-      console.log(retval);
-      
     },
 
     goPrint(){
@@ -116,12 +117,15 @@ export default{
       if(res[0]==true){
         this.closeSpan();
         this.$store.dispatch('update_now_tab', 1)
+
+        this.$store.dispatch('update_print_preview', this.icon_data)
+
+        this.$store.dispatch('update_print_filename', this.preview_filename)
       }
       else{
         alert("error");
       }
     },
-
     deleteFile(){
       this.$refs.delete_dialog.show();
     },
@@ -132,8 +136,6 @@ export default{
       // 刷新列表
       this.$emit('delete_file')
     },
-
-
     cancel(){
       console.log("file_delete cancel");
       this.closeSpan();
@@ -143,7 +145,11 @@ export default{
   },
   mounted(){
 
+  },
+  computed:{
+    ...mapState(['ui_state']),
   }
+
 }
 </script>
 

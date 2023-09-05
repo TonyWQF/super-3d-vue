@@ -52,23 +52,21 @@ export default{
         this.BedTemp = status_item[3]
         this.BedTargetTemp = status_item[4]
 
-        // console.log("status_item[0]"+status_item[0]);
-        // this.$store.commit('change_printer_status', status_item[0])
-        // this.$store.commit('change_print_percent', status_item[10])
-        // this.change_printer_status(status_item[0]);
-        // this.change_print_percent(status_item[10]);
-
+        var fan_speed = [status_item[10], status_item[11], status_item[12], status_item[13], status_item[14], status_item[15]];
+        var nozzle_pos = [status_item[5], status_item[6], status_item[7], status_item[8] ]
         var movement_operable = false
-        if (this.$store.state.ui_state.printer_status== "PRINT_STATE_PRINTING") {
-          console.log("NOW IS PRINTING");
-          movement_operable = false
-        }else if (this.$store.state.ui_state.printer_status== "PRINT_STATE_IDLE") {
-          movement_operable = true 
-        }
 
-        console.log("inited");
+        if (this.$store.state.ui_state.printer_status== "PRINT_STATE_PRINTING") {
+          movement_operable = false
+          
+        }else if (this.$store.state.ui_state.printer_status== "PRINT_STATE_IDLE") {
+          movement_operable = true; 
+          // this.$store.dispatch('update_print_preview', "data:image/png;base64,");
+        }
         this.$store.dispatch('update_is_inited', true)
         this.$store.dispatch('update_movement_operable', movement_operable)
+        this.$store.dispatch('update_fan_speed', fan_speed)
+        this.$store.dispatch('update_position', nozzle_pos)
       }else{
         console.log("inited failed");
         this.$store.dispatch('update_is_inited', false)

@@ -54,7 +54,7 @@ export default{
     },
 
     set_bed_temp() {
-      this.$refs.req.set_temp(2, this.EnterBed)
+      this.$refs.req.set_temp(1, this.EnterBed)
       this.TargetBed = this.EnterBed;
     },
 
