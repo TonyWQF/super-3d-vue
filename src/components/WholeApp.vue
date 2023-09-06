@@ -57,10 +57,6 @@ import { mapMutations, mapState } from 'vuex';
         this.$store.dispatch('update_now_tab', id_NUM);
         this.activeId = this.$store.getters.get_now_tab;
 
-        // if(id_NUM==3){
-        //   console.log(id_NUM+"OPEN");
-        //   this.$refs.file_tab.go_file_first_page();
-        // }
       },
     },
     mounted(){

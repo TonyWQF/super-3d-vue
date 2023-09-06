@@ -61,6 +61,9 @@ export default{
 
     }
   },
+  mounted:function(){
+    this.go_file_first_page();
+  },
   methods: {
     go_preview(fileitem_name){
       if(this.$store.getters.get_now_printer_status == "PRINT_STATE_PRINTING"||

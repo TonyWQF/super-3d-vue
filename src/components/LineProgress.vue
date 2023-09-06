@@ -1,6 +1,6 @@
 <template>
   <div class="c-progress">
-    <div class="c-progress-outer" :style="setProgressBgStyle" ref="progress">
+    <div class="c-progress-outer" :style="setProgressBgStyle">
       <div class="c-progress-inner" :style="setProgressStyle"></div>
     </div>
     <span class="label_percent" v-if="showPerText">{{percent}}%</span>
@@ -9,7 +9,6 @@
 
 <script>
 export default {
-  name: 'CProgress',
   props: {
     percent: {
       type: Number,
@@ -41,7 +40,7 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style>
   .c-progress {
     width: 100%;
     height: fit-content;

@@ -2,9 +2,7 @@
   <div id="app">
     <title-header></title-header>
     <init-tab v-if="!ui_state.is_inited"></init-tab>
-    <whole-app v-else-if="ui_state.is_inited"></whole-app>
-    <!-- <init-tab v-if="ui_state.is_inited"></init-tab>
-    <whole-app v-else-if="!ui_state.is_inited"></whole-app> -->
+    <whole-app v-else></whole-app>
   </div>
 </template>
 
