@@ -136,5 +136,12 @@ body {
  transform: translateY(0);
 }
 
+.btn_style:disabled{
+  background-color: #F0F0F1FF;
+  transform: translateY(0);
+  box-shadow: rgba(0, 0, 0, 0) 0 0px 0px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
 
 /*END RESETS*/

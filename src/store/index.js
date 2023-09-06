@@ -8,6 +8,10 @@ export default createStore({
       is_inited:false,
       movement_operable:true,
 
+      isRemotePaused:false,
+      isRemotePrinting:false,
+      isGcodeInfoGet:false,
+
       now_tab:1,
       printer_status:"PRINT_STATE_IDLE",
       print_percent:0,
@@ -60,6 +64,15 @@ export default createStore({
     get_print_filename(state){
       return state.ui_state.print_filename;
     },
+    isRemotePrinting(state){
+      return state.ui_state.isRemotePrinting;
+    },
+    isRemotePaused(state){
+      return state.ui_state.isRemotePaused;
+    },
+    isGcodeInfoGet(state){
+      return state.ui_state.isGcodeInfoGet;
+    },
   },
   // 更改更新数据
   mutations: {
@@ -96,6 +109,15 @@ export default createStore({
     change_print_filename(state, new_status){
       state.ui_state.print_filename = new_status;
     },
+    change_isRemotePrinting(state, new_status){
+      state.ui_state.isRemotePrinting = new_status;
+    },
+    change_isRemotePaused(state, new_status){
+      state.ui_state.isRemotePaused = new_status;
+    },
+    change_isGcodeInfoGet(state, new_status){
+      state.ui_state.isGcodeInfoGet = new_status;
+    },
 
   },
   // 提交异步操作，提交mutation
@@ -129,6 +151,15 @@ export default createStore({
     },
     update_print_filename({commit},data){
       commit("change_print_filename", data);
+    },
+    update_isRemotePrinting({commit},data){
+      commit("change_isRemotePrinting", data);
+    },
+    update_isRemotePaused({commit},data){
+      commit("change_isRemotePaused", data);
+    },
+    update_isGcodeInfoGet({commit},data){
+      commit("change_isGcodeInfoGet", data);
     },
  
   },

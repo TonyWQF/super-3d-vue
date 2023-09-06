@@ -44,6 +44,7 @@ export default {
 <style scoped lang="scss">
   .c-progress {
     width: 100%;
+    height: fit-content;
     border-radius: 5px;
     align-items: center;
 

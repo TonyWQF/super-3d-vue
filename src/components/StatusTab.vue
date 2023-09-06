@@ -45,7 +45,7 @@ export default{
       if(result == true) {
 
         var status_text = retval[1].slice(1,-1)
-        // console.log(status_text)
+        console.log(status_text)
         var status_item = status_text.split(',')
         this.NozzleTemp = status_item[1]
         this.NozzleTargetTemp = status_item[2]
@@ -54,19 +54,58 @@ export default{
 
         var fan_speed = [status_item[10], status_item[11], status_item[12], status_item[13], status_item[14], status_item[15]];
         var nozzle_pos = [status_item[5], status_item[6], status_item[7], status_item[8] ]
+        var print_percent = status_item[9]
         var movement_operable = false
+        var isRemotePrinting = false
+        var isRemotePaused = true
 
-        if (this.$store.state.ui_state.printer_status== "PRINT_STATE_PRINTING") {
-          movement_operable = false
+        this.$store.dispatch('update_now_status', status_item[0])
+        console.log(this.ui_state.printer_status);
+
+        if (this.ui_state.printer_status== "PRINT_STATE_PRINTING"||
+          this.ui_state.printer_status== "PRINT_STATE_PAUSE"||
+          this.ui_state.printer_status== "PRINT_STATE_FIL_FAULT_PAUSE"||
+          this.ui_state.printer_status== "PRINT_STATE_FAULT_PAUSE"||
+          this.ui_state.printer_status== "PRINT_STATE_PAUSE") {
+            movement_operable = false;
+            isRemotePrinting = true;
+
+          if (this.ui_state.isGcodeInfoGet == false) {
+              // 获取一次   打印信息
+              this.$store.dispatch('update_isGcodeInfoGet', true);
+              console.log("GcodeInfoGet");
+          }
+
+          if (this.ui_state.printer_status== "PRINT_STATE_FIL_FAULT_PAUSE"||
+            this.ui_state.printer_status== "PRINT_STATE_FAULT_PAUSE"||
+            this.ui_state.printer_status== "PRINT_STATE_PAUSE")  {
+            isRemotePaused = true
+          }else{
+            isRemotePaused = false
+          }
+
+          this.$store.dispatch('update_isRemotePaused', isRemotePaused);
+
+          console.log(this.ui_state.isRemotePaused);
           
-        }else if (this.$store.state.ui_state.printer_status== "PRINT_STATE_IDLE") {
+        }else if (this.ui_state.printer_status == "PRINT_STATE_IDLE") {
           movement_operable = true; 
-          // this.$store.dispatch('update_print_preview', "data:image/png;base64,");
+          isRemotePrinting = false;
         }
+
         this.$store.dispatch('update_is_inited', true)
+        this.$store.dispatch('update_isRemotePrinting', isRemotePrinting)
         this.$store.dispatch('update_movement_operable', movement_operable)
+
+        console.log(this.ui_state.fan);
         this.$store.dispatch('update_fan_speed', fan_speed)
+        console.log(this.ui_state.fan);
+
         this.$store.dispatch('update_position', nozzle_pos)
+
+        console.log(this.ui_state.print_percent);
+        this.$store.dispatch('update_print_percent', print_percent)
+        console.log(this.ui_state.print_percent);
       }else{
         console.log("inited failed");
         this.$store.dispatch('update_is_inited', false)
@@ -152,7 +191,8 @@ export default{
 .temp-card{
   width:100%;
   height:4rem;
-  margin-top: -2rem;
+  margin-top: -1.5rem;
+  margin-left: 1.5rem;
   float: left;
   display:block;
   /* box-shadow: 0 8px 50px #23232333; */

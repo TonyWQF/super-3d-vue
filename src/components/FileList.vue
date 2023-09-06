@@ -138,30 +138,24 @@ export default{
 
 #file_list{
     margin-top: 0.5rem;
-    margin-left: 12%;
+    /* margin-left: 12%; */
     width: 80%;
     height: 100%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
-/* 
-  #file_list>button {
-    width: 98%;
-    height: 4rem;
-    color: green;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    border:none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  } */
 
   .filelist_btn{
     margin: auto;
     margin-top:1rem;
+    height: 5%;
   }
 
   .filelist_op{
-    margin-top: 2rem;
-    width:100%
+    margin-top: 1.2rem;
+    width:100%;
+    height: fit-content;
+    position: relative;
+    bottom: 0;
   }
 
 
@@ -183,11 +177,12 @@ export default{
 @media screen and (max-width:600px){
 
   #file_list{
-    margin-top: 1.6rem;
+    margin-top: -4rem;
+    margin-left: -3.2rem;
     width: 100%;
     height: 90%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-left: -1.4rem;
+    /* margin-left: -1.4rem; */
   }
 
   .filelist_btn{

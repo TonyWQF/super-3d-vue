@@ -111,13 +111,13 @@ export default{
     },
 
     startPrint(){
-
       var res=this.$refs.req.start_print(this.preview_filename)
       if(res[0]==true){
         this.closeSpan();
         this.$store.dispatch('update_now_tab', 1)
         this.$store.dispatch('update_print_preview', this.icon_data)
         this.$store.dispatch('update_print_filename', this.preview_filename)
+        this.$store.dispatch('update_isGcodeInfoGet', true)
       }
       else{
         alert("error");

@@ -93,8 +93,8 @@ import { mapMutations, mapState } from 'vuex';
   overflow: hidden;
   word-break: break-all;
   white-space: nowrap;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-top: 0.8rem;
+  margin-bottom: 1.6rem;
 }
 
 .panel_title:hover{
@@ -135,6 +135,9 @@ import { mapMutations, mapState } from 'vuex';
   width: 70%;
   border-left: none;
   height: 97%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
 }
 
@@ -143,6 +146,9 @@ import { mapMutations, mapState } from 'vuex';
 @media only screen and (min-width : 1224px) {
   .tabcontent{
     min-width: 679px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
@@ -371,7 +377,7 @@ import { mapMutations, mapState } from 'vuex';
     text-align: center;
     cursor: pointer;
     transition: 0.3s;
-    font-size: 20px;
+    font-size: 18px;
   }
   .tabcontent {
     position: absolute;

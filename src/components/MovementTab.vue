@@ -1,19 +1,18 @@
 <template>
   <div class="content_box"   id="movement_tb">
     <div class="panel_title">Movement</div>
-    <br>
     <div class="move_btn_wrapper"> 
-      <button class="btn_style move_btn" style="width: 98%;" @click="move_left()">X+</button>
-      <button class="btn_style move_btn" style="width: 98%;" @click="move_back()">Y+</button>
-      <button class="btn_style move_btn" style="width: 98%;" @click="move_up()">Z+</button>
+      <button class="btn_style move_btn"  @click="move_left()">X+</button>
+      <button class="btn_style move_btn"  @click="move_back()">Y+</button>
+      <button class="btn_style move_btn"  @click="move_up()">Z+</button>
 
-      <button class="btn_style move_btn" style="width: 98%;" @click="move_right()">X-</button> 
-      <button class="btn_style move_btn" style="width: 98%;" @click="move_front()">Y-</button> 
-      <button class="btn_style move_btn" style="width: 98%;" @click="move_down()">Z-</button>
+      <button class="btn_style move_btn"  @click="move_right()">X-</button> 
+      <button class="btn_style move_btn"  @click="move_front()">Y-</button> 
+      <button class="btn_style move_btn"  @click="move_down()">Z-</button>
 
-      <button class="btn_style move_btn" style="width: 98%;" @click="home_xy()">HomeXY</button>
-      <button class="btn_style move_btn" style="width: 98%;" @click="home_z()">HomeZ</button>
-      <button class="btn_style move_btn" style="width: 98%;" @click="home_all()">HomeAll</button>
+      <button class="btn_style move_btn"  @click="home_xy()">HomeXY</button>
+      <button class="btn_style move_btn"  @click="home_z()">HomeZ</button>
+      <button class="btn_style move_btn"  @click="home_all()">HomeAll</button>
     </div>
     <div class="radio-inputs" align="center" style="width: 100%; display:flex;justify-content: center; align-items:center;">
       <label class="radio">
@@ -114,7 +113,7 @@ export default{
 
   
 .radio-inputs {
-  margin-top: 5px;
+  margin-top: 1.6rem;
   position: relative;
   display: flex;text-align: center;
   flex-wrap: wrap;
@@ -162,9 +161,12 @@ export default{
   }
 
   .move_btn_wrapper {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
+    margin-top: 1.6rem;
+
+    .move_btn{
+      width:30%;
+      margin:0.3rem;
+    }
   }
 
 /* Phone */
@@ -175,6 +177,9 @@ export default{
     height: 40%;
     box-shadow: 0 8px 50px #23232333;
     margin-left: -1.2rem;
+    position: absolute;
+    left: 0%;
+    top: 47%;
   }
 
 

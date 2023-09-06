@@ -21,11 +21,11 @@
       <label for="input-field" class="input-label">Enter Tar-Temp.</label>
       <span class="input-highlight"></span>
     </div>
-    <div class="filament_tb" v-if="ui_state.movement_operable">
+    <div class="filament_tb">
       <!-- <div class="panel_title">Filament</div> -->
-      <button class="btn_style" @click="extrude()">Load</button>
-      <button class="btn_style" @click="stop()">Stop</button>
-      <button class="btn_style" @click="retract()">Unload</button>
+      <button class="btn_style" :disabled="ui_state.isRemotePrinting" @click="extrude()">Load</button>
+      <button class="btn_style" :disabled="ui_state.isRemotePrinting" @click="stop()">Stop</button>
+      <button class="btn_style" :disabled="ui_state.isRemotePrinting" @click="retract()">Unload</button>
     </div>
   </div>
   <RequestImp ref='req'/>
@@ -80,7 +80,7 @@ export default{
 <style>
 
 .filament_tb{
-
+  margin-top: 1.6rem;
 }
 
 
@@ -145,9 +145,12 @@ export default{
     margin: 0px;
   }
   #tempreture_tb{
-  height: 55%;
-  width: 98%;
-  margin-left: -1.2rem;
+    position: absolute;
+    left: 0%;
+    top: 0%;
+    height: 45%;
+    width: 98%;
+    margin-left: -1.2rem;
   }
 }
 

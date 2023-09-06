@@ -169,7 +169,7 @@ export default{
 @media screen and (max-width:600px){
 .upload_tab{
   margin: 1%;
-  margin-left: -1.1rem;
+  margin-left: -2.5rem;
   /* margin-top: 1.5rem; */
   width: 98%;
   height: 100%;
