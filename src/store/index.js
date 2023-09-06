@@ -5,6 +5,8 @@ export default createStore({
   state: {
     ui_state:{
 
+      now_tab:1,
+
       is_inited:false,
       movement_operable:true,
 
@@ -12,7 +14,7 @@ export default createStore({
       isRemotePrinting:false,
       isGcodeInfoGet:false,
 
-      now_tab:1,
+
       printer_status:"PRINT_STATE_IDLE",
       print_percent:0,
       print_speed:100,

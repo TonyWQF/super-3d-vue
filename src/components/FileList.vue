@@ -128,7 +128,27 @@ export default{
     },
   },
   computed:{
-    ...mapState["ui_state"],
+    ...mapState(['ui_state']),
+    tab2remote(){
+      return this.ui_state.now_tab
+    },
+  },
+  watch:{
+    tab2remote(cur_val, old_val){
+      console.log(old_val+"--->"+cur_val);
+      if (this.ui_state.now_tab == '3') {
+        this.go_file_first_page();
+      }
+    }
+    // tab2remote:{
+    //   deep:true,
+    //   handler(value){
+    //     console.log("--->"+value);
+    //     if (this.ui_state.now_tab == '3') {
+    //       this.go_file_first_page();
+    //     }
+    //   }
+    // }
   }
 }
 
