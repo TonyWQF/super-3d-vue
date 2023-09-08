@@ -147,6 +147,12 @@ export default{
       return this.post_method(xhr, form_data)
     },
 
+    preview_last_file() {
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", 'api/files/last_preview', false);
+      return this.get_method(xhr)
+    },
+
     start_print(filename) {
       var xhr = new XMLHttpRequest();
       xhr.open("POST", 'api/files/print', false);
