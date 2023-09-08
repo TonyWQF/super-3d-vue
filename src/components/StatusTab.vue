@@ -33,6 +33,14 @@ export default{
       NozzleTemp: 0,
       BedTargetTemp:0,
       BedTemp: 0,
+
+      movement_operable:false,
+      isRemotePrinting:false,
+      isRemotePaused:true,
+
+      nozzle_pos:[],
+      print_percent:0,
+      fan_speed:[],
     }
   },
   methods: {
@@ -41,81 +49,99 @@ export default{
         
     get_status() {
       var retval = this.$refs.req.get_status()
-      var result = retval[0]
-      if(result == true) {
 
-        var status_text = retval[1].slice(1,-1)
-        console.log(status_text)
-        var status_item = status_text.split(',')
-        this.NozzleTemp = status_item[1]
-        this.NozzleTargetTemp = status_item[2]
-        this.BedTemp = status_item[3]
-        this.BedTargetTemp = status_item[4]
-
-        var nozzle_pos = [status_item[5], status_item[6], status_item[7], status_item[8] ]
-        var print_percent = Math.round(status_item[9]/10) 
-        var fan_speed = [status_item[10], status_item[11], status_item[12], status_item[13], status_item[14], status_item[15]];
-        
-        var movement_operable = false
-        var isRemotePrinting = false
-        var isRemotePaused = true
-
-        console.log(fan_speed);
-
-        this.$store.dispatch('update_now_status', status_item[0])
-
-        if (this.ui_state.printer_status== "PRINT_STATE_PRINTING"||
-          this.ui_state.printer_status== "PRINT_STATE_PAUSE"||
-          this.ui_state.printer_status== "PRINT_STATE_FIL_FAULT_PAUSE"||
-          this.ui_state.printer_status== "PRINT_STATE_FAULT_PAUSE"||
-          this.ui_state.printer_status== "PRINT_STATE_PAUSE") {
-            movement_operable = false;
-            isRemotePrinting = true;
-
-          if (this.ui_state.isGcodeInfoGet == false) {
-              // 获取一次   打印信息
-              var retval_1 = this.$refs.req.preview_last_file();
-              this.$store.dispatch('update_isGcodeInfoGet', true);
-              console.log("GcodeInfoGet");
-              console.log(retval_1);
-          }
-
-          if (this.ui_state.printer_status== "PRINT_STATE_FIL_FAULT_PAUSE"||
-            this.ui_state.printer_status== "PRINT_STATE_FAULT_PAUSE"||
-            this.ui_state.printer_status== "PRINT_STATE_PAUSE")  {
-            isRemotePaused = true
-          }else{
-            isRemotePaused = false
-          }
-
-          this.$store.dispatch('update_isRemotePaused', isRemotePaused);
-
-          console.log(this.ui_state.isRemotePaused);
-          
-        }else if (this.ui_state.printer_status == "PRINT_STATE_IDLE") {
-          movement_operable = true; 
-          isRemotePrinting = false;
-        }
-
-        this.$store.dispatch('update_is_inited', true)
-        this.$store.dispatch('update_isRemotePrinting', isRemotePrinting)
-        this.$store.dispatch('update_movement_operable', movement_operable)
-
-        console.log("fan:"+this.ui_state.fan);
-        this.$store.dispatch('update_fan_speed', fan_speed)
-        console.log("fan:"+this.ui_state.fan);
-
-        this.$store.dispatch('update_position', nozzle_pos)
-
-        console.log("print_percent:"+this.ui_state.print_percent);
-        this.$store.dispatch('update_print_percent',  print_percent)
-        console.log("print_percent:"+this.ui_state.print_percent);
+      if(retval[0] == true) {
+        this.printer_update_info(retval)
       }else{
-        console.log("inited failed");
-        this.$store.dispatch('update_is_inited', false)
+        this.webInitFailed();
       }
     },
+    updateParems(){
+      this.$store.dispatch('update_is_inited', true)
+      this.$store.dispatch('update_isRemotePrinting', this.isRemotePrinting)
+      this.$store.dispatch('update_movement_operable', this.movement_operable)
+      this.$store.dispatch('update_fan_speed', this.fan_speed)
+      this.$store.dispatch('update_position', this.nozzle_pos)
+      this.$store.dispatch('update_print_percent',  this.print_percent)
+    },
+    webInitFailed(){
+      console.log("inited failed");
+      this.$store.dispatch('update_is_inited', false)
+    },
+    printer_set_paused(status){
+      if(status)
+        this.isRemotePaused = true
+      else
+        this.isRemotePaused = false
+    },
+    update_print_tab(){
+      this.$store.dispatch('update_isGcodeInfoGet', true);
+
+      var ret_info = this.$refs.req.preview_last_file();
+      console.log(ret_info)
+      var info_item = ret_info.split(',')
+
+      this.ui_state.print_filename = info_item[0]
+      this.ui_state.print_preview = info_item[1]
+
+      this.$store.dispatch('update_print_preview', this.print_preview)
+        this.$store.dispatch('update_print_filename', this.preview_filename)
+    },
+    printing_info_process(){
+      if (this.ui_state.printer_status== "PRINT_STATE_PRINTING"||
+        this.ui_state.printer_status== "PRINT_STATE_PAUSE"||
+        this.ui_state.printer_status== "PRINT_STATE_FIL_FAULT_PAUSE"||
+        this.ui_state.printer_status== "PRINT_STATE_FAULT_PAUSE"||
+        this.ui_state.printer_status== "PRINT_STATE_PAUSE") {
+
+          this.movement_operable = false;
+          this.isRemotePrinting = true;
+
+        if (this.ui_state.isGcodeInfoGet == false) {
+            // 获取一次   打印信息
+            this.update_print_tab();
+        }
+
+        if (this.ui_state.printer_status== "PRINT_STATE_FIL_FAULT_PAUSE"||
+          this.ui_state.printer_status== "PRINT_STATE_FAULT_PAUSE"||
+          this.ui_state.printer_status== "PRINT_STATE_PAUSE")  {
+            this.printer_set_paused(true);
+        }else{
+          this.printer_set_paused(false);
+        }
+
+        this.$store.dispatch('update_isRemotePaused', this.isRemotePaused);
+      }
+    },
+    idle_info_process(){
+      if (this.ui_state.printer_status == "PRINT_STATE_IDLE") {
+        this.movement_operable = true; 
+        this.isRemotePrinting = false;
+      }
+    },
+    printer_update_info(retval){
+      var status_text = retval[1].slice(1,-1)
+      console.log(status_text)
+      var status_item = status_text.split(',')
+      this.NozzleTemp = status_item[1]
+      this.NozzleTargetTemp = status_item[2]
+      this.BedTemp = status_item[3]
+      this.BedTargetTemp = status_item[4]
+      this.nozzle_pos = [status_item[5], status_item[6], status_item[7], status_item[8]]
+      this.print_percent = Math.round(status_item[9]/10) 
+      this.fan_speed = [status_item[10], status_item[11], status_item[12], status_item[13], status_item[14], status_item[15]];
+
+      this.$store.dispatch('update_now_status', status_item[0])
+
+      this.printing_info_process();
+        
+      this.idle_info_process();
+
+      this.updateParems();
+    }
+    
   },
+
   computed:{
     ...mapState(['ui_state'])
   }

@@ -149,7 +149,7 @@ export default{
 
     preview_last_file() {
       var xhr = new XMLHttpRequest();
-      xhr.open("POST", 'api/files/last_preview', false);
+      xhr.open("GET", 'api/files/last_preview', false);
       return this.get_method(xhr)
     },
 
