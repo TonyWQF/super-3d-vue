@@ -49,10 +49,9 @@ class Commands:
   def __init__(self):
     self.__CMD_STATUS              = 0x08
     self.__SCMD_STAT_MACHINE       = 0x00
-    self.__SCMD_STAT_FEEDRATE      = 0x01
-    self.__SCMD_STAT_POWERLOST_FLAG = 0x02
-    self.__SCMD_STAT_FLOWRATE      = 0x03
-    self.__SCMD_STAT_REMAIN_TIME   = 0x04
+    self._SCMD_REMOTE_STATE_MACHINE = 0x00
+    self._SCMD_REMOTE_DISCONNECT    = 0x01
+    self._SCMD_REMOTE_GET_PRINTING_FILENAME = 0X2
 
     self.__CMD_CONTROL             = 0x0C
     self.__SCMD_CTRL_FAN           = 0x01
@@ -112,6 +111,14 @@ class Commands:
     self.machine_status.fan_4 = int.from_bytes(data[36:37], byteorder='little', signed=False)
     self.machine_status.fan_5 = int.from_bytes(data[37:38], byteorder='little', signed=False)
     self.machine_status.endstop = int.from_bytes(data[38:39], byteorder='little', signed=False)
+
+  def req_printing_filename(self):
+    retval = b''
+    retval += int.to_bytes(self.__CMD_STATUS, 1, byteorder='little', signed=True)
+    retval += int.to_bytes(self._SCMD_REMOTE_GET_PRINTING_FILENAME, 1, byteorder='little', signed=True)
+    retval += b'\x00'
+    retval += int.to_bytes(self.connect_id, 1, byteorder='little', signed=True)
+    return retval
 
   def req_status(self):
     retval = b''

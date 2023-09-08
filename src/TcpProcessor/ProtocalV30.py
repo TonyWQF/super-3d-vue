@@ -117,6 +117,11 @@ class MachineControler:
     src_datas = self.__commands.req_home()
     self.__send_command(src_datas)
 
+  def get_printing_filename(self):
+    src_datas = self.__commands.req_printing_filename()
+    reply = self.__send_command_check_reply(src_datas, 5)
+    return 200, reply[3]
+
   def start_print(self,FileName):
     src_datas = self.__commands.req_remote_print(FileName)
     reply = self.__send_command_check_reply(src_datas, 5)
