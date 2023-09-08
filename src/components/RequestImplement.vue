@@ -124,7 +124,6 @@ export default{
 
         var form_data = new FormData();
         var bin_data = new Uint8Array(e.target.result);
-        console.log("Send " + pack_index)
         form_data.append('file_name', file_name);
         form_data.append('pack_size', pack_size);
         form_data.append('pack_index', pack_index);
@@ -146,6 +145,12 @@ export default{
       var form_data = new FormData();
       form_data.append('file_name', filename);
       return this.post_method(xhr, form_data)
+    },
+
+    preview_last_file() {
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", 'api/files/last_preview', false);
+      return this.get_method(xhr)
     },
 
     start_print(filename) {
