@@ -84,7 +84,7 @@ class control_manage:
 class file_manager:
   def __init__(self):
     self.name="file manager"
-    self.last_preview = '0,0,0,0,0,0,'
+    self.printing_preview = {"last_print_file_name@": "", "previewImg@;thumbnail: data:image/png;base64,": ""}
 
   def __get_file_preview(self, file_name):
     param_search = {";estimated_time(s):": "0", ";nozzle_temperature(°C):": "0", ";build_plate_temperature(°C):": "0", ";layer_height:": "0", ";matierial_weight:": "0", ";LAYER_COUNT:": "0", ";thumbnail: data:image/png;base64,": ""}
@@ -96,6 +96,19 @@ class file_manager:
           if item_key in tmpline:
             param_search[item_key] = tmpline.replace(item_key, '').strip()
     retval = ','.join(param_search.values())
+    return retval
+  
+  def __get_printing_preview(self):
+    print_file_name = machine.get_printing_filename().decode()
+    if(print_file_name != self.printing_preview[0]):
+      keys = list(self.printing_preview.keys())
+      with open(gcode_file_path + 'last_print_gcode.txt', encoding='utf-8') as f:
+        for i in range(5):
+          tmpline = f.readline()
+          for item_key in keys:
+            if item_key in tmpline:
+              self.printing_preview[item_key] = tmpline.replace(item_key, '').strip()
+    retval = ','.join(self.printing_preview.values())
     return retval
 
   @request_map("/upload", method=("GET","POST"))
@@ -141,13 +154,12 @@ class file_manager:
     return 200
 
   @request_map("/preview", method=("POST"))
-  def delete_file(self, file_name=Parameter("file_name")):
-    self.last_preview = self.__get_file_preview(file_name)
-    return 200, self.last_preview
+  def preview_file(self, file_name=Parameter("file_name")):
+    return 200, self.__get_file_preview(file_name)
   
   @request_map("/last_preview", method=("GET"))
-  def delete_file(self):
-      return 200, self.last_preview
+  def get_printing_preview(self):
+    return 200, self.__get_printing_preview()
   
   @request_map("/print", method=("POST"))
   def start_print(self, file_name=Parameter("file_name")):
