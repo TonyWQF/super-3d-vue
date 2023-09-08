@@ -130,7 +130,7 @@ export default createStore({
     update_now_status({commit}, data) {
       commit("change_printer_status", data)
     },
-    update_now_percent({commit}, data) {
+    update_print_percent({commit}, data) {
       commit("change_print_percent", data)
     },
     update_uploadList({commit}, data) {
@@ -144,6 +144,9 @@ export default createStore({
     },
     update_position({commit},data){
       commit("change_position", data);
+    },
+    update_fan_speed({commit},data){
+      commit("change_fan_speed", data);
     },
     update_print_speed({commit},data){
       commit("change_print_speed", data);

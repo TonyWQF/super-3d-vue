@@ -52,15 +52,17 @@ export default{
         this.BedTemp = status_item[3]
         this.BedTargetTemp = status_item[4]
 
-        var fan_speed = [status_item[10], status_item[11], status_item[12], status_item[13], status_item[14], status_item[15]];
         var nozzle_pos = [status_item[5], status_item[6], status_item[7], status_item[8] ]
-        var print_percent = status_item[9]
+        var print_percent = Math.round(status_item[9]/10) 
+        var fan_speed = [status_item[10], status_item[11], status_item[12], status_item[13], status_item[14], status_item[15]];
+        
         var movement_operable = false
         var isRemotePrinting = false
         var isRemotePaused = true
 
+        console.log(fan_speed);
+
         this.$store.dispatch('update_now_status', status_item[0])
-        console.log(this.ui_state.printer_status);
 
         if (this.ui_state.printer_status== "PRINT_STATE_PRINTING"||
           this.ui_state.printer_status== "PRINT_STATE_PAUSE"||
@@ -72,8 +74,10 @@ export default{
 
           if (this.ui_state.isGcodeInfoGet == false) {
               // 获取一次   打印信息
+              var retval_1 = this.$refs.req.preview_last_file();
               this.$store.dispatch('update_isGcodeInfoGet', true);
               console.log("GcodeInfoGet");
+              console.log(retval_1);
           }
 
           if (this.ui_state.printer_status== "PRINT_STATE_FIL_FAULT_PAUSE"||
@@ -97,15 +101,15 @@ export default{
         this.$store.dispatch('update_isRemotePrinting', isRemotePrinting)
         this.$store.dispatch('update_movement_operable', movement_operable)
 
-        console.log(this.ui_state.fan);
+        console.log("fan:"+this.ui_state.fan);
         this.$store.dispatch('update_fan_speed', fan_speed)
-        console.log(this.ui_state.fan);
+        console.log("fan:"+this.ui_state.fan);
 
         this.$store.dispatch('update_position', nozzle_pos)
 
-        console.log(this.ui_state.print_percent);
-        this.$store.dispatch('update_print_percent', print_percent)
-        console.log(this.ui_state.print_percent);
+        console.log("print_percent:"+this.ui_state.print_percent);
+        this.$store.dispatch('update_print_percent',  print_percent)
+        console.log("print_percent:"+this.ui_state.print_percent);
       }else{
         console.log("inited failed");
         this.$store.dispatch('update_is_inited', false)
