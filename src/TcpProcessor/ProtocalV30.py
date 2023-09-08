@@ -31,7 +31,7 @@ class MachineControler:
       if(parse_data is not None):
         self.__recv_buffer = parse_data[0]
         result = self.__commands.analize(parse_data[1])
-        self.__check_wait(parse_data)
+        self.__check_wait(parse_data[1])
       self.status = self.__commands.machine_status
       time.sleep(0.01)
 
@@ -120,7 +120,7 @@ class MachineControler:
   def get_printing_filename(self):
     src_datas = self.__commands.req_printing_filename()
     reply = self.__send_command_check_reply(src_datas, 5)
-    return 200, reply[3]
+    return reply[3]
 
   def start_print(self,FileName):
     src_datas = self.__commands.req_remote_print(FileName)

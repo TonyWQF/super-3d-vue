@@ -24,26 +24,29 @@ class MachineStatus:
     self.strStatus = ["PRINT_STATE_IDLE", "PRINT_STATE_PRINTING", "PRINT_STATE_PAUSE", "PRINT_STATE_PAUSE_PROCESSING", "PRINT_STATE_FAULT_PAUSE", "PRINT_STATE_FAULT_PAUSE_PROCESSING", "PRINT_STATE_ENDDING", "PRINT_STATE_PAUSE_RESUME", "PRINT_STATE_POWER_LOST_RESUME", "PRINT_STATE_PROCESSING", "PRINT_STATE_FIL_FAULT_PAUSE", "PRINT_STATE_FIL_FAULT_PROCESSING", "PRINT_STATE_MEDIA_FAULT_PAUSE", "PRINT_STATE_MEDIA_FAULT_PROCESSING", "PRINT_STATE_ABL_PROCESSING", "PRINT_STATE_MBL_PROCESSING", "PRINT_STATE_HOMING", "PRINT_STATE_ZOFFSET_PROCESSING", "PRINT_STATE_POWER_LOST"]
 
   def to_string_array(self):
-    str_value = []
-    str_value.append(self.strStatus[self.status])
-    str_value.append(str(self.nozzle_temp))
-    str_value.append(str(self.nozzle_target_temp))
-    str_value.append(str(self.bed_temp))
-    str_value.append(str(self.bed_target_temp))
-    str_value.append(str(self.x))
-    str_value.append(str(self.y))
-    str_value.append(str(self.z))
-    str_value.append(str(self.e))
-    str_value.append(str(self.print_percent))
-    str_value.append(str(self.fan_0))
-    str_value.append(str(self.fan_1))
-    str_value.append(str(self.fan_2))
-    str_value.append(str(self.fan_3))
-    str_value.append(str(self.fan_4))
-    str_value.append(str(self.fan_5))
-    str_value.append(str(self.endstop))
-    retval = ','.join(str_value)
-    return '[' + retval + ']'
+    try:
+      str_value = []
+      str_value.append(self.strStatus[self.status])
+      str_value.append(str(self.nozzle_temp))
+      str_value.append(str(self.nozzle_target_temp))
+      str_value.append(str(self.bed_temp))
+      str_value.append(str(self.bed_target_temp))
+      str_value.append(str(self.x))
+      str_value.append(str(self.y))
+      str_value.append(str(self.z))
+      str_value.append(str(self.e))
+      str_value.append(str(self.print_percent))
+      str_value.append(str(self.fan_0))
+      str_value.append(str(self.fan_1))
+      str_value.append(str(self.fan_2))
+      str_value.append(str(self.fan_3))
+      str_value.append(str(self.fan_4))
+      str_value.append(str(self.fan_5))
+      str_value.append(str(self.endstop))
+      retval = ','.join(str_value)
+      return '[' + retval + ']'
+    except:
+      pass
 
 class Commands:
   def __init__(self):
@@ -87,7 +90,6 @@ class Commands:
 
   def analize(self, data):
     self.connect_id = data[3]
-    self.machine_status.status = int.from_bytes(data[4:5], byteorder='little', signed=False)
     if(data[0] == self.__CMD_STATUS):
       if(data[1] == self.__SCMD_STAT_MACHINE):
         self.parse_status(data)
@@ -95,6 +97,7 @@ class Commands:
     retval = [data[0], data[1], data[2]]
 
   def parse_status(self, data):
+    self.machine_status.status = int.from_bytes(data[4:5], byteorder='little', signed=False)
     self.machine_status.nozzle_temp = int.from_bytes(data[6:8], byteorder='little', signed=True)
     self.machine_status.nozzle_target_temp = int.from_bytes(data[8:10], byteorder='little', signed=True)
     self.machine_status.bed_temp = int.from_bytes(data[10:12], byteorder='little', signed=True)
