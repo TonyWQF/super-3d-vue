@@ -99,9 +99,13 @@ class file_manager:
     return retval
   
   def __get_printing_preview(self):
-    print_file_name = machine.get_printing_filename().decode()
-    if(print_file_name != self.printing_preview[0]):
-      keys = list(self.printing_preview.keys())
+    b_file_name = machine.get_printing_filename()
+    if(b_file_name is not None):
+      print_file_name = b_file_name.decode()
+    else:
+      print_file_name = ''
+    keys = list(self.printing_preview.keys())
+    if(print_file_name != self.printing_preview.get('last_print_file_name@') or print_file_name == ''):
       with open(gcode_file_path + 'last_print_gcode.txt', encoding='utf-8') as f:
         for i in range(5):
           tmpline = f.readline()
