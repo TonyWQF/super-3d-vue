@@ -69,7 +69,7 @@ export default{
       if(this.$store.getters.get_now_printer_status == "PRINT_STATE_PRINTING"||
         this.$store.getters.get_now_printer_status == "PRINT_STATE_PAUSE"||
         this.$store.getters.get_now_printer_status == "PRINT_STATE_FAULT_PAUSE" ){
-          this.$refs.preview_dialog.show();
+          this.$refs.PreviewTab.preview_dialog.show();
         return;
       }
 

@@ -78,14 +78,10 @@ export default{
       this.$store.dispatch('update_isGcodeInfoGet', true);
 
       var ret_info = this.$refs.req.preview_last_file();
-      console.log(ret_info)
-      var info_item = ret_info.split(',')
-
-      this.ui_state.print_filename = info_item[0]
-      this.ui_state.print_preview = info_item[1]
-
-      this.$store.dispatch('update_print_preview', this.print_preview)
-        this.$store.dispatch('update_print_filename', this.preview_filename)
+      var info_item = ret_info[1].split(',')
+      
+      this.$store.dispatch('update_print_filename', info_item[0])
+      this.$store.dispatch('update_print_preview', "data:image/png;base64,"+info_item[1])
     },
     printing_info_process(){
       if (this.ui_state.printer_status== "PRINT_STATE_PRINTING"||
@@ -117,11 +113,13 @@ export default{
       if (this.ui_state.printer_status == "PRINT_STATE_IDLE") {
         this.movement_operable = true; 
         this.isRemotePrinting = false;
+
+        this.$store.dispatch('update_isGcodeInfoGet', false);
       }
     },
     printer_update_info(retval){
       var status_text = retval[1].slice(1,-1)
-      console.log(status_text)
+      // console.log(status_text)
       var status_item = status_text.split(',')
       this.NozzleTemp = status_item[1]
       this.NozzleTargetTemp = status_item[2]

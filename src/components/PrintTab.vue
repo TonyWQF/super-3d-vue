@@ -12,20 +12,14 @@
           <div class="print_hint">
           <span>Fan:</span><span>{{ ui_state.fan[0] }}%</span>
           </div>
-          <!-- <div class="print_hint">
-          <span>Time:</span><span>{{ print_time }}</span>
-          </div>
-          <div class="print_hint">
-          <span>flowrate:</span><span>{{ print_flowrate }}%</span>
-          </div> -->
         </div>
         <line-progress class="progress" :percent="ui_state.print_percent" :show-per-text="true" ></line-progress>
         <div class="print_btn_container" style="height: 30%;">
-          <button v-if="isPaused==true" 
+          <button v-if="ui_state.isRemotePaused" 
             class="print_btn btn_style"
             @click="resumePrint"
             :disabled="!ui_state.isRemotePrinting">Resume</button>
-          <button v-if="isPaused==false" 
+          <button v-if="!ui_state.isRemotePaused" 
             class="print_btn btn_style"
             @click="pausePrint"
             :disabled="!ui_state.isRemotePrinting">Pause</button>
@@ -42,7 +36,7 @@
             :dialog_type="DialogPausedType"
             :hint="DialogPausedHint"
             :title="DialogPausedTitle"
-            @confirm="filament_confirm"
+            @confirm="paused_confirm"
           ></dialog-tab>
         </div>
       </div>  
@@ -104,7 +98,6 @@ export default{
       }
     },
     print_finish(cur_state, old_state){
-      console.log(old_state+"--->"+cur_state);
       if (this.ui_state.print_percent=='100') {
         this.$refs.finish_dialog.show();
       }
@@ -112,12 +105,12 @@ export default{
   },
   methods:{
     resumePrint(){
-      this.isPaused=false;
+      this.$store.dispatch('update_isRemotePaused', false);
       this.$refs.req.resume_print();
     },
     pausePrint(){
-      this.isPaused=true;
       this.$refs.req.pause_print();
+      this.$store.dispatch('update_isRemotePaused', true);
     },
     stopPrint(){
       this.finished_confirm();
@@ -130,8 +123,8 @@ export default{
       this.$store.dispatch("change_print_percent", "0");
     },
 
-    filament_confirm(){
-      this.isPaused=true;
+    paused_confirm(){
+      this.$store.dispatch('update_isRemotePaused', true);
     },
 
   },
@@ -206,12 +199,11 @@ export default{
 @media screen and (max-width:600px){
 #preview_show{
   display: block;
-  height: 42%;
-  width: 50%;
+  width: 80%;
   margin-top: 0.5%;
   margin-bottom: 0.5%;
-  margin-left: 25%;
-  margin-right: 25%;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 
 .print_process{
@@ -221,7 +213,7 @@ export default{
   height: 75%;
   box-shadow: 0 8px 50px #23232333;
   text-align: center;
-  margin-top: -6rem;
+  margin-top: -13rem;
   margin-left: -2.5rem;
 }
 
